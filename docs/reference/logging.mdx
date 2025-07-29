@@ -1,10 +1,11 @@
 ---
-title: 'Logging'
-description: 'Edit the default logging behavior'
+
+title: '日志记录'
+description: '修改默认日志记录行为'
 icon: 'newspaper'
 ---
 
-Stagehand provides a [`LogLine`](https://github.com/browserbase/stagehand/blob/9605836ee6b8207ed7dc9146e12ced1c78630d59/types/log.ts#L1-L13) object. You can override the default logger by passing in a custom logger function to the constructor.
+Stagehand 提供了一个 [`LogLine`](https://github.com/browserbase/stagehand/blob/9605836ee6b8207ed7dc9146e12ced1c78630d59/types/log.ts#L1-L13) 对象。您可以通过向构造函数传入自定义日志记录函数来覆盖默认日志记录器。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -27,33 +28,33 @@ stagehand = Stagehand(StagehandConfig(
 ```
 </CodeGroup>
 
-Below is the list of fields in the `LogLine` object. `message` is the main log message content, and `auxiliary` contains parameters that can be used to provide additional context and color to the log.
+以下是 `LogLine` 对象包含的字段列表。`message` 是日志消息的主要内容，`auxiliary` 包含可用于提供额外上下文和日志着色的参数。
 
 <ParamField path="id" type="string" optional>
-  Unique identifier for the log line
+  日志行的唯一标识符
 </ParamField>
 
 <ParamField path="category" type="string" optional>
-  Category/type of the log message
+  日志消息的类别/类型
 </ParamField>
 
 <ParamField path="message" type="string" required>
-  The main log message content
+  日志消息的主要内容
 </ParamField>
 
 <ParamField path="level" type="0 | 1 | 2" optional>
-  Logging verbosity level
+  日志详细级别
 </ParamField>
 
 <ParamField path="timestamp" type="string" optional>
-  Timestamp of when the log was created
+  日志创建时间戳
 </ParamField>
 
 <ParamField path="auxiliary" type="object" optional>
-  Additional metadata where each key contains a `value` and `type`. The `value` will always be a string, but `type` can be `"object"`, `"string"`, `"html"`, `"integer"`, `"float"`, or `"boolean"`
+  附加元数据，其中每个键包含 `value` 和 `type`。`value` 始终为字符串，但 `type` 可以是 `"object"`、`"string"`、`"html"`、`"integer"`、`"float"` 或 `"boolean"`
 </ParamField>
 
-You can see an example of a log line in [`OpenAIClient.ts`](https://github.com/browserbase/stagehand/blob/9605836ee6b8207ed7dc9146e12ced1c78630d59/lib/llm/OpenAIClient.ts#L79-L93). You'll notice here how `auxiliary` contains a `requestId` and `cachedResponse`.
+你可以在 [`OpenAIClient.ts`](https://github.com/browserbase/stagehand/blob/9605836ee6b8207ed7dc9146e12ced1c78630d59/lib/llm/OpenAIClient.ts#L79-L93) 中查看日志行的示例。这里你会注意到 `auxiliary` 包含了 `requestId` 和 `cachedResponse`。
 
 <CodeGroup>
 ```typescript TypeScript

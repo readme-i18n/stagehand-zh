@@ -1,36 +1,37 @@
 ---
-title: "CrewAI Integration"
-description: "Automate browser tasks using natural language instructions with CrewAI"
+
+title: "CrewAI 集成"
+description: "使用自然语言指令通过 CrewAI 自动化浏览器任务"
 icon: "people-group"
 ---
 
-This tool integrates the Stagehand Python SDK with CrewAI, allowing agents to interact with websites and automate browser tasks using natural language instructions.
+该工具将 Stagehand Python SDK 与 CrewAI 集成，使智能体能够通过自然语言指令与网站交互并自动化浏览器任务。
 
-## Description
+## 功能描述
 
-The StagehandTool wraps the Stagehand Python SDK to provide CrewAI agents with the ability to control a real web browser and interact with websites using three core primitives:
+StagehandTool 封装了 Stagehand Python SDK，为 CrewAI 智能体提供控制真实浏览器并与网站交互的三大核心功能：
 
-1. **Act**: Perform actions like clicking, typing, or navigating
-2. **Extract**: Extract structured data from web pages
-3. **Observe**: Identify and analyze elements on the page
+1. **操作**：执行点击、输入或导航等动作
+2. **提取**：从网页中提取结构化数据
+3. **观察**：识别并分析页面元素
 
-## Requirements
+## 系统要求
 
-Before using this tool, you will need:
+使用前需准备：
 
-1. A [Browserbase](https://www.browserbase.com/) account with API key and project ID
-2. An API key for an LLM (OpenAI or Anthropic Claude)
-3. The Stagehand Python SDK installed
+1. 拥有 API 密钥和项目 ID 的 [Browserbase](https://www.browserbase.com/) 账户
+2. 大语言模型（OpenAI 或 Anthropic Claude）的 API 密钥
+3. 已安装 Stagehand Python SDK
 
-Install the dependencies:
+安装依赖：
 
 ```bash
 pip install stagehand-py crewai crewai-tools
 ```
 
-## Usage
+## 使用指南
 
-### Basic Usage
+### 基础用法
 
 ```python
 from crewai import Agent, Task, Crew
@@ -71,17 +72,17 @@ result = crew.kickoff()
 print(result)
 ```
 
-## Command Types
+## 命令类型
 
-The StagehandTool supports three different command types, each designed for specific web automation tasks:
+StagehandTool 支持三种命令类型，分别针对不同的网页自动化任务：
 
-### 1. Act - Perform Actions on a Page
+### 1. 操作 - 在页面上执行动作
 
-The `act` command type (default) allows the agent to perform actions on a webpage, such as clicking buttons, filling forms, navigating, and more.
+默认的 `act` 命令类型允许智能体在网页上执行操作，例如点击按钮、填写表单、页面导航等。
 
-**When to use**: Use `act` when you need to interact with a webpage by performing actions like clicking, typing, scrolling, or navigating.
+**使用场景**：当需要通过点击、输入、滚动或导航等方式与网页交互时使用 `act` 命令。
 
-**Example usage**:
+**示例用法**:
 
 ```python
 # Perform an action (default behavior)
@@ -104,13 +105,13 @@ result = stagehand_tool.run(
 )
 ```
 
-### 2. Extract - Get Data from a Page
+### 2. 提取 - 从页面获取数据
 
-The `extract` command type allows the agent to extract structured data from a webpage, such as product information, article text, or table data.
+`extract` 命令类型允许代理从网页中提取结构化数据，例如产品信息、文章文本或表格数据。
 
-**When to use**: Use `extract` when you need to retrieve specific information from a webpage in a structured format.
+**使用场景**：当需要以结构化格式从网页检索特定信息时，使用 `extract`。
 
-**Example usage**:
+**示例用法**:
 
 ```python
 # Extract all product information
@@ -137,13 +138,13 @@ result = stagehand_tool.run(
 )
 ```
 
-### 3. Observe - Identify Elements on a Page
+### 3. 观察 - 识别页面元素
 
-The `observe` command type allows the agent to identify and analyze specific elements on a webpage, returning information about their attributes, location, and suggested actions.
+`observe` 命令类型允许代理识别和分析网页上的特定元素，返回有关其属性、位置和建议操作的信息。
 
-**When to use**: Use `observe` when you need to identify UI elements, understand page structure, or determine what actions are possible.
+**使用场景**：当需要识别UI元素、理解页面结构或确定可能的操作时，使用 `observe`。
 
-**Example usage**:
+**示例用法**:
 
 ```python
 # Find interactive elements
@@ -169,9 +170,9 @@ result = stagehand_tool.run(
 )
 ```
 
-## Advanced Configuration
+## 高级配置
 
-You can customize the behavior of the StagehandTool by specifying different parameters:
+您可以通过指定不同参数来自定义 StagehandTool 的行为：
 
 ```python
 stagehand_tool = StagehandTool(
@@ -187,9 +188,9 @@ stagehand_tool = StagehandTool(
 )
 ```
 
-## Task Examples for CrewAI Agents
+## CrewAI 代理任务示例
 
-Here are some examples of tasks that effectively use the StagehandTool:
+以下是有效使用 StagehandTool 的任务示例：
 
 ```python
 from crewai import Agent, Task, Crew
@@ -249,27 +250,27 @@ print(result)
 stagehand_tool.close()
 ```
 
-## Tips for Effective Use
+## 高效使用技巧
 
-1. **Be specific in instructions**: The more specific your instructions, the better the results. For example, instead of "click the button," use "click the 'Submit' button at the bottom of the contact form."
-2. **Use the right command type**: Choose the appropriate command type based on your task:
-   - Use `act` for interactions and navigation
-   - Use `extract` for gathering information
-   - Use `observe` for understanding page structure
-3. **Leverage selectors**: When extracting data or observing elements, use CSS selectors to narrow the scope and improve accuracy.
-4. **Handle multi-step processes**: For complex workflows, break them down into multiple tool calls, each handling a specific step.
-5. **Error handling**: Implement appropriate error handling in your agent's logic to deal with potential issues like elements not found or pages not loading.
+1. **指令需具体明确**：指令越具体，效果越好。例如，避免使用"点击按钮"，而应使用"点击联系表单底部的'提交'按钮"。
+2. **选用正确的命令类型**：根据任务类型选择合适命令：
+   - 交互和导航使用 `act` 命令
+   - 信息采集使用 `extract` 命令
+   - 页面结构分析使用 `observe` 命令
+3. **善用选择器**：提取数据或观察元素时，使用CSS选择器缩小范围以提高准确性。
+4. **处理多步骤流程**：复杂操作应拆分为多个工具调用，每个调用处理特定步骤。
+5. **错误处理**：在代理逻辑中实现适当的错误处理机制，应对元素未找到或页面未加载等潜在问题。
 
-## Troubleshooting
+## 故障排除
 
-- **Session not starting**: Ensure you have valid API keys for both Browserbase and your LLM provider.
-- **Elements not found**: Try increasing the `dom_settle_timeout_ms` parameter to give the page more time to load.
-- **Actions not working**: Make sure your instructions are clear and specific. You may need to use `observe` first to identify the correct elements.
-- **Extract returning incomplete data**: Try refining your instruction or providing a more specific selector.
+- **会话无法启动**：确保已配置有效的Browserbase和LLM提供商API密钥
+- **元素未找到**：尝试增加 `dom_settle_timeout_ms` 参数值以延长页面加载等待时间
+- **操作无效**：确认指令清晰明确，可先使用 `observe` 命令定位正确元素
+- **提取数据不完整**：尝试优化指令或提供更精确的选择器
 
-## Additional Resources
+## 扩展资源
 
-- [Stagehand GitHub Repository](https://github.com/browserbase/stagehand)
-- [Browserbase Documentation](https://browserbase.com/docs)
+- [Stagehand GitHub仓库](https://github.com/browserbase/stagehand)
+- [Browserbase文档](https://browserbase.com/docs)
 
-Join the [Stagehand Slack community](https://stagehand.dev/slack) for support and to connect with other users.
+加入 [Stagehand Slack 社区](https://stagehand.dev/slack) 获取支持并与其他用户交流。

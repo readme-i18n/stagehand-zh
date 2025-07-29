@@ -1,38 +1,40 @@
 ---
-title: 'Build a web browsing agent'
-description: 'Build an AI agent that can autonomously control a browser with Stagehand'
+
+title: '构建网页浏览智能体'
+description: '使用Stagehand构建能自主控制浏览器的AI智能体'
 icon: 'robot'
 ---
+
 import { Excalidraw } from '/snippets/excalidraw.mdx';
 
-Stagehand gives AI agents powerful tools to control a browser completely autonomously. Watch below as a Stagehand agent autonomously navigates to a URL, takes actions on the page, and extracts structured data to answer a question.
-There's quite a few ways to build an agent with Stagehand. Let's look at a few of them.
+Stagehand为AI智能体提供了强大的工具，使其能够完全自主地控制浏览器。观看下方演示，Stagehand智能体自主导航至URL，在页面上执行操作，并提取结构化数据来回答问题。
+使用Stagehand构建智能体有多种方式，下面我们将介绍其中几种。
 
-![Agent](/media/stagehand-agent.gif)
+![智能体](/media/stagehand-agent.gif)
 
 ## Stagehand MCP
 
-The above example is a Claude agent that uses Stagehand to control a browser. At this time of writing, [multimodal tool calling](https://sdk.vercel.ai/docs/ai-sdk-core/tools-and-tool-calling#multi-modal-tool-results) is only supported in Claude 3.5/3.7 Sonnet. 
-This means Claude is intelligent enough to know when to request a browser screenshot, and it can then use that screenshot to make decisions about what actions to take next.
+上述示例是一个使用Stagehand控制浏览器的Claude智能体。截至本文撰写时，[多模态工具调用](https://sdk.vercel.ai/docs/ai-sdk-core/tools-and-tool-calling#multi-modal-tool-results)功能仅在Claude 3.5/3.7 Sonnet版本中支持。
+这意味着Claude具备足够的智能来判断何时需要请求浏览器截图，并能利用该截图决定下一步操作。
 
 <CardGroup>
 <Card title="Browserbase MCP" href="https://github.com/browserbase/mcp-server-browserbase/" icon="hand-horns">
-Control a browser with Browserbase MCP powered by Stagehand
+通过Stagehand驱动的Browserbase MCP控制浏览器
 </Card>
 </CardGroup>
 
-What's really interesting about this is that the agent is able to reason about the browser state and take actions separate from one another! 
-Claude is able to reason about the browser state, while Stagehand is able to take actions on the page with GPT-4o-mini or a computer use model.
-Stagehand is even smart enough to know when to use GPT-4o-mini and when to use a computer use model, i.e. on iframe detection.
+最令人惊叹的是，这个代理能够理解浏览器状态并执行相互独立的操作！
+Claude 擅长分析浏览器状态，而 Stagehand 则能通过 GPT-4o-mini 或计算机使用模型在页面上执行操作。
+Stagehand 甚至能智能判断何时使用 GPT-4o-mini，何时调用计算机使用模型（例如在检测到 iframe 时）。
 
 <Excalidraw className="w-full aspect-video" url="https://link.excalidraw.com/readonly/GWQWmWUBqMBEAamlWsIM?darkMode=true" />
 
-We've found great success from having Claude as the "Trajectory" agent calling Stagehand tools when it sees fit! 
-While MCP is really nascent, we're excited to see where it goes.
+我们通过让 Claude 作为"轨迹"代理在适当时调用 Stagehand 工具取得了显著成效！
+虽然 MCP 仍处于早期阶段，但我们对它的发展前景充满期待。
 
-## Stagehand + Computer Use Models
+## Stagehand + 计算机使用模型
 
-Stagehand lets you leverage powerful computer use APIs from OpenAI and Anthropic with just one line of code. 
+Stagehand 只需一行代码就能调用 OpenAI 和 Anthropic 强大的计算机使用 API。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -63,31 +65,31 @@ print(result)
 </CodeGroup>
 
 <CardGroup>
-<Card title="Stagehand + Computer Use Docs" href="/examples/computer_use" icon="scroll">
-Check out our docs page for instructions on how to use computer use models with Stagehand.
+<Card title="Stagehand + 计算机使用文档" href="/examples/computer_use" icon="scroll">
+查看我们的文档页面，了解如何将计算机使用模型与 Stagehand 配合使用。
 </Card>
-<Card title="CUA Browser Demo" href="https://cua.browserbase.com/" icon="brain-circuit">
-Check out a live demo of a Browserbase browser controlled by OpenAI's Computer Using Agent (CUA) model.
+<Card title="CUA 浏览器演示" href="https://cua.browserbase.com/" icon="brain-circuit">
+观看由 OpenAI 计算机使用代理 (CUA) 模型控制的 Browserbase 浏览器实时演示。
 </Card>
 </CardGroup>
 
-## Sequential Tool Calling (Open Operator)
+## 顺序工具调用 (Open Operator)
 
-In January 2025, Browserbase released [Open Operator](https://operator.browserbase.com). 
-Open Operator is able to reason about the browser state and take actions accordingly to accomplish larger tasks like "order me a pizza".
-It works by calling Stagehand tools in sequence:
+2025年1月，Browserbase发布了[Open Operator](https://operator.browserbase.com)。  
+Open Operator能够理解浏览器状态并采取相应动作来完成"给我订个披萨"这类复杂任务。  
+其工作原理是依次调用Stagehand工具：
 
-1. If there's no URL, go to a default URL.
-1. Examine the browser state. Ask an LLM to reason about what to do next.
-1. Use `page.act()` to execute the LLM-suggested action.
-1. Repeat
+1. 若无URL，则访问默认URL  
+1. 检查浏览器状态，请求LLM推理下一步操作  
+1. 使用`page.act()`执行LLM建议的动作  
+1. 循环执行
 
 <Excalidraw className="w-full" url="https://link.excalidraw.com/readonly/dKh5sB1gEM1EjVqRCGKn" />
 
-Incorporating `stagehand.agent` into your browser automation is as easy as adding a single line of code:
+只需添加一行代码即可将`stagehand.agent`集成到浏览器自动化中：
 
-<Note>
-Python currently supports `stagehand.agent` with Computer Use Agent (CUA) models. The default implementation is coming soon. 
+<Note>  
+Python当前支持通过计算机使用代理(CUA)模型调用`stagehand.agent`，默认实现即将推出。  
 </Note>
 
 <CodeGroup>
@@ -104,11 +106,11 @@ console.log(message);
 ```
 </CodeGroup>
 
-### Replay the agent's actions
+### 重放代理动作
 
-You can replay the agent's actions exactly the same way you would with a regular Stagehand agent. You can even automatically cache the actions to avoid unnecessary LLM calls on a repeated run.
+您可以像使用常规Stagehand代理一样重放动作，甚至能自动缓存动作以避免重复运行时不必要的LLM调用。
 
-Let's use the `replay` function below to save the actions to a Stagehand script file, which will reproduce the same actions the agent did, with cached actions built in.
+下面使用`replay`函数将动作保存为Stagehand脚本文件，该文件将完全复现代理执行的动作，并内置缓存功能。
 
 <Accordion title="utils.ts">
 ```typescript
@@ -148,7 +150,7 @@ export async function replay(result: AgentResult) {
     })
     .join("\n");
 
-  console.log("Replay:");
+  console.log("回放操作:");
   const boilerplate = `
 import { Page, BrowserContext, Stagehand } from "@browserbasehq/stagehand";
 
@@ -159,13 +161,13 @@ export async function main(stagehand: Stagehand) {
   `;
   await fs.writeFile("replay.ts", boilerplate);
 
-  // Format the replay file with prettier
+  // 使用prettier格式化回放文件
   await new Promise((resolve, reject) => {
     exec(
       "npx prettier --write replay.ts",
       (error: any, stdout: any, stderr: any) => {
         if (error) {
-          console.error(`Error formatting replay.ts: ${error}`);
+          console.error(`格式化replay.ts时出错: ${error}`);
           reject(error);
           return;
         }
@@ -177,7 +179,7 @@ export async function main(stagehand: Stagehand) {
 ```
 </Accordion>
 
-Here's the replay output of an instruction like `"Get me the stock price of NVDA"`:
+以下是类似指令 `"获取英伟达(NVDA)的股价"` 的回放输出:
 
 ```typescript {14-22} replay.ts
 import { Page, BrowserContext, Stagehand } from "@browserbasehq/stagehand";

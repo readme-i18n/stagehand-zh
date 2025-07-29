@@ -1,10 +1,11 @@
 ---
+
 title: 'Observe'
-description: 'Get candidate DOM elements for actions'
+description: '获取可操作DOM元素候选集'
 icon: 'lightbulb'
 ---
 
-`observe()` is used to get a list of actions that can be taken on the current page. It's useful for adding context to your planning step, or if you unsure of what page you're on.
+`observe()` 用于获取当前页面可执行的操作列表。该功能既可为规划步骤添加上下文，也可用于不确定当前所处页面时的场景。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -16,9 +17,9 @@ observations = await page.observe()
 ```
 </CodeGroup>
 
-`observe()` returns an array of objects, each with an XPath `selector` and short `description`.
+`observe()` 返回对象数组，每个对象包含XPath选择器`selector`和简短`description`描述。
 
-If you are looking for a specific element, you can also pass in an instruction to observe:
+如需查找特定元素，也可传入指令进行观察：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -32,7 +33,8 @@ observations = await page.observe("Find the buttons on this page")
 ```
 </CodeGroup>
 
-Observe can also return a suggested action for the candidate element by setting the `returnAction` option to true. Here is a sample `ObserveResult`:
+通过将`returnAction`选项设为true，Observe还能返回针对候选元素的建议操作。以下是`ObserveResult`的示例：
+
 ```json
   {
     "description": "A brief description of the component",
@@ -43,72 +45,74 @@ Observe can also return a suggested action for the candidate element by setting 
 ```
 
 <Note>
-In Python, the ObserveResult is wrapped in a Pydantic model. You can use model_dump() to get the `dict` equivalent.
+在Python中，ObserveResult被封装为Pydantic模型。可通过model_dump()方法获取等效的`dict`结构。
 </Note>
 
-### **Arguments:** [`ObserveOptions`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
+### **参数说明:** [`ObserveOptions`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
+
 <Tabs>
 <Tab title="TypeScript">
 
   <ParamField path="instruction" type="string" optional>
-    Provides instructions for the observation. Defaults to "Find actions that can be performed on this page."
+    提供观察指令。默认为"查找可在此页面上执行的操作"。
   </ParamField>
 
   <ParamField path="returnAction" type="boolean" optional>
-    Returns an observe result object that contains a suggested action for the candidate element. The suggestion includes method, and arguments (if any). Defaults to `true`.
+    返回包含候选元素建议操作的观察结果对象。建议内容包括方法及参数（如有）。默认为`true`。
   </ParamField>
 
   <ParamField path="iframes" type="boolean" optional>
-    Set `iframes: true` if content from iframes should be included in the observation.
+    如需包含iframe内容进行观察，请设置`iframes: true`。
   </ParamField>
 
   <ParamField path="modelName" type="AvailableModel" optional>
-    Specifies the model to use
+    指定使用的模型
   </ParamField>
 
   <ParamField path="modelClientOptions" type="object" optional>
-    Configuration options for the model client
+    模型客户端的配置选项
   </ParamField>
 
   <ParamField path="domSettleTimeoutMs" type="number" optional>
-    Timeout in milliseconds for waiting for the DOM to settle
+    等待DOM稳定的超时时间（毫秒）
   </ParamField>
 </Tab>
 
 <Tab title="Python">
   <ParamField path="instruction" type="string" optional>
-    Provides instructions for the observation. Defaults to "Find actions that can be performed on this page."
+    提供观察指令。默认为"查找可在此页面上执行的操作"。
   </ParamField>
 
   <ParamField path="model_name" type="AvailableModel" optional>
-    Specifies the model to use
+    指定使用的模型
   </ParamField>
 
   <ParamField path="model_client_options" type="object" optional>
-    Configuration options for the model client
+    模型客户端的配置选项
   </ParamField>
 
   <ParamField path="dom_settle_timeout_ms" type="number" optional>
-    Timeout in milliseconds for waiting for the DOM to settle
+    等待DOM稳定的超时时间（毫秒）
   </ParamField>
 </Tab>
 </Tabs>
 
-### **Returns:** [`Promise<ObserveResult[]>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
+### **返回:** [`Promise<ObserveResult[]>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
 
-Each `ObserveResult` object contains a `selector` and `description`.
-  <ParamField path="selector" type="string" required>
-    A string representing the element selector
+每个 `ObserveResult` 对象包含 `selector` 和 `description` 属性。
+
+<ParamField path="selector" type="string" required>
+    表示元素选择器的字符串
   </ParamField>
 
-  <ParamField path="description" type="string" required>
-    A string describing the possible action
+<ParamField path="description" type="string" required>
+    描述可能操作的字符串
   </ParamField>
 
-  <ParamField path="method" type="string" optional>
-    The method to call on the element
+<ParamField path="method" type="string" optional>
+    在元素上调用的方法名称
   </ParamField>
 
-  <ParamField path="arguments" type="object" optional>
-    The arguments to pass to the method
+<ParamField path="arguments" type="object" optional>
+    传递给方法的参数对象
   </ParamField>

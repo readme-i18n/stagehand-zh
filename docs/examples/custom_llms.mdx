@@ -1,16 +1,19 @@
 ---
-title: LLM Customization
-description: Stagehand supports a wide variety of LLMs. You can use any LLM that supports structured outputs with our existing clients, or by writing a custom LLM provider.
+
+title: LLM 自定义
+description: Stagehand 支持多种大语言模型。您可以使用任何支持结构化输出的 LLM，无论是通过现有客户端还是编写自定义 LLM 提供程序。
 ---
 
 <Tip>
-Small models on **Ollama** are really difficult to get consistent structured outputs from. Though these models are "supported" via an OpenAI-compatible API, we do not recommend them yet for Stagehand.
+**Ollama** 上的小型模型很难获得一致的结构化输出。虽然这些模型通过 OpenAI 兼容 API 获得"支持"，但我们目前不建议将其用于 Stagehand。
 </Tip>
 
-## Supported LLMs
-Stagehand supports most of the hosted LLM providers. The full list of supported models is below:
+## 支持的 LLM
 
-### Providers
+Stagehand 支持大多数托管式 LLM 服务提供商。完整支持模型列表如下：
+
+### 服务提供商
+
 <Expandable title="Supported Providers">
 - **OpenAI**
 - **Anthropic**
@@ -26,15 +29,15 @@ Stagehand supports most of the hosted LLM providers. The full list of supported 
 - **Ollama**
 </Expandable>
 
-### Model Name Format
+### 模型命名格式
 
-Stagehand takes the model name in the format of `provider/model`.
+Stagehand 采用 `提供商/模型` 的格式指定模型名称。
 
-For example, to use Gemini 2.0 Flash, you would pass in `google/gemini-2.0-flash`.
+例如，要使用 Gemini 2.0 Flash，您需要传入 `google/gemini-2.0-flash`。
 
-### Using a Provider
+### 使用服务提供商
 
-You can pass in one of these LLMs to the `llm` property in the `Stagehand` constructor.
+您可以将这些 LLM 之一传递给 `Stagehand` 构造函数中的 `llm` 属性。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -54,19 +57,22 @@ stagehand = Stagehand(
 ```
 </CodeGroup>
 
-## Custom LLMs
+## 自定义 LLM
+
 <Note>
-Custom LLMs are currently only supported in TypeScript.
+自定义 LLM 目前仅支持 TypeScript。
 </Note>
 
-If you'd like to use a custom LLM, you can do so by providing a custom `llmProvider` function to the `Stagehand` constructor.
+如需使用自定义 LLM，可以通过向 `Stagehand` 构造函数提供自定义的 `llmProvider` 函数来实现。
 
-The only requirement for an LLM to be used with Stagehand is that it supports structured outputs.
+与 Stagehand 配合使用的 LLM 唯一要求是必须支持结构化输出。
 
-### OpenAI-compatible APIs
-Most LLMs are OpenAI-compatible, and thus can be used with Stagehand as long as they support structured outputs. This includes models like Google Gemini, Ollama, and most Llama models including Groq, Cerebras, and more.
+### OpenAI 兼容 API
 
-To get started, you can use the [OpenAI external client](https://github.com/browserbase/stagehand/blob/main/examples/external_clients/customOpenAI.ts) as a template to create a client for your model.
+大多数LLM都与OpenAI兼容，因此只要支持结构化输出，就可以与Stagehand配合使用。这包括Google Gemini、Ollama等模型，以及大多数Llama模型（如Groq、Cerebras等）。
+
+作为入门参考，您可以使用[OpenAI外部客户端](https://github.com/browserbase/stagehand/blob/main/examples/external_clients/customOpenAI.ts)作为模板来为您的模型创建客户端。
+
 ```ts {7-13}
 import { Stagehand } from "@browserbasehq/stagehand";
 import { CustomOpenAIClient } from "./external_clients/customOpenAI";
@@ -87,13 +93,14 @@ await stagehand.init();
 ```
 
 ### Vercel AI SDK
-The [Vercel AI SDK](https://sdk.vercel.ai/providers/ai-sdk-providers) is a popular library for interacting with LLMs. You can use any of the providers supported by the Vercel AI SDK to create a client for your model, **as long as they support structured outputs**.
 
-Vercel AI SDK supports providers for OpenAI, Anthropic, and Google, along with support for **Amazon Bedrock** and **Azure OpenAI**.
+[Vercel AI SDK](https://sdk.vercel.ai/providers/ai-sdk-providers)是一个流行的LLM交互库。您可以使用Vercel AI SDK支持的任何提供商来为模型创建客户端，**前提是这些提供商支持结构化输出**。
 
-To get started, you'll need to install the `ai` package and the provider you want to use. For example, to use Amazon Bedrock, you'll need to install the `@ai-sdk/amazon-bedrock` package.
+Vercel AI SDK支持OpenAI、Anthropic和Google等提供商，同时兼容**Amazon Bedrock**和**Azure OpenAI**。
 
-You'll also need to use the [Vercel AI SDK external client](https://github.com/browserbase/stagehand/blob/main/examples/external_clients/aisdk.ts) as a template to create a client for your model.
+开始使用时，您需要安装`ai`包以及目标提供商的包。例如，要使用Amazon Bedrock，就需要安装`@ai-sdk/amazon-bedrock`包。
+
+您还需要以[Vercel AI SDK外部客户端](https://github.com/browserbase/stagehand/blob/main/examples/external_clients/aisdk.ts)为模板来创建模型客户端。
 
 <Tabs>
 	<Tab title="npm">
@@ -115,7 +122,7 @@ You'll also need to use the [Vercel AI SDK external client](https://github.com/b
 	</Tab>
 </Tabs>
 
-To get started, you can use the [Vercel AI SDK external client](https://github.com/browserbase/stagehand/blob/84f810b4631291307a32a47addad7e26e9c1deb3/examples/external_clients/aisdk.ts) as a template to create a client for your model.
+作为入门指南，您可以使用 [Vercel AI SDK 外部客户端](https://github.com/browserbase/stagehand/blob/84f810b4631291307a32a47addad7e26e9c1deb3/examples/external_clients/aisdk.ts) 作为模板来为您的模型创建客户端。
 
 ```ts
 // Install/import the provider you want to use.
@@ -131,11 +138,13 @@ const stagehand = new Stagehand({
 ```
 
 ### LangChain
-LangChain is a popular library for building LLM applications. You can use any of the providers supported by LangChain to create a client for your model, **as long as they support structured outputs**.
 
-To get started, you'll need to install the `langchain` package and the provider you want to use. For example, to use OpenAI, you'll need to install the `@langchain/openai` package. You'll also need to install the `zod-to-json-schema` package to convert your Zod schema to a JSON schema.
+LangChain 是构建 LLM 应用的流行库。您可以使用 LangChain 支持的任何提供商来为模型创建客户端，**只要它们支持结构化输出**。
 
-You'll also want to add the [LangChain external client](https://github.com/browserbase/stagehand/blob/84f810b4631291307a32a47addad7e26e9c1deb3/examples/external_clients/langchain.ts) to your Stagehand project.
+开始前需要安装 `langchain` 包和您想使用的提供商包。例如要使用 OpenAI，需要安装 `@langchain/openai` 包。同时还需安装 `zod-to-json-schema` 包来将 Zod 模式转换为 JSON 模式。
+
+建议将 [LangChain 外部客户端](https://github.com/browserbase/stagehand/blob/84f810b4631291307a32a47addad7e26e9c1deb3/examples/external_clients/langchain.ts) 添加到您的 Stagehand 项目中。
+
 <Tabs>
 	<Tab title="npm">
 	```bash
@@ -156,7 +165,7 @@ You'll also want to add the [LangChain external client](https://github.com/brows
 	</Tab>
 </Tabs>
 
-Next, you can use the [LangChain external client](https://github.com/browserbase/stagehand/blob/84f810b4631291307a32a47addad7e26e9c1deb3/examples/external_clients/langchain.ts) as a template to create a Stagehand LLM client for your model.
+接下来，您可以使用 [LangChain 外部客户端](https://github.com/browserbase/stagehand/blob/84f810b4631291307a32a47addad7e26e9c1deb3/examples/external_clients/langchain.ts) 作为模板，为您的模型创建一个 Stagehand LLM 客户端。
 
 ```ts
 import { ChatOpenAI } from "@langchain/openai";
@@ -168,4 +177,3 @@ const stagehand = new Stagehand({
   ),
 });
 ```
-

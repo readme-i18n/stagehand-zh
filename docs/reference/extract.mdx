@@ -1,20 +1,21 @@
 ---
+
 title: 'Extract'
-description: 'Extract structured data from the page'
+description: '从页面中提取结构化数据'
 icon: 'brain-circuit'
 ---
 
-`extract()` grabs structured text from the current page using structured schemas. Given instructions and `schema`, you will receive structured data.
+`extract()` 通过结构化模式从当前页面抓取结构化文本。根据指令和 `schema`，您将获得结构化数据。
 
 <Note>
-For TypeScript, the extract schemas are defined using zod schemas.
+TypeScript 版本使用 zod 模式定义提取结构。
 
-For Python, the extract schemas are defined using pydantic models.
+Python 版本使用 pydantic 模型定义提取结构。
 </Note>
 
-### Extract a single object
+### 提取单个对象
 
-Here is how an `extract` call might look for a single object:
+以下是针对单个对象的 `extract` 调用示例：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -37,18 +38,20 @@ item = await page.extract(
 ```
 </CodeGroup>
 
-Your output schema will look like:
+输出模式将呈现为：
+
 ```
 { price: number }
 ```
 
-### Extract a link
+### 提取链接
+
 <Note>
-To extract links or URLs, in the TypeScript version of Stagehand, you'll need to define the relevant field as `z.string().url()`.
-In Python, you'll need to define it as `HttpUrl`.
+在 TypeScript 版本的 Stagehand 中提取链接或 URL 时，需将相关字段定义为 `z.string().url()`。
+Python 版本中需定义为 `HttpUrl`。
 </Note>
 
-Here is how an `extract` call might look for extracting a link or URL.
+以下是提取链接或 URL 的 `extract` 调用示例。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -75,9 +78,9 @@ print("the link to the contact us page is: ", extraction.link)
 ```
 </CodeGroup>
 
-### Extract a list of objects
+### 提取对象列表
 
-Here is how an `extract` call might look for a list of objects.
+以下是针对对象列表的 `extract` 调用示例。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -116,7 +119,8 @@ print("the apartment list is: ", apartments)
 ```
 </CodeGroup>
 
-Your output schema will look like:
+输出模式将呈现为：
+
 ```
 list_of_apartments: [
     {
@@ -135,10 +139,9 @@ list_of_apartments: [
 ]
 ```
 
+### 带附加上下文的提取
 
-### Extract with additional context
-
-You can provide additional context to your schema to help the model extract the data more accurately.
+您可以为模式提供附加上下文，以帮助模型更准确地提取数据。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -175,73 +178,71 @@ apartments = await page.extract(
 
 <Tabs>
 <Tab title="TypeScript">
-### **Arguments:** [`ExtractOptions<T extends z.AnyZodObject>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
+### **参数:** [`ExtractOptions<T extends z.AnyZodObject>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
 
   <ParamField path="instruction" type="string" required>
-    Provides instructions for extraction
+    提供提取操作的指令说明
   </ParamField>
 
   <ParamField path="schema" type="z.AnyZodObject" required>
-    Defines the structure of the data to extract (TypeScript only)
+    定义要提取数据的结构（仅限TypeScript）
   </ParamField>
 
   <ParamField path="iframes" type="boolean" optional>
-      Set `iframes: true` if the extraction content exists within an iframe.
+      当提取内容位于iframe内时，需设置`iframes: true`
   </ParamField>
 
   <ParamField path="useTextExtract" type="boolean" deprecated>
-    This field is now **deprecated** and has no effect.
+    该字段现已**弃用**，不再产生任何效果
   </ParamField>
 
   <ParamField path="selector" type="string" optional>
-      An xpath that can be used to reduce the scope of an extraction. If an xpath is passed in, `extract` will only process
-      the contents of the HTML element that the xpath points to. Useful for reducing input tokens and increasing extraction
-      accuracy.
+      用于缩小提取范围的xpath表达式。传入xpath后，`extract`将仅处理该xpath指向的HTML元素内容。有助于减少输入token数量并提高提取准确性
   </ParamField>
 
   <ParamField path="modelName" type="AvailableModel" optional>
-    Specifies the model to use
+    指定要使用的模型
   </ParamField>
 
   <ParamField path="modelClientOptions" type="object" optional>
-    Configuration options for the model client. See [`ClientOptions`](https://github.com/browserbase/stagehand/blob/main/types/model.ts).
+    模型客户端的配置选项。参见[`ClientOptions`](https://github.com/browserbase/stagehand/blob/main/types/model.ts)
   </ParamField>
 
   <ParamField path="domSettleTimeoutMs" type="number" optional>
-    Timeout in milliseconds for waiting for the DOM to settle
+    等待DOM稳定的超时时间（毫秒）
   </ParamField>
 
-### **Returns:** [`Promise<ExtractResult<T extends z.AnyZodObject>>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
+### **返回值:** [`Promise<ExtractResult<T extends z.AnyZodObject>>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
 
-Resolves to the structured data as defined by the provided `schema`.
+返回符合所提供`schema`定义的结构化数据
 
 </Tab>
 
 <Tab title="Python">
-### **Arguments:** [`ExtractOptions<T extends BaseModel>`](https://github.com/browserbase/stagehand-python/blob/main/stagehand/types/page.py)
+### **参数:** [`ExtractOptions<T extends BaseModel>`](https://github.com/browserbase/stagehand-python/blob/main/stagehand/types/page.py)
 
   <ParamField path="instruction" type="string" required>
-    Provides instructions for extraction
+    提供提取操作的指令说明
   </ParamField>
 
   <ParamField path="schema" type="BaseModel" required>
-    Defines the structure of the data to extract
+    定义要提取数据的结构
   </ParamField>
 
   <ParamField path="model_name" type="AvailableModel" optional>
-    Specifies the model to use
+    指定要使用的模型
   </ParamField>
 
   <ParamField path="model_client_options" type="dict" optional>
-    Configuration options for the model client. See [`ClientOptions`](https://github.com/browserbase/stagehand/blob/main/types/model.ts).
+    模型客户端的配置选项。参见[`ClientOptions`](https://github.com/browserbase/stagehand/blob/main/types/model.ts)
   </ParamField>
 
   <ParamField path="dom_settle_timeout_ms" type="int" optional>
-    Timeout in milliseconds for waiting for the DOM to settle
+    等待DOM稳定的超时时间（毫秒）
   </ParamField>
 
-### **Returns:** [`Promise<ExtractResult<BaseModel>>`](https://github.com/browserbase/stagehand-python/blob/main/stagehand/types/page.py)
+### **返回值:** [`Promise<ExtractResult<BaseModel>>`](https://github.com/browserbase/stagehand-python/blob/main/stagehand/types/page.py)
 
-Resolves to the structured data as defined by the provided `schema`.
+返回符合所提供`schema`定义的结构化数据
 </Tab>
 </Tabs>

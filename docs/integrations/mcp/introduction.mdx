@@ -1,227 +1,228 @@
 ---
+
 title: "Browserbase MCP Server"
 sidebarTitle: "Introduction"
-description: "AI-powered browser automation through Model Context Protocol integration with Stagehand"
+description: "通过Model Context Protocol与Stagehand集成实现AI驱动的浏览器自动化"
 ---
 
-## Overview
+## 概述
 
-The Browserbase MCP Server brings powerful browser automation capabilities to Claude through the Model Context Protocol (MCP). Built on top of [Stagehand](https://docs.stagehand.dev/), this integration provides AI-powered web automation using natural language commands.
-
-<Info>
-This server enables Claude to control browsers, navigate websites, interact with web elements, and extract data—all through simple conversational commands.
-</Info>
-
-## Key Features
-
-<CardGroup cols={2}>
-<Card title="Natural Language Automation" icon="wand-magic-sparkles">
-Control browsers using plain English commands like "click the login button" or "fill out the contact form"
-</Card>
-
-<Card title="Web Interaction" icon="browser">
-Navigate, click, and fill forms with ease
-</Card>
-
-<Card title="Data Extraction" icon="download">
-Extract structured data from any website automatically
-
-</Card>
-
-<Card title="Multi-Session Management" icon="window-restore">
-Run multiple browser sessions simultaneously for complex workflows
-</Card>
-
-<Card title="Screenshot Capture" icon="camera">
-Capture and analyze webpage screenshots programmatically
-</Card>
-
-<Card title="Cookie Management" icon="cookie-bite">
-Handle authentication and session persistence across interactions
-</Card>
-</CardGroup>
-
-## Core Benefits
-
-<Tabs>
-<Tab title="Ease of Use">
-<CardGroup cols={2}>
-<Card title="Intuitive Commands" icon="wand-magic-sparkles">
-No need to learn complex selectors or automation syntax. Simply describe what you want to do in natural language.
-</Card>
-
-<Card title="Quick Setup" icon="rocket">
-Get started in minutes with our NPM package or our remote hosted URL.
-</Card>
-
-<Card title="Smart Automation" icon="brain">
-Stagehand's AI understands web page context and can adapt to different layouts and designs.
-</Card>
-</CardGroup>
-</Tab>
-
-<Tab title="Powerful Capabilities">
-<CardGroup cols={2}>
-<Card title="Full Browser Control" icon="browser">
-Navigate, click, type, scroll, and interact with any web element.
-</Card>
-
-<Card title="Data Intelligence" icon="chart-line">
-Extract structured information from complex web pages automatically.
-</Card>
-
-<Card title="Session Persistence" icon="cookie-bite">
-Maintain authentication states and cookies across multiple interactions.
-</Card>
-
-<Card title="Multi-Session Support" icon="window-restore">
-Run parallel browser instances for complex workflows.
-</Card>
-</CardGroup>
-</Tab>
-
-<Tab title="Enterprise Ready">
-<CardGroup cols={2}>
-<Card title="Reliable Infrastructure" icon="server">
-Built on Browserbase's cloud browser platform for consistent performance.
-</Card>
-
-<Card title="Scalable Architecture" icon="arrows-up-to-line">
-Handle multiple concurrent sessions and high-volume automation tasks.
-</Card>
-
-<Card title="Security Features" icon="shield-check">
-Stealth mode, proxy support, and advanced anti-detection capabilities.
-</Card>
-
-<Card title="Comprehensive Logging" icon="file-lines">
-Detailed session recordings and debugging information.
-</Card>
-</CardGroup>
-</Tab>
-</Tabs>
-
-## Use Cases
-
-<Tabs>
-<Tab title="Web Scraping & Data Collection">
-<CardGroup cols={2}>
-<Card title="E-commerce Monitoring" icon="store">
-Track product prices, availability, and competitor information
-</Card>
-
-<Card title="Market Research" icon="chart-bar">
-Gather data from multiple sources for analysis and reporting
-</Card>
-
-<Card title="Content Aggregation" icon="newspaper">
-Collect articles, posts, and media from various websites
-</Card>
-
-<Card title="Lead Generation" icon="users">
-Extract contact information and business data from directories
-</Card>
-</CardGroup>
-</Tab>
-
-<Tab title="Testing">
-<CardGroup cols={2}>
-<Card title="Automated Testing" icon="flask">
-Create comprehensive test suites for web applications
-</Card>
-
-<Card title="Cross-Browser Validation" icon="browsers">
-Test functionality across different browser environments
-</Card>
-
-<Card title="User Journey Testing" icon="route">
-Simulate real user interactions and workflows
-</Card>
-
-<Card title="Performance Monitoring" icon="gauge">
-Track page load times and user experience metrics
-</Card>
-</CardGroup>
-</Tab>
-
-<Tab title="Workflow Automation">
-<CardGroup cols={2}>
-<Card title="Form Automation" icon="file-contract">
-Automatically fill and submit complex web forms
-</Card>
-
-<Card title="Report Generation" icon="chart-line">
-Extract data and generate automated reports
-</Card>
-
-<Card title="Social Media Management" icon="share-nodes">
-Schedule posts and monitor engagement across platforms
-</Card>
-
-<Card title="Administrative Tasks" icon="clipboard-check">
-Automate repetitive web-based business processes
-</Card>
-</CardGroup>
-</Tab>
-</Tabs>
-
-## Session Management
+Browserbase MCP服务器通过Model Context Protocol（MCP）为Claude带来强大的浏览器自动化能力。基于[Stagehand](https://docs.stagehand.dev/)构建的该集成方案，可使用自然语言命令实现AI驱动的网页自动化操作。
 
 <Info>
-The Browserbase MCP Server supports both single and multi-session architectures to accommodate different automation needs.
+该服务器使Claude能够控制浏览器、导航网站、与网页元素交互并提取数据——所有这些都通过简单的对话式命令完成。
 </Info>
 
+## 核心功能
+
+<CardGroup cols={2}>
+<Card title="自然语言自动化" icon="wand-magic-sparkles">
+使用"点击登录按钮"或"填写联系表单"等简单英语命令控制浏览器
+</Card>
+
+<Card title="网页交互" icon="browser">
+轻松实现导航、点击和表单填写
+</Card>
+
+<Card title="数据提取" icon="download">
+自动从任何网站提取结构化数据
+
+</Card>
+
+<Card title="多会话管理" icon="window-restore">
+同时运行多个浏览器会话以处理复杂工作流
+</Card>
+
+<Card title="屏幕截图捕获" icon="camera">
+以编程方式捕获并分析网页截图
+</Card>
+
+<Card title="Cookie管理" icon="cookie-bite">
+在交互过程中处理身份验证和会话持久化
+</Card>
+</CardGroup>
+
+## 核心优势
+
 <Tabs>
-<Tab title="Single Session Mode">
-**Traditional Approach**
-- One active browser session at a time
-- Simpler for basic automation tasks  
-- Automatic session lifecycle management
-- Ideal for sequential workflows
+<Tab title="易用性">
+<CardGroup cols={2}>
+<Card title="直观命令" icon="wand-magic-sparkles">
+无需学习复杂的选择器或自动化语法，用自然语言描述您想执行的操作即可。
+</Card>
+
+<Card title="快速设置" icon="rocket">
+通过我们的NPM包或远程托管URL，几分钟内即可开始使用。
+</Card>
+
+<Card title="智能自动化" icon="brain">
+Stagehand的AI能理解网页上下文，可适应不同布局和设计。
+</Card>
+</CardGroup>
 </Tab>
 
-<Tab title="Multi-Session Mode">
-**Advanced Parallel Processing**
-- Multiple independent browser sessions
-- Each session maintains separate state
-- Parallel execution capabilities
-- Perfect for complex workflows
+<Tab title="强大功能">
+<CardGroup cols={2}>
+<Card title="完整浏览器控制" icon="browser">
+导航、点击、输入、滚动并与任何网页元素交互。
+</Card>
+
+<Card title="数据智能" icon="chart-line">
+自动从复杂网页中提取结构化信息。
+</Card>
+
+<Card title="会话持久化" icon="cookie-bite">
+在多次交互间保持认证状态和cookies。
+</Card>
+
+<Card title="多会话支持" icon="window-restore">
+为复杂工作流运行并行浏览器实例。
+</Card>
+</CardGroup>
+</Tab>
+
+<Tab title="企业级支持">
+<CardGroup cols={2}>
+<Card title="可靠基础设施" icon="server">
+基于Browserbase云浏览器平台构建，性能稳定。
+</Card>
+
+<Card title="可扩展架构" icon="arrows-up-to-line">
+处理多并发会话和高容量自动化任务。
+</Card>
+
+<Card title="安全特性" icon="shield-check">
+隐身模式、代理支持和高级反检测能力。
+</Card>
+
+<Card title="完整日志记录" icon="file-lines">
+详细的会话录制和调试信息。
+</Card>
+</CardGroup>
 </Tab>
 </Tabs>
 
-## Getting Started
+## 使用场景
+
+<Tabs>
+<Tab title="网页抓取与数据采集">
+<CardGroup cols={2}>
+<Card title="电商监控" icon="store">
+追踪产品价格、库存及竞品信息
+</Card>
+
+<Card title="市场调研" icon="chart-bar">
+从多源采集数据用于分析与报告
+</Card>
+
+<Card title="内容聚合" icon="newspaper">
+收集各类网站的新闻、帖文与媒体内容
+</Card>
+
+<Card title="潜在客户开发" icon="users">
+从商业目录提取联系信息与企业数据
+</Card>
+</CardGroup>
+</Tab>
+
+<Tab title="测试">
+<CardGroup cols={2}>
+<Card title="自动化测试" icon="flask">
+为网页应用创建完整测试套件
+</Card>
+
+<Card title="跨浏览器验证" icon="browsers">
+测试不同浏览器环境下的功能表现
+</Card>
+
+<Card title="用户旅程测试" icon="route">
+模拟真实用户交互与工作流程
+</Card>
+
+<Card title="性能监控" icon="gauge">
+追踪页面加载时间与用户体验指标
+</Card>
+</CardGroup>
+</Tab>
+
+<Tab title="工作流自动化">
+<CardGroup cols={2}>
+<Card title="表单自动化" icon="file-contract">
+自动填写并提交复杂网页表单
+</Card>
+
+<Card title="报告生成" icon="chart-line">
+提取数据并自动生成报告
+</Card>
+
+<Card title="社交媒体管理" icon="share-nodes">
+跨平台定时发布贴文并监测互动
+</Card>
+
+<Card title="行政事务" icon="clipboard-check">
+自动化基于网页的重复性业务流程
+</Card>
+</CardGroup>
+</Tab>
+</Tabs>
+
+## 会话管理
+
+<Info>
+Browserbase MCP 服务器支持单会话和多会话架构，以满足不同的自动化需求。
+</Info>
+
+<Tabs>
+<Tab title="单会话模式">
+**传统方案**
+- 同一时间仅激活一个浏览器会话
+- 适用于基础自动化任务  
+- 自动管理会话生命周期
+- 理想选择顺序工作流
+</Tab>
+
+<Tab title="多会话模式">
+**高级并行处理**
+- 多个独立的浏览器会话
+- 每个会话保持独立状态
+- 具备并行执行能力
+- 完美适配复杂工作流
+</Tab>
+</Tabs>
+
+## 快速开始
 
 <Steps>
-<Step title="Install the MCP Server">
-Choose from NPM installation, remote hosted URL, or local development based on your needs.
+<Step title="安装 MCP 服务器">
+根据需求选择 NPM 安装、远程托管 URL 或本地开发模式。
 </Step>
 
-<Step title="Configure Authentication">
-Set up your Browserbase API credentials in the MCP configuration. 
-Get your API keys from the [Browserbase Dashboard](https://www.browserbase.com/overview).
+<Step title="配置认证">
+在 MCP 配置中设置 Browserbase API 凭证。
+从 [Browserbase 控制台](https://www.browserbase.com/overview) 获取 API 密钥。
 </Step>
 
-<Step title="Start Automating">
-Begin using natural language commands to control browsers through Claude.
+<Step title="开始自动化">
+通过 Claude 使用自然语言指令控制浏览器。
 </Step>
 </Steps>
 
 <Tip>
-Ready to get started? Check out our [Setup Guide](/integrations/mcp/setup) for detailed installation instructions.
+准备开始？查看我们的[设置指南](/integrations/mcp/setup)获取详细安装说明。
 </Tip>
 
-## Further Reading
+## 扩展阅读
 
 <CardGroup cols={3}>
-<Card title="Setup Guide" icon="rocket" href="/integrations/mcp/setup">
-Get started with installation and configuration
+<Card title="设置指南" icon="rocket" href="/integrations/mcp/setup">
+开始安装与配置
 </Card>
 
-<Card title="Available Tools" icon="wrench" href="/integrations/mcp/tools">
-Explore all available automation tools
+<Card title="可用工具" icon="wrench" href="/integrations/mcp/tools">
+探索所有可用的自动化工具
 </Card>
 
-<Card title="Configuration Options" icon="gear" href="/integrations/mcp/configuration">
-Customize your browser automation setup
+<Card title="配置选项" icon="gear" href="/integrations/mcp/configuration">
+自定义浏览器自动化设置
 </Card>
 </CardGroup>

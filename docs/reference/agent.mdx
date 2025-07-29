@@ -1,6 +1,7 @@
 ---
+
 title: 'Agent'
-description: 'Web AI agents for any task'
+description: '适用于各类任务的Web AI智能体'
 icon: 'robot'
 ---
 
@@ -17,9 +18,9 @@ await agent.execute("Sign me up for a library card");
 ```
 </CodeGroup>
 
-Software has always been deterministic and repeatable, but with AI agents it's difficult to replicate a workflow. **Stagehand combines the best of both worlds: intelligence and determinism**.
+软件始终是确定且可重复的，但AI智能体却难以复现工作流程。**Stagehand完美融合了两者的优势：智能与确定性**。
 
-Web Agents in Stagehand are fully customizable. You can use any LLM / VLM / Computer Use provider, set system prompts, add custom tools, and more.
+Stagehand中的Web智能体完全可定制。您可以使用任何LLM/VLM/计算机服务提供商，设置系统提示词，添加自定义工具等。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -59,81 +60,76 @@ result = await agent.execute({
 ```
 </CodeGroup>
 
-### **Arguments:** [`AgentOptions`](https://github.com/browserbase/stagehand/blob/main/types/agent.ts)
+### **参数:** [`AgentOptions`](https://github.com/browserbase/stagehand/blob/main/types/agent.ts)
 
 <Tabs>
 <Tab title="TypeScript">
 <ParamField path="provider" type="string" required>
-  Specifies the LLM provider.
-  Currently supporting:
+  指定LLM服务提供商。
+  当前支持：
   - **OpenAI**:  `openai`
   - **Anthropic**:  `anthropic`
 </ParamField>
 
 <ParamField path="model" type="string" required>
-  Specifies the LLM model.
-  Currently supporting:
+  指定LLM模型。
+  当前支持：
   - **OpenAI**:  `computer-use-preview`
-  - **Anthropic**:  `claude-sonnet-4-20250514` and `claude-3-7-sonnet-latest`
+  - **Anthropic**:  `claude-sonnet-4-20250514` 和 `claude-3-7-sonnet-latest`
 </ParamField>
 
 <ParamField path="instructions" type="string">
-  Specifies the system prompt
+  指定系统提示词
 </ParamField>
 
 <ParamField path="options" type="object">
-  Configuration options for the LLM provider. Currently supports OpenAI and Anthropic SDK client options. 
+  LLM提供商的配置选项。当前支持OpenAI和Anthropic SDK客户端选项。
 </ParamField>
 </Tab>
 
 <Tab title="Python">
 <ParamField path="model" type="string" required>
-  Specifies the LLM model.
-  Currently supporting:
+  指定LLM模型。
+  当前支持：
   - **OpenAI**:  `computer-use-preview`
-  - **Anthropic**:  `claude-sonnet-4-20250514` and `claude-3-7-sonnet-latest`
+  - **Anthropic**:  `claude-sonnet-4-20250514` 和 `claude-3-7-sonnet-latest`
 </ParamField>
 
 <ParamField path="provider" type="string" optional>
-  Specifies the LLM provider.
-  Currently supporting:
+  指定LLM服务提供商。
+  当前支持：
   - **OpenAI**:  `openai`
   - **Anthropic**:  `anthropic`
 </ParamField>
 
 <ParamField path="instructions" type="string">
-  Specifies the system prompt
+  指定系统提示词
 </ParamField>
 
 <ParamField path="options" type="dict">
-  Configuration options for the LLM provider. Currently supports OpenAI and Anthropic SDK client options. 
+  LLM提供商的配置选项。当前支持OpenAI和Anthropic SDK客户端选项。
 </ParamField>
 </Tab>
 </Tabs>
 
-### **Returns:** [`Promise<AgentResult>`](https://github.com/browserbase/stagehand/blob/main/types/agent.ts)
+### **返回值:** [`Promise<AgentResult>`](https://github.com/browserbase/stagehand/blob/main/types/agent.ts)
 
-  <ParamField path="success" type="boolean">
-    If the agent execution completed without errors
+<ParamField path="success" type="boolean">
+    表示智能体执行是否未发生错误完成
   </ParamField>
 
-  <ParamField path="message" type="string">
-    Summary or error message from the agent
+<ParamField path="message" type="string">
+    来自智能体的摘要或错误信息
   </ParamField>
 
-  <ParamField path="actions" type="AgentAction[]">
-    List of actions performed during execution
+<ParamField path="actions" type="AgentAction[]">
+    执行过程中执行的操作列表
   </ParamField>
 
-  <ParamField path="completed" type="boolean">
-    Whether the agent fully completed its task (can be false even if success is true)
+<ParamField path="completed" type="boolean">
+    表示智能体是否完全完成任务（即使success为true也可能为false）
   </ParamField>
 
-  <ParamField path="metadata" type="Record<string, unknown> | dict">
-    Optional additional data about the execution
+<ParamField path="metadata" type="Record<string, unknown> | dict">
+    关于本次执行的可选附加数据
   </ParamField>
-
-
-
-
-

@@ -1,12 +1,14 @@
 ---
+
 title: Caching Actions
-description: You can cache actions in Stagehand to avoid redundant LLM calls.
+description: 您可以在 Stagehand 中缓存操作以避免冗余的 LLM 调用。
 ---
 
-Caching actions in Stagehand is useful for actions that are expensive to run, or when the underlying DOM structure is not expected to change.
+在 Stagehand 中缓存操作对于执行成本高昂的操作或当底层 DOM 结构预计不会改变时非常有用。
 
-## Using `observe` to preview an action
-`observe` lets you preview an action before taking it. If you are satisfied with the action preview, you can run it in `page.act` with no further LLM calls.
+## 使用 `observe` 预览操作
+
+`observe` 允许您在执行操作前预览它。如果您对操作预览满意，可以直接在 `page.act` 中运行而无需额外的 LLM 调用。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -42,9 +44,9 @@ await page.act(action_preview)
 ```
 </CodeGroup>
 
-## Simple caching
+## 简单缓存
 
-Let's use a simple file-based cache for this example. We'll write a getter and a setter functions that can read and write to a JSON file:
+让我们在这个示例中使用基于文件的简单缓存。我们将编写能够读写 JSON 文件的 getter 和 setter 函数：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -95,8 +97,9 @@ async def set_cache(key: str, value: Dict[str, Any]) -> None:
 ```
 </CodeGroup>
 
-### Act with cache
-Let's write a function that will check the cache, get the action, and run it. If the action fails, we'll attempt to "self-heal", i.e. retry it with `page.act` directly.
+### 带缓存执行
+
+让我们编写一个函数来检查缓存、获取操作并执行它。如果操作失败，我们将尝试"自我修复"，即直接通过 `page.act` 重试。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -165,7 +168,7 @@ async def act_with_cache(page, key: str, prompt: str, self_heal: bool = False):
 ```
 </CodeGroup>
 
-You can now use `actWithCache` to run an action with caching:
+您现在可以使用 `actWithCache` 来运行带缓存的操作：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -183,13 +186,13 @@ await act_with_cache(page, key, prompt)
 ```
 </CodeGroup>
 
-## Advanced caching
+## 高级缓存
 
-The above example is simple, but you may want to cache actions based on the page contents. Also, if you have duplicate prompts, you should use a more unique key.
+上述示例很简单，但您可能希望基于页面内容来缓存操作。此外，如果有重复的提示，您应该使用更唯一的键。
 
-We want to leave caching logic up to you, but give you all the tools you need to implement your own caching strategy.
+我们希望将缓存逻辑留给您自己实现，但为您提供实现自定义缓存策略所需的所有工具。
 
-You can directly access the DOM and accessibility tree from Playwright's page object. Here's an example of how to access the page content:
+您可以直接从 Playwright 的 page 对象访问 DOM 和无障碍树。以下是访问页面内容的示例：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -203,4 +206,4 @@ page_content = await page.content()
 ```
 </CodeGroup>
 
-You may also want to use the accessibility tree, the DOM, or any other information to create a more unique key. You can do this as you please, with very similar logic to the above example.
+您也可以利用无障碍访问树、DOM 或其他信息来生成更具唯一性的键值。参照上述示例的类似逻辑，您可以自由实现这一功能。

@@ -1,18 +1,21 @@
 ---
-title: Stagehand in Next.js
-description: Next.js is a popular framework for developing web-based applications in production. It powers Stagehand apps like [Director](https://director.ai), [Brainrot](https://brainrot.run) and [Open Operator](https://operator.browserbase.com).
+
+title: Next.js 中的 Stagehand
+description: Next.js 是用于开发生产级 Web 应用程序的热门框架，它为 [Director](https://director.ai)、[Brainrot](https://brainrot.run) 和 [Open Operator](https://operator.browserbase.com) 等 Stagehand 应用提供支持。
 ---
 
 <Card
-  title="Check out the Stagehand Next.js Quickstart"
+  title="查看 Stagehand Next.js 快速入门"
   icon="github"
   href="https://github.com/browserbase/stagehand-nextjs-quickstart"
 >
-  Clone our [GitHub repo](https://github.com/browserbase/stagehand-nextjs-quickstart) to get started with Stagehand in Next.js.
+  克隆我们的 [GitHub 仓库](https://github.com/browserbase/stagehand-nextjs-quickstart) 即可开始使用 Next.js 中的 Stagehand。
 </Card>
 
-## Add Stagehand to an existing Next.js project
-If you'd like to add Stagehand to an existing Next.js project, you can do so by installing the dependencies:
+## 在现有 Next.js 项目中添加 Stagehand
+
+如需在现有 Next.js 项目中添加 Stagehand，可通过安装以下依赖实现：
+
 <Tabs>
 	<Tab title="npm">
 	```bash
@@ -33,12 +36,13 @@ If you'd like to add Stagehand to an existing Next.js project, you can do so by 
 	</Tab>
 </Tabs>
 
-### Write a server action
-Next, let's define our `main` function as a server action in `app/stagehand/main.ts`. This file will have the following three functions:
+### 编写服务端动作
 
-1. **`main`: Run the main Stagehand script**
-2. **`runStagehand`: Initialize and run the `main` function**
-3. **`startBBSSession`: Start a Browserbase session**
+接下来，我们在 `app/stagehand/main.ts` 中将 `main` 函数定义为服务端动作。该文件包含以下三个函数：
+
+1. **`main`: 运行 Stagehand 主脚本**
+2. **`runStagehand`: 初始化并运行 `main` 函数**
+3. **`startBBSSession`: 启动 Browserbase 会话**
 
 ```ts app/stagehand/main.ts
 // 🤘 Welcome to Stagehand!
@@ -105,8 +109,9 @@ export async function startBBSSession() {
 }
 ```
 
-### Create a client component
-Next, let's create a client component that will start a Browserbase session and run the `main` function with the server actions we just defined. We'll first create a Browserbase session and embed the session in an iframe before running the `main` function.
+### 创建客户端组件
+
+接下来，我们将创建一个客户端组件，用于启动 Browserbase 会话并运行我们刚定义的服务器动作中的 `main` 函数。首先创建 Browserbase 会话并将其嵌入 iframe，然后再执行 `main` 函数。
 
 ```tsx app/components/stagehandEmbed.tsx
 "use client";
@@ -136,8 +141,9 @@ export function StagehandEmbed() {
 }
 ```
 
-### Use the `StagehandEmbed` component
-Now, we can use the `StagehandEmbed` component in our app.
+### 使用 `StagehandEmbed` 组件
+
+现在，我们可以在应用中使用 `StagehandEmbed` 组件。
 
 ```tsx app/page.tsx
 import { StagehandEmbed } from "@/app/components/stagehandEmbed";

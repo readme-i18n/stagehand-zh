@@ -1,16 +1,17 @@
 ---
-title: 'Interact with a website'
-description: 'You can use Stagehand to intelligently interact with a website using AI'
+
+title: '与网站交互'
+description: '您可以使用 Stagehand 通过 AI 智能地与网站进行交互'
 icon: 'arrow-pointer'
 ---
 
-## Executing actions
+## 执行操作
 
-Stagehand has an `act()` function that can be used to execute actions on a page using natural language. Here's an example of Stagehand to find jobs on LinkedIn:
+Stagehand 提供了 `act()` 函数，可通过自然语言在页面上执行操作。以下是使用 Stagehand 在 LinkedIn 上查找工作的示例：
 
-![Take actions with Stagehand](/media/linkedin.gif)
+![使用 Stagehand 执行操作](/media/linkedin.gif)
 
-This workflow is as simple as the following lines of code:
+该工作流程仅需如下几行代码即可实现：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -33,12 +34,12 @@ await page.act("click the first job posting")
 ```
 </CodeGroup>
 
-The `page` object extends the Playwright page object, so you can use any of the [Playwright page methods](https://playwright.dev/docs/api/class-page) with it.
+`page` 对象扩展自 Playwright 的页面对象，因此您可以使用任何 [Playwright 页面方法](https://playwright.dev/docs/api/class-page)。
 
-## Get structured data from the page
+## 从页面提取结构化数据
 
-You can use `extract()` to get structured data from the page.
-Here's an example of how to extract the job title from the job posting:
+您可以使用 `extract()` 从页面获取结构化数据。
+以下是提取职位发布中职位名称的示例：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -55,12 +56,12 @@ result = await page.extract("Extract the job title from the job posting")
 </CodeGroup>
 
 <Info>
-Stagehand uses [Zod](https://zod.dev/) for TypeScript and [Pydantic](https://docs.pydantic.dev/) for Python to help you define the schema of the data to be extracted.
+Stagehand 使用 [Zod](https://zod.dev/)（针对 TypeScript）和 [Pydantic](https://docs.pydantic.dev/)（针对 Python）来帮助定义待提取数据的模式。
 </Info>
 
-## Preview/Cache an action
+## 预览/缓存操作
 
-Sometimes you want to preview an action before it's executed. You can do this by calling `page.observe()` before `act()`.
+有时您希望在执行操作前进行预览。可在调用 `act()` 前使用 `page.observe()` 实现。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -82,8 +83,7 @@ await page.act(action)
 ```
 </CodeGroup>
 
-`action` will be a JSON object that describes the action to be taken.
-
+`action` 将是一个描述待执行操作的 JSON 对象。
 
 ```TypeScript
 // action is a JSON-ified version of a Playwright action:
@@ -95,27 +95,26 @@ await page.act(action)
 }
 ```
 
+有关缓存的更多信息，请参阅[缓存文档](/examples/caching)。
 
-For more on caching, see the [caching docs](/examples/caching).
+## 可以执行哪些操作？
 
-## What actions can I take?
+Stagehand 将自然语言映射到 [Playwright](https://playwright.dev) 操作。
 
-Stagehand maps natural language to [Playwright](https://playwright.dev) actions. 
-
-We generally support the following actions:
+我们通常支持以下操作：
 
 | Action | Description |
 |--------|-------------|
-| `scrollIntoView` | Scrolls an element into the visible area of the browser window |
-| `scrollTo` | Scrolls to a specific percentage of the page height |
-| `fill` | Fills in form fields with specified text |
-| `type` | Types text into input fields (alias for `fill`) |
-| `press` | Simulates pressing keyboard keys |
-| `click` | Clicks on elements matching the specified selector |
-| `nextChunk` | Scrolls the height of the viewport by 100% |
-| `prevChunk` | Scrolls the height of the viewport by -100% |
+| `scrollIntoView` | 将元素滚动到浏览器窗口的可见区域 |
+| `scrollTo` | 滚动到页面高度的特定百分比位置 |
+| `fill` | 用指定文本填充表单字段 |
+| `type` | 在输入框中输入文本（`fill`的别名） |
+| `press` | 模拟按下键盘按键 |
+| `click` | 点击匹配指定选择器的元素 |
+| `nextChunk` | 按视口高度的100%进行滚动 |
+| `prevChunk` | 按视口高度的-100%进行滚动 |
 
-Each of these actions can be triggered using natural language commands. For example:
+这些操作都可以通过自然语言命令触发。例如：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -129,5 +128,3 @@ await page.act("fill in the username field with 'john_doe'")
 await page.act("scroll the modal to the next chunk")
 ```
 </CodeGroup>
-
-

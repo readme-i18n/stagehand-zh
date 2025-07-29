@@ -1,19 +1,20 @@
 ---
-title: 'Best Practices'
-description: 'Prompting Stagehand places an emphasis on being atomic and specific. Here are some guidelines to help you use Stagehand effectively.'
+
+title: '最佳实践'
+description: 'Prompting Stagehand 强调原子性和明确性。以下指南可帮助您有效使用 Stagehand。'
 ---
 
-### Use Cursor rules for better AI suggestions
+### 使用 Cursor 规则优化 AI 建议
 
-Most of the Stagehand team uses [Cursor](https://www.cursor.com/) to write code. Cursor has a feature called [rules](https://docs.cursor.com/context/rules-for-ai) that allows you to customize the AI's behavior. You can use these rules to make the AI more accurate when suggesting actions.
+Stagehand 团队多数成员使用 [Cursor](https://www.cursor.com/) 编写代码。Cursor 的 [rules](https://docs.cursor.com/context/rules-for-ai) 功能可自定义 AI 行为，通过这些规则能提高动作建议的准确性。
 
-For Stagehand's Cursor rules, check out [this file](https://github.com/browserbase/stagehand-scaffold/blob/main/.cursorrules). 
+Stagehand 的 Cursor 规则请查看 [此文件](https://github.com/browserbase/stagehand-scaffold/blob/main/.cursorrules)。
 
-If you're using Windsurf, you can use the same rules by adding them to your `.windsurfrules` file.
+若使用 Windsurf，可将相同规则添加至 `.windsurfrules` 文件。
 
-### Avoid sending sensitive information to LLMs
+### 避免向 LLM 发送敏感信息
 
-You can use `variables` in an `act` call to avoid sending sensitive information to LLMs.
+可在 `act` 调用中使用 `variables` 来避免向 LLM 发送敏感信息。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -34,9 +35,10 @@ await page.act({
 ```
 </CodeGroup>
 
-### Preview actions before running them
-You can use `observe()` to get an action to run without running it.
-If you're satisfied with the action, you can run it with `act()` without any LLM inference.
+### 执行前预览动作
+
+使用 `observe()` 可获取动作而不执行。
+若对动作满意，可直接用 `act()` 运行而无需 LLM 推理。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -71,7 +73,7 @@ await page.act(top_action)
 ```
 </CodeGroup>
 
-You can also use `observe()` with sensitive information, like below.
+`observe()` 也可用于敏感信息场景，如下所示。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -115,7 +117,7 @@ await page.act({
 ```
 </CodeGroup>
 
-**Use `observe()` to get actionable suggestions from the current page**
+**使用 `observe()` 从当前页面获取可执行建议**
 
 <CodeGroup>
 ```typescript TypeScript
@@ -137,8 +139,9 @@ buttons = await page.observe("find all the buttons on the page")
 ```
 </CodeGroup>
 
-### Avoid broad or ambiguous instructions
-Avoid instructions that aren't specific to the current page or try to do multiple things at once.
+### 避免宽泛或模糊的指令
+
+避免使用与当前页面无关或试图同时完成多项任务的指令。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -158,7 +161,7 @@ await page.act("fill out the form and submit it")
 ```
 </CodeGroup>
 
-### Use `observe()` to get entire form values
+### 使用 `observe()` 获取完整表单值
 
 <CodeGroup>
 ```typescript TypeScript
@@ -169,7 +172,7 @@ form_values = await page.observe("get the text inputs on the page")
 ```
 </CodeGroup>
 
-This will return an array of objects with the following shape:
+该方法将返回包含以下结构的对象数组：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -191,7 +194,7 @@ This will return an array of objects with the following shape:
 ```
 </CodeGroup>
 
-You can then use these actions directly in your code.
+您可以直接在代码中使用这些操作。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -212,4 +215,4 @@ for form_value in form_values:
 ```
 </CodeGroup>
 
-For a full example, check out the example in the Stagehand repo [here](https://github.com/browserbase/stagehand/blob/main/examples/form_filling_sensible.ts).
+完整示例请查看 Stagehand 代码库中的[示例文件](https://github.com/browserbase/stagehand/blob/main/examples/form_filling_sensible.ts)。

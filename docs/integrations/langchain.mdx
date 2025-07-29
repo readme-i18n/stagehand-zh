@@ -1,26 +1,27 @@
 ---
+
 title: "Langchain JS"
-description: "Integrate Stagehand with Langchain JS"
+description: "将 Stagehand 与 Langchain JS 集成"
 icon: "brain-circuit"
 ---
 
-Stagehand can be integrated into Langchain JS by wrapping Stagehand's browser automation functionality with the `StagehandToolkit`.
+通过使用 `StagehandToolkit` 封装 Stagehand 的浏览器自动化功能，可以将其集成到 Langchain JS 中。
 
-This toolkit provides specialized tools such as `navigate`, `act`, `extract`, and `observe`, all powered by Stagehand's underlying capabilities.
+该工具包提供了一系列专用工具，包括 `navigate`、`act`、`extract` 和 `observe`，均由 Stagehand 的底层能力驱动。
 
-For more details on this integration and how to work with Langchain, see the [official Langchain documentation](https://js.langchain.com/docs/integrations/tools/stagehand/).
+有关此集成及如何与 Langchain 协作的更多详情，请参阅 [Langchain 官方文档](https://js.langchain.com/docs/integrations/tools/stagehand/)。
 
-Below is a high-level overview to get started:
+以下是入门的高级概述：
 
-## Installation
+## 安装
 
-Install the necessary packages:
+安装必要的软件包：
 
 ```bash
 npm install @langchain/langgraph @langchain/community @langchain/core @browserbasehq/stagehand
 ```
 
-## Create a Stagehand instance
+## 创建 Stagehand 实例
 
 ```typescript
 const stagehand = new Stagehand({
@@ -30,20 +31,20 @@ const stagehand = new Stagehand({
 });
 ```
 
-## Generate a Stagehand Toolkit object
+## 生成 Stagehand 工具包对象
 
 ```typescript
 const stagehandToolkit = await StagehandToolkit.fromStagehand(stagehand);
 ```
 
-## Use the tools
+## 使用工具
 
-- `stagehand_navigate`: Navigate to a specific URL.
-- `stagehand_act`: Perform browser automation tasks like clicking buttons and typing in fields.
-- `stagehand_extract`: Extract structured data from pages using Zod schemas.
-- `stagehand_observe`: Investigate the DOM for possible actions or relevant elements.
+- `stagehand_navigate`：导航至特定 URL。
+- `stagehand_act`：执行浏览器自动化任务，如点击按钮和在字段中输入内容。
+- `stagehand_extract`：使用 Zod 模式从页面提取结构化数据。
+- `stagehand_observe`：检查 DOM 以寻找可能的操作或相关元素。
 
-Example standalone usage:
+独立使用示例：
 
 ```typescript
 // Find the relevant tool
@@ -73,19 +74,19 @@ const currentUrl = stagehand.page.url();
 // e.g., ensure it contains "google.com/search"
 ```
 
-## Remote Browsers (Browserbase)
+## 远程浏览器（Browserbase）
 
-Instead of env: "LOCAL", specify env: "BROWSERBASE" and pass in your Browserbase credentials through environment variables:
-`BROWSERBASE_API_KEY`, `BROWSERBASE_PROJECT_ID`
+无需指定 env: "LOCAL"，而是指定 env: "BROWSERBASE" 并通过环境变量传入 Browserbase 凭据：
+`BROWSERBASE_API_KEY`、`BROWSERBASE_PROJECT_ID`
 
-## Using LangGraph Agents
+## 使用 LangGraph 代理
 
-The `StagehandToolkit` can also be plugged into LangGraph’s existing agent system. This lets you orchestrate more complex flows by combining Stagehand’s tools with other Langchain tools.
+`StagehandToolkit` 也可以接入 LangGraph 现有的代理系统。通过将 Stagehand 的工具与其他 Langchain 工具结合使用，您可以编排更复杂的工作流。
 
-With the `StagehandToolkit`, you can quickly integrate natural-language-driven browser automation into workflows supported by Langchain. This enables use cases such as:
+借助 `StagehandToolkit`，您可以快速将自然语言驱动的浏览器自动化集成到 Langchain 支持的工作流中。这支持以下用例：
 
-- Searching, extracting, and summarizing data from websites
-- Automating login flows
-- Navigating or clicking through forms based on instructions from a larger chain of agents
+- 从网站搜索、提取和汇总数据
+- 自动化登录流程
+- 根据更复杂的代理链指令导航或点击表单
 
-Consult Stagehand’s and Langchain’s official references for troubleshooting and advanced integrations or reach out to us on [Slack](https://stagehand.dev/slack).
+如需故障排除和高级集成，请查阅 Stagehand 和 Langchain 的官方参考文档，或通过 [Slack](https://stagehand.dev/slack) 联系我们。
