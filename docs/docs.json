@@ -9,75 +9,158 @@
   },
   "favicon": "/images/favicon.svg",
   "navigation": {
-    "groups": [
+    "languages": [
       {
-        "group": "Get Started",
-        "pages": [
-          "get_started/introduction",
-          "get_started/quickstart",
-          "get_started/integrate_stagehand"
-        ]
-      },
-      {
-        "group": "Concepts",
-        "pages": ["concepts/act", "concepts/agent"]
-      },
-      {
-        "group": "Playbooks",
-        "pages": [
-          "examples/best_practices",
-          "examples/caching",
-          "examples/running_evals",
-          "examples/nextjs",
-          "examples/custom_llms",
-          "examples/customize_browser",
-          "examples/computer_use",
-          "examples/contributing"
-        ]
-      },
-      {
-        "group": "Reference",
-        "pages": [
-          "reference/initialization_config",
-          "reference/agent",
-          "reference/act",
-          "reference/extract",
-          "reference/observe",
-          "reference/playwright_interop",
-          "integrations/guides"
-        ]
-      },
-      {
-        "group": "Integrations",
-        "pages": [
+        "language": "en",
+        "groups": [
           {
-            "group": "MCP Server",
+            "group": "Get Started",
             "pages": [
-              "integrations/mcp/introduction",
-              "integrations/mcp/setup",
-              "integrations/mcp/tools",
-              "integrations/mcp/configuration"
+              "get_started/introduction",
+              "get_started/quickstart",
+              "get_started/integrate_stagehand"
             ]
           },
-          "integrations/langchain",
-          "integrations/crew-ai"
-        ]
-      }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Changelog",
-          "href": "https://github.com/browserbase/stagehand/releases",
-          "icon": "scroll"
-        },
-        {
-          "anchor": "Reference",
-          "href": "https://docs.stagehand.dev/reference/introduction",
-          "icon": "code"
+          {
+            "group": "Concepts",
+            "pages": [
+              "concepts/act",
+              "concepts/agent"
+            ]
+          },
+          {
+            "group": "Playbooks",
+            "pages": [
+              "examples/best_practices",
+              "examples/caching",
+              "examples/running_evals",
+              "examples/nextjs",
+              "examples/custom_llms",
+              "examples/customize_browser",
+              "examples/computer_use",
+              "examples/contributing"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "reference/initialization_config",
+              "reference/agent",
+              "reference/act",
+              "reference/extract",
+              "reference/observe",
+              "reference/playwright_interop",
+              "integrations/guides"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              {
+                "group": "MCP Server",
+                "pages": [
+                  "integrations/mcp/introduction",
+                  "integrations/mcp/setup",
+                  "integrations/mcp/tools",
+                  "integrations/mcp/configuration"
+                ]
+              },
+              "integrations/langchain",
+              "integrations/crew-ai"
+            ]
+          }
+        ],
+        "global": {
+          "anchors": [
+            {
+              "anchor": "Changelog",
+              "href": "https://github.com/browserbase/stagehand/releases",
+              "icon": "scroll"
+            },
+            {
+              "anchor": "Reference",
+              "href": "https://docs.stagehand.dev/reference/introduction",
+              "icon": "code"
+            }
+          ]
         }
-      ]
-    }
+      },
+      {
+        "language": "zh",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "zh/get_started/introduction",
+              "zh/get_started/quickstart",
+              "zh/get_started/integrate_stagehand"
+            ]
+          },
+          {
+            "group": "Concepts",
+            "pages": [
+              "zh/concepts/act",
+              "zh/concepts/agent"
+            ]
+          },
+          {
+            "group": "Playbooks",
+            "pages": [
+              "zh/examples/best_practices",
+              "zh/examples/caching",
+              "zh/examples/running_evals",
+              "zh/examples/nextjs",
+              "zh/examples/custom_llms",
+              "zh/examples/customize_browser",
+              "zh/examples/computer_use",
+              "zh/examples/contributing"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "zh/reference/initialization_config",
+              "zh/reference/agent",
+              "zh/reference/act",
+              "zh/reference/extract",
+              "zh/reference/observe",
+              "zh/reference/playwright_interop",
+              "zh/integrations/guides"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              {
+                "group": "MCP Server",
+                "pages": [
+                  "zh/integrations/mcp/introduction",
+                  "zh/integrations/mcp/setup",
+                  "zh/integrations/mcp/tools",
+                  "zh/integrations/mcp/configuration"
+                ]
+              },
+              "zh/integrations/langchain",
+              "zh/integrations/crew-ai"
+            ]
+          }
+        ],
+        "global": {
+          "anchors": [
+            {
+              "anchor": "Changelog",
+              "href": "https://github.com/browserbase/stagehand/releases",
+              "icon": "scroll"
+            },
+            {
+              "anchor": "Reference",
+              "href": "https://docs.stagehand.dev/reference/introduction",
+              "icon": "code"
+            }
+          ]
+        }
+      }
+    ]
   },
   "logo": {
     "light": "/logo/light_logo.png",

@@ -1,0 +1,158 @@
+---
+
+title: Next.js 中的 Stagehand
+description: Next.js 是用于开发生产级 Web 应用程序的热门框架，它为 [Director](https://director.ai)、[Brainrot](https://brainrot.run) 和 [Open Operator](https://operator.browserbase.com) 等 Stagehand 应用提供支持。
+---
+
+<Card
+  title="查看 Stagehand Next.js 快速入门"
+  icon="github"
+  href="https://github.com/browserbase/stagehand-nextjs-quickstart"
+>
+  克隆我们的 [GitHub 仓库](https://github.com/browserbase/stagehand-nextjs-quickstart) 即可开始使用 Next.js 中的 Stagehand。
+</Card>
+
+## 在现有 Next.js 项目中添加 Stagehand
+
+如需在现有 Next.js 项目中添加 Stagehand，可通过安装以下依赖实现：
+
+<Tabs>
+	<Tab title="npm">
+	```bash
+	npm install @browserbasehq/stagehand @browserbasehq/sdk playwright zod
+	```
+	</Tab>
+
+	<Tab title="pnpm">
+	```bash
+	pnpm add @browserbasehq/stagehand @browserbasehq/sdk playwright zod
+	```
+	</Tab>
+
+	<Tab title="yarn">
+	```bash
+	yarn add @browserbasehq/stagehand @browserbasehq/sdk playwright zod
+	```
+	</Tab>
+</Tabs>
+
+### 编写服务端动作
+
+接下来，我们在 `app/stagehand/main.ts` 中将 `main` 函数定义为服务端动作。该文件包含以下三个函数：
+
+1. **`main`: 运行 Stagehand 主脚本**
+2. **`runStagehand`: 初始化并运行 `main` 函数**
+3. **`startBBSSession`: 启动 Browserbase 会话**
+
+```ts app/stagehand/main.ts
+// 🤘 Welcome to Stagehand!
+// This file is from the [Stagehand docs](https://docs.stagehand.dev/sections/examples/nextjs).
+
+"use server";
+
+import { Stagehand } from "@browserbasehq/stagehand";
+import { z } from "zod";
+import { Browserbase } from "@browserbasehq/sdk";
+
+/**
+ * Run the main Stagehand script
+ */
+async function main(stagehand: Stagehand) {
+  // You can use the `page` instance to write any Playwright code
+  // For more info: https://playwright.dev/docs/pom
+  const page = stagehand.page;
+
+  // In this example, we'll get the title of the Stagehand quickstart page
+  await page.goto("https://docs.stagehand.dev/");
+  await page.act("click the quickstart link");
+  const { title } = await page.extract({
+    instruction: "extract the main heading of the page",
+    schema: z.object({
+      title: z.string(),
+    }),
+  });
+
+  return title;
+}
+
+/**
+ * Initialize and run the main() function
+ */
+export async function runStagehand(sessionId?: string) {
+  const stagehand = new Stagehand({
+    env: "BROWSERBASE",
+    apiKey: process.env.BROWSERBASE_API_KEY,
+    projectId: process.env.BROWSERBASE_PROJECT_ID,
+    verbose: 1,
+    logger: console.log,
+    browserbaseSessionID: sessionId,
+    disablePino: true,
+  });
+  await stagehand.init();
+  await main(stagehand);
+  await stagehand.close();
+}
+
+/**
+ * Start a Browserbase session
+ */
+export async function startBBSSession() {
+  const browserbase = new Browserbase();
+  const session = await browserbase.sessions.create({
+    projectId: process.env.BROWSERBASE_PROJECT_ID!,
+  });
+  const debugUrl = await browserbase.sessions.debug(session.id);
+  return {
+    sessionId: session.id,
+    debugUrl: debugUrl.debuggerFullscreenUrl,
+  };
+}
+```
+
+### 创建客户端组件
+
+接下来，我们将创建一个客户端组件，用于启动 Browserbase 会话并运行我们刚定义的服务器动作中的 `main` 函数。首先创建 Browserbase 会话并将其嵌入 iframe，然后再执行 `main` 函数。
+
+```tsx app/components/stagehandEmbed.tsx
+"use client";
+
+import { useCallback, useState } from "react";
+import { runStagehand, startBBSSession } from "@/app/stagehand/main";
+
+export function StagehandEmbed() {
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [debugUrl, setDebugUrl] = useState<string | null>(null);
+
+  const startSession = useCallback(async () => {
+    const { sessionId, debugUrl } = await startBBSSession();
+    setSessionId(sessionId);
+    setDebugUrl(debugUrl);
+    await runStagehand(sessionId);
+  }, []);
+
+  return (
+    <div>
+      {!sessionId && <button onClick={startSession}>Start Session</button>}
+      {sessionId && debugUrl && (
+        <iframe src={debugUrl} className="w-full h-full" />
+      )}
+    </div>
+  );
+}
+```
+
+### 使用 `StagehandEmbed` 组件
+
+现在，我们可以在应用中使用 `StagehandEmbed` 组件。
+
+```tsx app/page.tsx
+import { StagehandEmbed } from "@/app/components/stagehandEmbed";
+
+export default function Home() {
+	return (
+		<main>
+			<StagehandEmbed />
+		</main>
+	)
+}
+```

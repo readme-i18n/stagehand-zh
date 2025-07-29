@@ -1,0 +1,356 @@
+---
+
+title: '快速开始'
+icon: 'rocket'
+---
+
+只需1分钟即可开始使用Stagehand！请从下方选择您偏好的语言。
+
+<Tip>
+对于TypeScript/Node.js：我们强烈建议使用Node.js运行时环境来运行Stagehand脚本，而非Deno或Bun等新方案。
+
+**Bun不支持Stagehand**，因其不兼容[Playwright](https://github.com/search?q=repo:oven-sh/bun+playwright&type=issues)。
+
+对于Python：要求Python 3.9+版本，并推荐使用[uv](https://docs.astral.sh/uv/)管理虚拟环境。
+</Tip>
+
+<Tabs>
+<Tab title="TypeScript">
+在开始之前，您需要安装 Node.js 和 NPM。我们强烈推荐使用 [nvm](https://github.com/nvm-sh/nvm) 来管理 Node.js 版本，并运行 Node 20+ 版本。
+
+<Steps>
+
+<Step title="创建新项目">
+
+您可以使用 [npx](https://docs.npmjs.com/cli/v8/commands/npx) 创建新项目。Node.js 默认的包管理器 `npm` 已包含 npx。
+
+<Tabs>
+	<Tab title="npm">
+	```bash
+	npx create-browser-app
+	```
+	</Tab>
+
+	<Tab title="pnpm">
+	```bash
+	pnpm create browser-app
+	```
+	</Tab>
+
+	<Tab title="yarn">
+	```bash
+	yarn create browser-app
+	```
+	</Tab>
+</Tabs>
+
+要在 Stagehand 中使用我们的 [Contexts](https://docs.browserbase.com/features/contexts) 功能，请运行：
+
+<Tabs>
+	<Tab title="npm">
+	```bash
+	npx create-browser-app --example persist-context
+	```
+	</Tab>
+
+	<Tab title="pnpm">
+	```bash
+	pnpm create browser-app --example persist-context
+	```
+	</Tab>
+
+	<Tab title="yarn">
+	```bash
+	yarn create browser-app --example persist-context
+	```
+	</Tab>
+</Tabs>
+
+只需一行命令即可将 Stagehand 脚本部署到 [Vercel](https://vercel.com/)！运行：
+
+<Tabs>
+	<Tab title="npm">
+	```bash
+	npx create-browser-app --example deploy-vercel
+	npx vercel deploy
+	```
+	</Tab>
+
+	<Tab title="pnpm">
+	```bash
+	pnpm create browser-app --example deploy-vercel
+	```
+	</Tab>
+
+	<Tab title="yarn">
+	```bash
+	yarn create browser-app --example deploy-vercel
+	```
+	</Tab>
+</Tabs>
+
+我们还提供了一个使用 CUA 代理的示例，让 OpenAI Operator 与 Anthropic 的 Claude Computer 进行激烈的国际象棋对弈。仅需十行 Stagehand 代码即可实现，尝试运行：
+
+<Tabs>
+	<Tab title="npm">
+	```bash
+	npx create-browser-app --example chess
+	```
+	</Tab>
+
+	<Tab title="pnpm">
+	```bash
+	pnpm create browser-app --example chess
+	```
+	</Tab>
+
+	<Tab title="yarn">
+	```bash
+	yarn create browser-app --example chess
+	```
+	</Tab>
+</Tabs>
+
+您也可以使用尚未发布的 main 分支版本。这将包含最前沿的功能，但可能尚未完全准备好用于生产环境。测试此版本请运行：
+
+<Tabs>
+	<Tab title="npm">
+	```bash
+	npx create-browser-app --alpha
+	```
+	</Tab>
+
+	<Tab title="pnpm">
+	```bash
+	pnpm create browser-app --alpha
+	```
+	</Tab>
+
+	<Tab title="yarn">
+	```bash
+	yarn create browser-app --alpha
+	```
+	</Tab>
+</Tabs>
+系统将询问以下问题：
+```
+✔ 项目名称是什么？ my-app
+✔ 是否从快速入门示例开始？ 是
+✔ 选择 AI 模型：Anthropic Claude 3.7 Sonnet
+✔ 本地运行还是在 Browserbase 上运行？ 本地
+✔ 以无头模式运行浏览器（隐藏 Chromium 弹窗）？ 否
+```
+
+</Step>
+
+<Step title="安装依赖并运行脚本">
+<Tabs>
+	<Tab title="npm">
+	```bash
+	cd my-app
+	npm install
+	npm run start
+	```
+	</Tab>
+
+	<Tab title="pnpm">
+	```bash
+	cd my-app
+	pnpm install
+	pnpm run start
+	```
+	</Tab>
+
+	<Tab title="yarn">
+	```bash
+	cd my-app
+	yarn install
+	yarn start
+	```
+	</Tab>
+</Tabs>
+
+使用您选择的包管理器安装依赖。我们还包含一个 `postinstall` 脚本，会自动通过 `playwright install` 安装 Playwright 浏览器。
+</Step>
+</Steps>
+
+### 在现有项目中添加 Stagehand：
+
+<Steps>
+
+<Step title="安装 Stagehand">
+
+```bash
+npm install @browserbasehq/stagehand
+```
+
+</Step>
+
+<Step title="设置环境变量">
+
+创建 `.env` 文件或导出环境变量：
+
+```bash
+export BROWSERBASE_API_KEY="your_browserbase_api_key"
+export BROWSERBASE_PROJECT_ID="your_browserbase_project_id"
+export OPENAI_API_KEY="your_openai_api_key"  # 可配置为其他模型
+```
+
+</Step>
+
+<Step title="创建第一个脚本">
+
+创建文件 `index.ts`：
+
+```typescript
+// index.ts
+import { Stagehand, ConstructorParams } from "@browserbasehq/stagehand";
+import dotenv from "dotenv";
+import { z } from "zod";
+
+dotenv.config();
+
+export async function main() {
+  const config: ConstructorParams = {
+    env: "BROWSERBASE", // 或 "LOCAL"
+    apiKey: process.env.BROWSERBASE_API_KEY,
+    projectId: process.env.BROWSERBASE_PROJECT_ID,
+    verbose: 1,
+  };
+
+  const stagehand = new Stagehand(config);
+
+  try {
+    await stagehand.init();
+    const page = stagehand.page;
+
+    await page.goto("https://docs.stagehand.dev/");
+    await page.act("click the quickstart link");
+
+    const result = await page.extract({
+      instruction: "extract the main heading of the page",
+      schema: z.object({
+        heading: z.string(),
+      }),
+    });
+
+    console.log(`Extracted: ${result.heading}`);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await stagehand.close();
+  }
+}
+
+main();
+```
+</Step>
+
+<Step title="运行脚本">
+
+```bash
+npx tsx index.ts
+```
+
+</Step>
+</Steps>
+
+</Tab>
+
+<Tab title="Python">
+开始前请确保已安装 Python 3.9+。推荐使用 [uv](https://docs.astral.sh/uv/) 管理虚拟环境。
+
+<Steps>
+<Step title="安装 Stagehand Python">
+
+```bash
+pip install stagehand
+```
+
+</Step>
+
+<Step title="设置环境变量">
+
+创建 `.env` 文件或导出环境变量：
+
+```bash
+export BROWSERBASE_API_KEY="your_browserbase_api_key"
+export BROWSERBASE_PROJECT_ID="your_browserbase_project_id"
+export MODEL_API_KEY="your_model_api_key"  # OpenAI, Anthropic 等
+```
+
+</Step>
+
+<Step title="创建第一个脚本">
+
+创建文件 `main.py`：
+
+```python
+import asyncio
+import os
+from stagehand import Stagehand, StagehandConfig
+from dotenv import load_dotenv
+
+load_dotenv()
+
+async def main():
+    config = StagehandConfig(
+        env="BROWSERBASE",
+        api_key=os.getenv("BROWSERBASE_API_KEY"),
+        project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
+        model_name="gpt-4o",
+        model_api_key=os.getenv("MODEL_API_KEY")
+    )
+    
+    stagehand = Stagehand(config)
+    
+    try:
+        await stagehand.init()
+        page = stagehand.page
+        
+        await page.goto("https://docs.stagehand.dev/")
+        await page.act("click the quickstart link")
+        
+        result = await page.extract("extract the main heading of the page")
+        
+        print(f"Extracted: {result}")
+        
+    finally:
+        await stagehand.close()
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+</Step>
+
+<Step title="运行脚本">
+
+```bash
+python main.py
+```
+
+</Step>
+</Steps>
+
+</Tab>
+</Tabs>
+
+**下一步**
+
+<CardGroup cols={2}>
+<Card
+  title="查看 TypeScript 代码库"
+  icon="github"
+  href="https://github.com/browserbase/stagehand"
+>
+  如果你是 TypeScript 开发者，可以查看 Stagehand 的 TypeScript 代码库。欢迎提交 PR！
+</Card>
+
+<Card
+  title="查看 Python 代码库"
+  icon="github"
+  href="https://github.com/browserbase/stagehand-python"
+>
+  Stagehand 现已支持 Python！该 Python 代码库刚刚发布，非常欢迎提交 PR！
+</Card>
+</CardGroup>
