@@ -1,0 +1,159 @@
+---
+
+title: 'Act'
+description: '在当前页面上执行操作'
+icon: 'arrow-pointer'
+---
+
+<CodeGroup>
+```typescript TypeScript
+await page.act("click on add to cart");
+```
+
+```python Python
+await page.act("click on add to cart")
+```
+</CodeGroup>
+
+`act()` 允许 Stagehand 与网页进行交互。提供类似 `"点击加入购物车按钮"` 或 `"在搜索栏输入'Browserbase'"` 这样的 `action` 指令。
+
+您可以定义不会与LLM提供商共享的变量
+
+<CodeGroup>
+```typescript TypeScript
+await page.act({
+  action: "fill in the form with %username% and %password%",
+  variables: {
+    username: "john.doe",
+    password: "secretpass123",
+  },
+});
+```
+
+```python Python
+await page.act({
+  "fill in the form with %username% and %password%",
+  variables={
+    "username": "john.doe",
+    "password": "secretpass123",
+  },
+})
+```
+</CodeGroup>
+
+小而独立的目标能获得最佳性能。避免使用 `act()` 执行复杂操作。对于多步骤操作，请改用 [`Agent`](/reference/agent)。
+
+<Tip>
+可以向 `act()` 传递 `ObserveResult` 来执行建议的操作，这将获得更快且成本更低的结果（无需LLM推理）。
+</Tip>
+
+### **参数:** [`ActOptions`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)  |  [`ObserveResult`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
+
+<Tabs>
+<Tab title="TypeScript">
+`ActOptions`:
+  <ParamField path="action" type="string" required>
+    描述要执行的操作
+  </ParamField>
+
+  <ParamField path="modelName" type="AvailableModel" optional>
+    指定使用的模型
+  </ParamField>
+
+  <ParamField path="modelClientOptions" type="object" optional>
+    模型客户端的配置选项
+  </ParamField>
+
+  <ParamField path="variables" type="Record<string, string>" optional>
+    操作中使用的变量。在操作字符串中通过%variable_name%引用变量
+  </ParamField>
+
+  <ParamField path="iframes" type="boolean" optional>
+    如果目标元素位于iframe内，请设置`iframes: true`
+  </ParamField>
+
+  <ParamField path="domSettleTimeoutMs" type="number" optional>
+    等待DOM稳定的超时时间（毫秒）
+  </ParamField>
+
+  <ParamField path="timeoutMs" type="number" optional>
+      执行操作的超时时间（毫秒）
+  </ParamField>
+
+`ObserveResult`:
+ <ParamField path="selector" type="string" required>
+    表示元素选择器的字符串
+  </ParamField>
+
+  <ParamField path="description" type="string" required>
+    描述可能操作的字符串
+  </ParamField>
+
+  <ParamField path="method" type="string" required>
+    在元素上调用的方法
+  </ParamField>
+
+  <ParamField path="arguments" type="object" required>
+    传递给方法的参数
+  </ParamField>
+</Tab>
+
+<Tab title="Python">
+
+`ActOptions`:
+  <ParamField path="action" type="string" required>
+    描述要执行的操作
+  </ParamField>
+
+  <ParamField path="model_name" type="string" optional>
+    指定使用的模型
+  </ParamField>
+
+  <ParamField path="model_client_options" type="dict" optional>
+    模型客户端的配置选项
+  </ParamField>
+
+  <ParamField path="variables" type="dict" optional>
+    操作中使用的变量。在操作字符串中通过%variable_name%引用变量
+  </ParamField>
+
+  <ParamField path="dom_settle_timeout_ms" type="int" optional>
+    等待DOM稳定的超时时间（毫秒）
+  </ParamField>
+
+  <ParamField path="timeout_ms" type="int" optional>
+      执行操作的超时时间（毫秒）
+  </ParamField>
+
+`ObserveResult`:
+ <ParamField path="selector" type="string" required>
+    表示元素选择器的字符串
+  </ParamField>
+
+  <ParamField path="description" type="string" required>
+    描述可能操作的字符串
+  </ParamField>
+
+  <ParamField path="method" type="string" required>
+    在元素上调用的方法
+  </ParamField>
+
+  <ParamField path="arguments" type="object" required>
+    传递给方法的参数
+  </ParamField>
+</Tab>
+</Tabs>
+
+### **返回值:** [`Promise<ActResult>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
+
+<ParamField path="success" type="boolean" required>
+    操作是否成功完成
+  </ParamField>
+
+<ParamField path="message" type="string" required>
+    操作执行的详细信息
+  </ParamField>
+
+<ParamField path="action" type="string" required>
+    执行的操作名称
+  </ParamField>

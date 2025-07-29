@@ -1,0 +1,218 @@
+---
+
+title: '最佳实践'
+description: 'Prompting Stagehand 强调原子性和明确性。以下指南可帮助您有效使用 Stagehand。'
+---
+
+### 使用 Cursor 规则优化 AI 建议
+
+Stagehand 团队多数成员使用 [Cursor](https://www.cursor.com/) 编写代码。Cursor 的 [rules](https://docs.cursor.com/context/rules-for-ai) 功能可自定义 AI 行为，通过这些规则能提高动作建议的准确性。
+
+Stagehand 的 Cursor 规则请查看 [此文件](https://github.com/browserbase/stagehand-scaffold/blob/main/.cursorrules)。
+
+若使用 Windsurf，可将相同规则添加至 `.windsurfrules` 文件。
+
+### 避免向 LLM 发送敏感信息
+
+可在 `act` 调用中使用 `variables` 来避免向 LLM 发送敏感信息。
+
+<CodeGroup>
+```typescript TypeScript
+await page.act({
+	action: "Type %email% into the email field",
+	variables: {
+		email: "john.doe@example.com",
+	},
+});
+```
+```python Python
+await page.act({
+	"Type %email% into the email field",
+	variables={
+		"email": "john.doe@example.com",
+	}
+})
+```
+</CodeGroup>
+
+### 执行前预览动作
+
+使用 `observe()` 可获取动作而不执行。
+若对动作满意，可直接用 `act()` 运行而无需 LLM 推理。
+
+<CodeGroup>
+```typescript TypeScript
+const [topAction] = await page.observe("Click the quickstart link");
+
+/** The action will map 1:1 with a Playwright action:
+{
+	description: "The quickstart link",
+	method: "click",
+	selector: "/html/body/div[1]/div[1]/a",
+	arguments: [],
+}
+**/
+
+// NO LLM INFERENCE on observe results
+await page.act(topAction)
+```
+```python Python
+actions = await page.observe("Click the quickstart link")
+top_action = actions[0]
+
+# The action will map 1:1 with a Playwright action:
+# {
+#		"description": "The quickstart link",
+#		"method": "click",
+#		"selector": "/html/body/div[1]/div[1]/a",
+#		"arguments": [],
+# }
+
+# NO LLM INFERENCE on observe results
+await page.act(top_action)
+```
+</CodeGroup>
+
+`observe()` 也可用于敏感信息场景，如下所示。
+
+<CodeGroup>
+```typescript TypeScript
+const [topAction] = await page.observe("Type %email% into the email field");
+
+/** The observe result will be an object with the following shape:
+{
+	description: "The email input field",
+	method: "type",
+	selector: "/html/body/div[1]/div[1]/input",
+	arguments: ["%email%"],
+}
+*/
+
+await page.act({
+	...topAction,
+	// This prevents LLMs from seeing sensitive information
+	// No LLM inference is taken on observe results
+	arguments: [sensitiveEmail],
+})
+```
+
+```python Python
+actions = await page.observe("Type %email% into the email field")
+top_action = actions[0]
+
+# The observe result will be a dictionary with the following shape:
+# {
+#		"description": "The email input field",
+#		"method": "type",
+#		"selector": "/html/body/div[1]/div[1]/input",
+#		"arguments": ["%email%"],
+# }
+
+await page.act({
+	**top_action,
+	# This prevents LLMs from seeing sensitive information
+	# No LLM inference is taken on observe results
+	"arguments": [sensitive_email],
+})
+```
+</CodeGroup>
+
+**使用 `observe()` 从当前页面获取可执行建议**
+
+<CodeGroup>
+```typescript TypeScript
+const actions = await page.observe();
+console.log("Possible actions:", actions);
+
+// You can also use `observe()` with a custom prompt
+const buttons = await page.observe({
+	instruction: "find all the buttons on the page",
+});
+```
+
+```python Python
+actions = await page.observe()
+print("Possible actions:", actions)
+
+# You can also use `observe()` with a custom prompt
+buttons = await page.observe("find all the buttons on the page")
+```
+</CodeGroup>
+
+### 避免宽泛或模糊的指令
+
+避免使用与当前页面无关或试图同时完成多项任务的指令。
+
+<CodeGroup>
+```typescript TypeScript
+// Too vague
+await page.act({ action: "find something interesting on the page" });
+
+// Avoid combining actions
+await page.act({ action: "fill out the form and submit it" });
+```
+
+```python Python
+# Too vague
+await page.act("find something interesting on the page")
+
+# Avoid combining actions
+await page.act("fill out the form and submit it")
+```
+</CodeGroup>
+
+### 使用 `observe()` 获取完整表单值
+
+<CodeGroup>
+```typescript TypeScript
+const formValues = await page.observe("get the text inputs on the page");
+```
+```python Python
+form_values = await page.observe("get the text inputs on the page")
+```
+</CodeGroup>
+
+该方法将返回包含以下结构的对象数组：
+
+<CodeGroup>
+```typescript TypeScript
+{
+	description: "The text input field",
+	method: "type",
+	selector: "/html/body/div[1]/div[1]/input",
+	arguments: ["some text"],
+}
+```
+
+```python Python
+{
+	"description": "The text input field",
+	"method": "type",
+	"selector": "/html/body/div[1]/div[1]/input",
+	"arguments": ["some text"],
+}
+```
+</CodeGroup>
+
+您可以直接在代码中使用这些操作。
+
+<CodeGroup>
+```typescript TypeScript
+for (const formValue of formValues) {
+	await page.act({
+		...formValue,
+		arguments: [yourValueHere],
+	});
+}
+```
+
+```python Python
+for form_value in form_values:
+	await page.act({
+		**form_value,
+		"arguments": [your_value_here],
+	})
+```
+</CodeGroup>
+
+完整示例请查看 Stagehand 代码库中的[示例文件](https://github.com/browserbase/stagehand/blob/main/examples/form_filling_sensible.ts)。

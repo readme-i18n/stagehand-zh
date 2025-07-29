@@ -1,0 +1,53 @@
+---
+
+title: 'Contribute to Stagehand'
+description: '为 Stagehand 项目做出有效贡献的最佳实践'
+---
+
+# 代码所有者与领域专家
+
+所有贡献必须获得代码所有者的明确批准。Stagehand 官方指定的代码所有者如下：
+
+- [**Paul Klein**](https://github.com/pkiv)
+- [**Miguel Gonzalez**](https://github.com/miguelg719)
+- [**Sean McGuire**](https://github.com/seanmcguire12)
+- [**Anirudh Kamath**](https://github.com/kamath)
+- [**Sameel Arif**](https://github.com/sameelarif)
+- [**Filip Michalsky**](https://github.com/filip-michalsky)
+
+特别感谢 [Jeremy Press](https://github.com/jeremypress)、[Navid Pour](https://github.com/navidkpr) 以及 [所有贡献者](https://github.com/browserbase/stagehand/graphs/contributors) 帮助 Stagehand 成为最优秀的浏览器自动化框架。
+
+***欢迎随时通过 [公开 Slack 频道](https://join.slack.com/t/stagehand-dev/shared_invite/zt-38khc8iv5-T2acb50_0OILUaX7lxeBOg) 联系上述任何成员***
+
+## 通用工作流程
+
+成为 [我们敬爱的贡献者之一](https://github.com/browserbase/stagehand/graphs/contributors)！
+
+1. **在开始前讨论你的贡献提案**。若不事先沟通，你可能会面临辛苦付出的成果被完全弃用的风险。你可以通过 [Slack](https://stagehand.dev/slack) 私信 Miguel 预约一对一通话。
+2. **提交 Pull Request**。创建本仓库的分支，并按照 [GitHub 创建 Pull Request 的指南](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) 操作。这将允许我们的团队审核你的贡献并留下反馈。
+3. **等待审核**。我们会尽快处理你的贡献。若 2-3 天后仍未收到任何回复，可通过 [Slack](https://stagehand.dev/slack) 私信 Miguel。
+4. **合并至 `evals` 分支**。为防止滥用，我们不允许外部贡献者 [通过 GitHub Actions 运行我们的 CI](https://github.com/browserbase/stagehand/blob/main/.github/workflows/ci.yml)。若你的贡献通过初步筛选，我们将为其运行评估测试：
+    1. 默认情况下，所有 PR 都会运行以下测试（你也可以在仓库源码中执行）：
+        1. 代码检查 (`npm run lint`) - 运行 `prettier` 和 `eslint`。若失败，通常执行 `npm run format` 即可修复简单格式问题
+        2. 构建 (`npm run build`) - 通过 `tsup` 执行 TS → JS 的代码检查和构建，输出至 `dist/` 目录
+        3. 端到端测试 (`npm run e2e`) - 使用 Playwright 运行确定性端到端测试，确保 [`stagehand.page`](http://stagehand.page) 和 `stagehand.context` 的基础功能完整性以及与 Browserbase API 的兼容性
+        4. 组合测试 (`npm run evals category combination`) - 运行基于 AI 的端到端测试，组合测试 `act`、`extract` 和 `observe` 功能
+    2. 若修改涉及 `act`、`extract` 或 `observe` 核心功能，我们可能额外运行专项评估以确保现有功能不会显著退化
+    
+    ![CI](/images/CI.png)
+    
+5. **代码清理并合并至主分支**。进入 `evals` 分支后，原贡献者将无法继续修改。Stagehand 内部团队将负责代码清理并合并至主分支。
+
+## 贡献指南
+
+1. **使用草稿PR**。如果您的PR仍在开发中，请先将其转为草稿状态（操作见下图），待准备就绪后再标记为待审/添加审阅者。这有助于减少审阅队列中的杂乱条目。
+    
+    ![草稿PR](/images/pr_draft.png)
+    
+2. **提供可复现的测试方案**。包含评估用例（推荐）或示例。若无法运行任何专门体现您贡献的测试内容，我们将无法合并PR。
+    1. 在[`evals/tasks`](https://github.com/browserbase/stagehand/tree/main/evals/tasks)目录创建脚本文件`someTask.ts`
+    2. 将脚本添加到[`evals.config.json`](https://github.com/browserbase/stagehand/blob/main/evals/evals.config.json)，默认分类设为`combination`（若仅测试*act/extract/observe*功能则选择对应分类）
+3. **添加变更集**。在TS项目中运行`npx changeset`或在Python项目中运行`uvx changeset`，变更将直接体现在下个版本的`CHANGELOG`中。
+    1. `patch` - 不涉及面向终端用户的新功能
+    2. `minor` - 包含面向终端用户的新功能（如新增函数参数、暴露新类型等）
+    3. `major` - 您不应提交重大变更

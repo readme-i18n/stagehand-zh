@@ -1,0 +1,276 @@
+---
+
+title: "CrewAI 集成"
+description: "使用自然语言指令通过 CrewAI 自动化浏览器任务"
+icon: "people-group"
+---
+
+该工具将 Stagehand Python SDK 与 CrewAI 集成，使智能体能够通过自然语言指令与网站交互并自动化浏览器任务。
+
+## 功能描述
+
+StagehandTool 封装了 Stagehand Python SDK，为 CrewAI 智能体提供控制真实浏览器并与网站交互的三大核心功能：
+
+1. **操作**：执行点击、输入或导航等动作
+2. **提取**：从网页中提取结构化数据
+3. **观察**：识别并分析页面元素
+
+## 系统要求
+
+使用前需准备：
+
+1. 拥有 API 密钥和项目 ID 的 [Browserbase](https://www.browserbase.com/) 账户
+2. 大语言模型（OpenAI 或 Anthropic Claude）的 API 密钥
+3. 已安装 Stagehand Python SDK
+
+安装依赖：
+
+```bash
+pip install stagehand-py crewai crewai-tools
+```
+
+## 使用指南
+
+### 基础用法
+
+```python
+from crewai import Agent, Task, Crew
+from crewai_tools import StagehandTool
+from stagehand.schemas import AvailableModel
+
+# Initialize the tool with your API keys
+stagehand_tool = StagehandTool(
+    api_key="your-browserbase-api-key",
+    project_id="your-browserbase-project-id",
+    model_api_key="your-llm-api-key",  # OpenAI or Anthropic API key
+    model_name=AvailableModel.CLAUDE_3_7_SONNET_LATEST,  # Optional: specify which model to use
+)
+
+# Create an agent with the tool
+researcher = Agent(
+    role="Web Researcher",
+    goal="Find and summarize information from websites",
+    backstory="I'm an expert at finding information online.",
+    verbose=True,
+    tools=[stagehand_tool],
+)
+
+# Create a task that uses the tool
+research_task = Task(
+    description="Go to https://www.example.com and tell me what you see on the homepage.",
+    agent=researcher,
+)
+
+# Run the crew
+crew = Crew(
+    agents=[researcher],
+    tasks=[research_task],
+    verbose=True,
+)
+
+result = crew.kickoff()
+print(result)
+```
+
+## 命令类型
+
+StagehandTool 支持三种命令类型，分别针对不同的网页自动化任务：
+
+### 1. 操作 - 在页面上执行动作
+
+默认的 `act` 命令类型允许智能体在网页上执行操作，例如点击按钮、填写表单、页面导航等。
+
+**使用场景**：当需要通过点击、输入、滚动或导航等方式与网页交互时使用 `act` 命令。
+
+**示例用法**:
+
+```python
+# Perform an action (default behavior)
+result = stagehand_tool.run(
+    instruction="Click the login button", 
+    url="https://example.com",
+    command_type="act"  # Default, so can be omitted
+)
+
+# Fill out a form
+result = stagehand_tool.run(
+    instruction="Fill the contact form with name 'John Doe', email 'john@example.com', and message 'Hello world'", 
+    url="https://example.com/contact"
+)
+
+# Multiple actions in sequence
+result = stagehand_tool.run(
+    instruction="Search for 'AI tools' in the search box and press Enter", 
+    url="https://example.com"
+)
+```
+
+### 2. 提取 - 从页面获取数据
+
+`extract` 命令类型允许代理从网页中提取结构化数据，例如产品信息、文章文本或表格数据。
+
+**使用场景**：当需要以结构化格式从网页检索特定信息时，使用 `extract`。
+
+**示例用法**:
+
+```python
+# Extract all product information
+result = stagehand_tool.run(
+    instruction="Extract all product names, prices, and descriptions", 
+    url="https://example.com/products",
+    command_type="extract"
+)
+
+# Extract specific information with a selector
+result = stagehand_tool.run(
+    instruction="Extract the main article title and content", 
+    url="https://example.com/blog/article",
+    command_type="extract",
+    selector=".article-container"  # Optional CSS selector to limit extraction scope
+)
+
+# Extract tabular data
+result = stagehand_tool.run(
+    instruction="Extract the data from the pricing table as a structured list of plans with their features and costs", 
+    url="https://example.com/pricing",
+    command_type="extract",
+    selector=".pricing-table"
+)
+```
+
+### 3. 观察 - 识别页面元素
+
+`observe` 命令类型允许代理识别和分析网页上的特定元素，返回有关其属性、位置和建议操作的信息。
+
+**使用场景**：当需要识别UI元素、理解页面结构或确定可能的操作时，使用 `observe`。
+
+**示例用法**:
+
+```python
+# Find interactive elements
+result = stagehand_tool.run(
+    instruction="Find all interactive elements in the navigation menu", 
+    url="https://example.com",
+    command_type="observe"
+)
+
+# Identify form fields
+result = stagehand_tool.run(
+    instruction="Identify all the input fields in the registration form", 
+    url="https://example.com/register",
+    command_type="observe",
+    selector="#registration-form"
+)
+
+# Analyze page structure
+result = stagehand_tool.run(
+    instruction="Find the main content sections of this page", 
+    url="https://example.com/about",
+    command_type="observe"
+)
+```
+
+## 高级配置
+
+您可以通过指定不同参数来自定义 StagehandTool 的行为：
+
+```python
+stagehand_tool = StagehandTool(
+    api_key="your-browserbase-api-key",
+    project_id="your-browserbase-project-id",
+    model_api_key="your-llm-api-key",
+    model_name=AvailableModel.CLAUDE_3_7_SONNET_LATEST,
+    dom_settle_timeout_ms=5000,  # Wait longer for DOM to settle
+    headless=True,  # Run browser in headless mode (no visible window)
+    self_heal=True,  # Attempt to recover from errors
+    wait_for_captcha_solves=True,  # Wait for CAPTCHA solving
+    verbose=1,  # Control logging verbosity (0-3)
+)
+```
+
+## CrewAI 代理任务示例
+
+以下是有效使用 StagehandTool 的任务示例：
+
+```python
+from crewai import Agent, Task, Crew
+from crewai_tools import StagehandTool
+from stagehand.schemas import AvailableModel
+import os
+
+# Get API keys from environment
+browserbase_api_key = os.environ.get("BROWSERBASE_API_KEY")
+browserbase_project_id = os.environ.get("BROWSERBASE_PROJECT_ID")
+model_api_key = os.environ.get("OPENAI_API_KEY")  # or ANTHROPIC_API_KEY
+
+# Initialize the tool
+stagehand_tool = StagehandTool(
+    api_key=browserbase_api_key,
+    project_id=browserbase_project_id,
+    model_api_key=model_api_key,
+    model_name=AvailableModel.GPT_4O,
+)
+
+# Create an agent
+researcher = Agent(
+    role="Web Researcher",
+    goal="Gather product information from an e-commerce website",
+    backstory="I specialize in extracting and analyzing web data.",
+    verbose=True,
+    tools=[stagehand_tool],
+)
+
+# Form submission task
+form_submission_task = Task(
+    description="""
+    Submit a contact form on example.com:
+    1. Go to example.com/contact
+    2. Fill out the contact form with:
+       - Name: John Doe
+       - Email: john@example.com
+       - Subject: Information Request
+       - Message: I would like to learn more about your services
+    3. Submit the form
+    4. Confirm the submission was successful
+    """,
+    agent=researcher,
+)
+
+# Run the crew
+crew = Crew(
+    agents=[researcher],
+    tasks=[form_submission_task],
+    verbose=True,
+)
+
+result = crew.kickoff()
+print(result)
+
+# Clean up resources
+stagehand_tool.close()
+```
+
+## 高效使用技巧
+
+1. **指令需具体明确**：指令越具体，效果越好。例如，避免使用"点击按钮"，而应使用"点击联系表单底部的'提交'按钮"。
+2. **选用正确的命令类型**：根据任务类型选择合适命令：
+   - 交互和导航使用 `act` 命令
+   - 信息采集使用 `extract` 命令
+   - 页面结构分析使用 `observe` 命令
+3. **善用选择器**：提取数据或观察元素时，使用CSS选择器缩小范围以提高准确性。
+4. **处理多步骤流程**：复杂操作应拆分为多个工具调用，每个调用处理特定步骤。
+5. **错误处理**：在代理逻辑中实现适当的错误处理机制，应对元素未找到或页面未加载等潜在问题。
+
+## 故障排除
+
+- **会话无法启动**：确保已配置有效的Browserbase和LLM提供商API密钥
+- **元素未找到**：尝试增加 `dom_settle_timeout_ms` 参数值以延长页面加载等待时间
+- **操作无效**：确认指令清晰明确，可先使用 `observe` 命令定位正确元素
+- **提取数据不完整**：尝试优化指令或提供更精确的选择器
+
+## 扩展资源
+
+- [Stagehand GitHub仓库](https://github.com/browserbase/stagehand)
+- [Browserbase文档](https://browserbase.com/docs)
+
+加入 [Stagehand Slack 社区](https://stagehand.dev/slack) 获取支持并与其他用户交流。

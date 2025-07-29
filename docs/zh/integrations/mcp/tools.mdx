@@ -1,0 +1,212 @@
+---
+
+title: "Browserbase MCP Server Tools"
+sidebarTitle: "Tools"
+description: "本指南介绍Browserbase MCP服务器中用于浏览器自动化与交互的专用工具"
+---
+
+## 概述
+
+Browserbase MCP服务器提供全面的浏览器自动化与会话管理工具。这些工具支持执行页面导航、截图捕捉、Cookie操作以及同时管理多个浏览器会话等操作。
+
+## 核心浏览器自动化工具
+
+以下是使用自然语言命令进行现代网页自动化的主要工具。
+
+<Accordion title="browserbase_stagehand_navigate">
+在浏览器中导航至任意URL
+
+<ParamField path="url" type="string" required>
+  需要导航的目标URL
+</ParamField>
+</Accordion>
+
+<Accordion title="browserbase_stagehand_act">
+使用自然语言在网页上执行操作
+
+<ParamField path="action" type="string" required>
+  需要执行的操作（例如："点击登录按钮"、"填写表单字段"）
+</ParamField>
+
+</Accordion>
+
+<Accordion title="browserbase_stagehand_extract">
+从当前页面提取所有文本内容（自动过滤CSS和JavaScript）
+
+<ParamField path="instruction" type="string">
+  从当前页面提取的文本内容
+</ParamField>
+</Accordion>
+
+<Accordion title="browserbase_stagehand_observe">
+观察并定位网页上的可操作元素
+
+<ParamField path="instruction" type="string" required>
+  具体的观察指令（例如："找到登录按钮"、"定位搜索表单"）
+</ParamField>
+
+</Accordion>
+
+<Accordion title="browserbase_screenshot">
+捕获当前页面的PNG截图
+
+<Info>无需输入参数</Info>
+
+<ResponseField name="image" type="string">
+  Base-64编码的PNG数据
+</ResponseField>
+</Accordion>
+
+## 单会话管理
+
+传统方式仅维持一个活跃浏览器会话。适用于基础自动化任务，自动管理活跃会话。
+
+<Accordion title="browserbase_session_create">
+创建或复用Browserbase云浏览器会话，并完全初始化Stagehand
+
+<ParamField path="sessionId" type="string">
+  可选会话ID用于复用。如未提供则创建新会话
+</ParamField>
+
+</Accordion>
+
+<Accordion title="browserbase_session_close">
+关闭当前Browserbase会话，断开浏览器连接并清理Stagehand实例
+
+<Info>无需输入参数</Info>
+
+</Accordion>
+
+## 多会话管理
+
+高级方案支持并行多个浏览器会话，适用于复杂自动化工作流。每个会话保持独立状态、cookies和浏览器上下文。
+
+### 会话生命周期管理
+
+<Accordion title="multi_browserbase_stagehand_session_create">
+创建具备完整网页自动化能力的新建独立 Stagehand 浏览器会话
+
+<ParamField path="name" type="string">
+  用于追踪的可读性名称（例如 'login-flow'、'data-scraping'）
+</ParamField>
+</Accordion>
+
+<Accordion title="multi_browserbase_stagehand_session_list">
+列出所有当前活跃的 Stagehand 浏览器会话及其详细元数据
+
+<Info>无需输入参数</Info>
+
+</Accordion>
+
+<Accordion title="multi_browserbase_stagehand_session_close">
+关闭并清理指定的 Stagehand 浏览器会话
+
+<ParamField path="sessionId" type="string" required>
+  要关闭的精确会话ID（不可撤销）
+</ParamField>
+</Accordion>
+
+### 会话专属自动化工具
+
+所有核心浏览器自动化工具均提供会话专属版本：
+
+<Accordion title="multi_browserbase_stagehand_navigate_session">
+在指定浏览器会话中导航至URL
+
+<ParamField path="sessionId" type="string" required>
+  要使用的会话ID
+</ParamField>
+
+<ParamField path="url" type="string" required>
+  要导航至的URL
+</ParamField>
+</Accordion>
+
+<Accordion title="multi_browserbase_stagehand_act_session">
+使用自然语言在特定浏览器会话中执行操作
+
+<ParamField path="sessionId" type="string" required>
+  要使用的会话ID
+</ParamField>
+
+<ParamField path="action" type="string" required>
+  要执行的操作
+</ParamField>
+
+</Accordion>
+
+<Accordion title="multi_browserbase_stagehand_extract_session">
+从特定浏览器会话中提取结构化信息
+
+<ParamField path="sessionId" type="string" required>
+  要使用的会话ID
+</ParamField>
+
+<ParamField path="instruction" type="string" required>
+  需要从页面提取的内容
+</ParamField>
+</Accordion>
+
+<Accordion title="multi_browserbase_stagehand_observe_session">
+观察并查找特定浏览器会话中的可操作元素
+
+<ParamField path="sessionId" type="string" required>
+  要使用的会话ID
+</ParamField>
+
+<ParamField path="instruction" type="string" required>
+  观察目标（例如"查找登录按钮"）
+</ParamField>
+
+<ParamField path="returnAction" type="boolean">
+  是否返回待执行操作
+</ParamField>
+</Accordion>
+
+### 多会话使用场景
+
+<CardGroup cols={2}>
+  <Card title="并行数据采集" icon="globe">
+    在不同网站上同时运行多个抓取会话
+  </Card>
+  
+  <Card title="A/B测试" icon="flask">
+    通过不同配置的浏览器会话比较用户流程
+  </Card>
+  
+  <Card title="跨站点操作" icon="link">
+    在多个网站或应用间执行协同操作
+  </Card>
+  
+  <Card title="备份会话" icon="shield">
+    保持备用会话就绪，以防主会话出现问题
+  </Card>
+</CardGroup>
+
+## 相关资源
+
+<Card title="截图资源" icon="camera">
+  服务器提供基于URI访问的截图资源
+
+  示例：
+  ```
+  screenshot://screenshot-name-of-the-screenshot
+  ```
+
+</Card>
+
+## 延伸阅读
+
+<CardGroup cols={3}>
+<Card title="Model Context Protocol (MCP) 文档" icon="book" href="https://modelcontextprotocol.io/introduction">
+了解MCP协议的更多信息
+</Card>
+
+<Card title="Stagehand 文档" icon="robot" href="https://docs.stagehand.dev/">
+探索Stagehand的AI驱动浏览器自动化
+</Card>
+
+<Card title="技术支持" icon="headset" href="mailto:support@browserbase.com">
+获取我们的技术支持团队帮助
+</Card>
+</CardGroup>

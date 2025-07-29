@@ -1,0 +1,225 @@
+---
+
+title: 浏览器定制
+description: Stagehand 可在任何基于 Chromium 的浏览器上运行，例如 Chrome、Edge、Arc 和 Brave。
+---
+
+## Browserbase
+
+Stagehand 由 [Browserbase](https://www.browserbase.com/) 开发和维护。因此，Stagehand 在 Browserbase 上具有卓越的性能和可靠性。
+
+[Browserbase SDK](https://docs.browserbase.com/reference/sdk/nodejs) 功能非常强大，可帮助您处理多种使用场景，例如：
+
+- 验证码破解
+- 自定义上下文和扩展
+- 实时浏览器视图
+- 代理轮换
+- 会话录制
+- 文件上传/下载
+
+使用 Browserbase 非常简单，只需在 Stagehand 构造函数中设置 `env: "BROWSERBASE"`：
+
+<CodeGroup>
+```typescript TypeScript
+const stagehand = new Stagehand({
+  env: "BROWSERBASE",
+  // Stagehand will automatically read your Browserbase API key and project ID from your environment variables
+  // If you'd like to pass in your own API key and project ID, you can do so like this:
+  apiKey: process.env.BROWSERBASE_API_KEY,
+  projectId: process.env.BROWSERBASE_PROJECT_ID,
+});
+```
+
+```python Python
+import os
+from stagehand import Stagehand, StagehandConfig
+
+# Build a unified configuration object for Stagehand
+config = StagehandConfig(
+    env="BROWSERBASE",
+    # Stagehand will automatically read your Browserbase API key and project ID from your environment variables
+    # If you'd like to pass in your own API key and project ID, you can do so like this:
+    api_key=os.getenv("BROWSERBASE_API_KEY"),
+    project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
+)
+
+# Create a Stagehand client using the configuration object.
+stagehand = Stagehand(config)
+```
+</CodeGroup>
+
+### 创建 Browserbase 会话
+
+要创建自定义 Browserbase 会话，可以向 `Stagehand` 构造函数传入 `browserbaseSessionCreateParams`。有关 `browserbaseSessionCreateParams` 对象的完整文档，请参阅 [Browserbase API 文档](https://docs.browserbase.com/reference/api/create-a-session)。
+
+<CodeGroup>
+```typescript TypeScript
+const stagehand = new Stagehand({
+	env: "BROWSERBASE",
+ 	browserbaseSessionCreateParams: {
+		projectId: "your-project-id",
+		extensionId: 'your-extension-id',
+		browserSettings: {
+			viewport: {
+				width: 1920,
+				height: 1080,
+			},
+			proxies: [
+				{
+					type: 'external',
+					server: 'your-proxy-server',
+					username: 'your-proxy-username',
+					password: 'your-proxy-password',
+				},
+			],
+			context: {
+				id: 'your-context-id',
+			},
+		},
+	},
+});
+```
+
+```python Python
+from stagehand import Stagehand, StagehandConfig
+
+stagehand = Stagehand(StagehandConfig(
+    env="BROWSERBASE",
+    browserbase_session_create_params={
+        "projectId": "your-project-id",
+        "extensionId": "your-extension-id",
+        "browserSettings": {
+            "viewport": {
+                "width": 1920,
+                "height": 1080,
+            },
+            "proxies": [
+                {
+                    "type": "external",
+                    "server": "your-proxy-server",
+                    "username": "your-proxy-username",
+                    "password": "your-proxy-password",
+                },
+            ],
+            "context": {
+                "id": "your-context-id",
+            },
+        },
+    },
+))
+```
+</CodeGroup>
+
+### 恢复现有 Browserbase 会话
+
+您可以通过向 `Stagehand` 构造函数传入 `browserbaseSessionId` 来重新连接到现有的 Browserbase 会话。
+
+<CodeGroup>
+```typescript TypeScript
+const stagehand = new Stagehand({
+  env: "BROWSERBASE",
+  browserbaseSessionId: "your-session-id",
+});
+```
+
+```python Python
+from stagehand import Stagehand, StagehandConfig
+
+stagehand = Stagehand(StagehandConfig(
+    env="BROWSERBASE",
+    browserbase_session_id="your-session-id",
+))
+```
+</CodeGroup>
+
+您也可以传入 `browserbaseSessionCreateParams`，但如果提供了 `browserbaseSessionId`，该参数将被忽略。
+
+<CodeGroup>
+```typescript TypeScript
+const stagehand = new Stagehand({
+  env: "BROWSERBASE",
+  browserbaseSessionId: "your-session-id",
+  
+  // This will be ignored because we're providing a browserbaseSessionId
+  browserbaseSessionCreateParams: {
+	projectId: "your-project-id",
+  },
+});
+```
+
+```python Python
+from stagehand import Stagehand, StagehandConfig
+
+stagehand = Stagehand(StagehandConfig(
+    env="BROWSERBASE",
+    browserbase_session_id="your-session-id",
+    
+    # This will be ignored because we're providing a browserbase_session_id
+    browserbase_session_create_params={
+        "projectId": "your-project-id",
+    },
+))
+```
+</CodeGroup>
+
+## 本地浏览器定制
+
+Stagehand 允许您通过多种方式自定义本地浏览器。
+
+您可以使用 [`localBrowserLaunchOptions` 类型](https://github.com/browserbase/stagehand/blob/84f810b4631291307a32a47addad7e26e9c1deb3/types/stagehand.ts#L134-L174) 来自定义 Stagehand 使用的浏览器。
+
+<CodeGroup>
+```typescript TypeScript
+const stagehand = new Stagehand({
+  localBrowserLaunchOptions: {
+	cdpUrl: 'your-cdp-url',
+  }
+})
+```
+
+```python Python
+from stagehand import Stagehand, StagehandConfig
+
+stagehand = Stagehand(StagehandConfig(
+    local_browser_launch_options={
+        "cdp_url": "your-cdp-url",
+    }
+))
+```
+</CodeGroup>
+
+### 使用个人浏览器
+
+<Tip>
+`cdpUrl` 配置 **仅在 Stagehand 2.0+ 版本中支持**。
+</Tip>
+
+Stagehand 可与任何基于 Chromium 的浏览器配合使用，例如 Arc、Brave、Chrome、Dia 和 Edge！为此，您可以传入 `cdpUrl` 连接远程浏览器，或传入 `executablePath` 使用本地浏览器可执行文件。
+
+您还需要以"调试"模式打开浏览器。例如，在 Mac 上使用 Chrome 时，可通过以下命令启动：
+
+```bash
+open -a "Google Chrome" --args --remote-debugging-port=9222
+```
+
+这将启用远程调试功能并在 9222 端口打开 Chrome。随后您可以将 `cdpUrl` 传递给 Stagehand，如下所示：
+
+<CodeGroup>
+```typescript TypeScript
+const stagehand = new Stagehand({
+  localBrowserLaunchOptions: {
+	cdpUrl: 'http://localhost:9222',
+  },
+});
+```
+
+```python Python
+from stagehand import Stagehand, StagehandConfig
+
+stagehand = Stagehand(StagehandConfig(
+    local_browser_launch_options={
+        "cdp_url": "http://localhost:9222",
+    },
+))
+```
+</CodeGroup>

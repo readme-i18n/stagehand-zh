@@ -1,0 +1,56 @@
+---
+
+title: 'TypeScript Playbook'
+description: '通过 npx create-browser-app 获取即用模板'
+icon: 'code'
+---
+
+<Note>
+这些示例主要适用于 TypeScript。Python 版本即将推出。
+</Note>
+
+<Card
+  title="查看 Playbook"
+  icon="github"
+  href="https://github.com/browserbase/playbook"
+>
+  我们创建了一个包含大量 Stagehand 即用指南的 GitHub 仓库，包括持久化上下文和部署到 Vercel 的教程。
+</Card>
+
+## Next.js + Vercel
+
+查看 [Next.js + Vercel 示例](https://github.com/browserbase/stagehand-nextjs-quickstart)，了解如何构建 Next.js 应用并一键部署到 Vercel。
+
+## 自定义 LLM 客户端
+
+```bash
+# For Vercel AI SDK
+npx create-browser-app --example custom-client-aisdk
+
+# For Ollama
+npx create-browser-app --example custom-client-ollama
+```
+
+此示例展示如何在 Stagehand 中使用自定义 LLM 客户端。我们提供了 [Vercel AI SDK](https://sdk.vercel.ai/docs/introduction) 和 [Ollama](https://ollama.ai/) 的可用示例。当您不想使用 4o/Sonnet 时，这能帮助您在 Stagehand 中使用自己的 LLM 客户端。
+
+这能帮助您连接 DeepSeek、Llama、Perplexity、Groq 等 LLM 模型！
+
+## 持久化上下文
+
+```bash
+npx create-browser-app --example persist-context
+```
+
+此示例使用 Browserbase 的上下文持久化功能创建可在多次运行中重复使用的持久化上下文。
+
+对于需要登录的网站自动化或包含验证码的网站自动化非常有用。一旦完成登录，您可以使用相同的上下文在同一网站上进行自动化操作而无需重复登录。
+
+## 部署到 Vercel
+
+```bash
+npx create-browser-app --example deploy-vercel
+```
+
+本示例创建了一个脚手架式的 Vercel 函数，可通过 `npx vercel deploy` 轻松部署到 Vercel。
+
+它会在 `/api/stagehand` 路径下创建一个 `GET` 端点，用于运行 `index.ts` 中的 Stagehand 脚本。

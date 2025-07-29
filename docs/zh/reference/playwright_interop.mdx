@@ -1,0 +1,40 @@
+---
+
+title: 'Playwright 互操作性'
+description: 'Stagehand 如何与 Playwright 交互'
+icon: 'right-to-bracket'
+---
+
+Stagehand 构建于 [Playwright](https://playwright.dev/) 之上，因此您可以直接通过 Stagehand 实例调用 Playwright 的方法。
+
+## `page` 与 `context`
+
+`stagehand.page` 和 `stagehand.context` 分别是 Playwright 的 `Page` 和 `BrowserContext` 实例。通过这些方法可与 Stagehand 正在使用的 Playwright 实例进行交互。
+
+<CodeGroup>
+```TypeScript TypeScript
+const page = stagehand.page;
+// Base Playwright methods work
+await page.goto("https://github.com/browserbase/stagehand");
+
+// Stagehand overrides Playwright objects
+await page.act("click on the contributors")
+```
+
+```python Python
+page = stagehand.page
+# Base Playwright methods work
+await page.goto("https://github.com/browserbase/stagehand")
+
+# Stagehand overrides Playwright objects
+await page.act("click on the contributors")
+```
+</CodeGroup>
+
+## Stagehand 对比 Playwright
+
+以下示例展示了如何使用 Stagehand 和 Playwright 从 AI Grant 网站提取公司列表。
+
+<img src="/images/stagehand-playwright.png" alt="Stagehand v. Playwright" />
+
+使用 Stagehand 的示例可以轻松复用于其他网站的数据提取，而 Playwright 的示例则需要为每个新网站重写代码。

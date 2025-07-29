@@ -1,0 +1,248 @@
+---
+
+title: 'Extract'
+description: '从页面中提取结构化数据'
+icon: 'brain-circuit'
+---
+
+`extract()` 通过结构化模式从当前页面抓取结构化文本。根据指令和 `schema`，您将获得结构化数据。
+
+<Note>
+TypeScript 版本使用 zod 模式定义提取结构。
+
+Python 版本使用 pydantic 模型定义提取结构。
+</Note>
+
+### 提取单个对象
+
+以下是针对单个对象的 `extract` 调用示例：
+
+<CodeGroup>
+```typescript TypeScript
+const item = await page.extract({
+  instruction: "extract the price of the item",
+  schema: z.object({
+    price: z.number(),
+  }),
+});
+```
+
+```python Python
+class Extraction(BaseModel):
+    price: float
+
+item = await page.extract(
+    "extract the price of the item", 
+    schema=Extraction
+)
+```
+</CodeGroup>
+
+输出模式将呈现为：
+
+```
+{ price: number }
+```
+
+### 提取链接
+
+<Note>
+在 TypeScript 版本的 Stagehand 中提取链接或 URL 时，需将相关字段定义为 `z.string().url()`。
+Python 版本中需定义为 `HttpUrl`。
+</Note>
+
+以下是提取链接或 URL 的 `extract` 调用示例。
+
+<CodeGroup>
+```typescript TypeScript
+const extraction = await page.extract({
+  instruction: "extract the link to the 'contact us' page",
+  schema: z.object({
+    link: z.string().url(), // note the usage of z.string().url() here
+  }),
+});
+
+console.log("the link to the contact us page is: ", extraction.link);
+```
+
+```python Python
+class Extraction(BaseModel):
+    link: HttpUrl # note the usage of HttpUrl here
+
+extraction = await page.extract(
+    "extract the link to the 'contact us' page", 
+    schema=Extraction
+)
+
+print("the link to the contact us page is: ", extraction.link)
+```
+</CodeGroup>
+
+### 提取对象列表
+
+以下是针对对象列表的 `extract` 调用示例。
+
+<CodeGroup>
+```typescript TypeScript
+const apartments = await page.extract({
+  instruction:
+    "Extract ALL the apartment listings and their details, including address, price, and square feet."
+  schema: z.object({
+    list_of_apartments: z.array(
+      z.object({
+        address: z.string(),
+        price: z.string(),
+        square_feet: z.string(),
+      }),
+    ),
+  })
+})
+
+console.log("the apartment list is: ", apartments);
+```
+
+```python Python
+class Apartment(BaseModel):
+    address: str
+    price: str
+    square_feet: str
+
+class Apartments(BaseModel):
+    list_of_apartments: list[Apartment]
+
+apartments = await page.extract(
+    "Extract ALL the apartment listings and their details as a list, including address, price, and square feet for each apartment",
+    schema=Apartments
+)
+
+print("the apartment list is: ", apartments)
+```
+</CodeGroup>
+
+输出模式将呈现为：
+
+```
+list_of_apartments: [
+    {
+      address: "street address here",
+      price: "$1234.00",
+      square_feet: "700"
+    },
+    {
+        address: "another address here",
+        price: "1010.00",
+        square_feet: "500"
+    },
+    .
+    .
+    .
+]
+```
+
+### 带附加上下文的提取
+
+您可以为模式提供附加上下文，以帮助模型更准确地提取数据。
+
+<CodeGroup>
+```typescript TypeScript
+const apartments = await page.extract({
+ instruction:
+   "Extract ALL the apartment listings and their details, including address, price, and square feet."
+ schema: z.object({
+   list_of_apartments: z.array(
+     z.object({
+       address: z.string().describe("the address of the apartment"),
+       price: z.string().describe("the price of the apartment"),
+       square_feet: z.string().describe("the square footage of the apartment"),
+     }),
+   ),
+ })
+})
+```
+
+```python Python
+class Apartment(BaseModel):
+    address: str = Field(..., description="the address of the apartment")
+    price: str = Field(..., description="the price of the apartment")
+    square_feet: str = Field(..., description="the square footage of the apartment")
+
+class Apartments(BaseModel):
+    list_of_apartments: list[Apartment]
+
+apartments = await page.extract(
+    "Extract ALL the apartment listings and their details as a list. For each apartment, include: the address of the apartment, the price of the apartment, and the square footage of the apartment",
+    schema=Apartments
+)
+```
+</CodeGroup>
+
+<Tabs>
+<Tab title="TypeScript">
+### **参数:** [`ExtractOptions<T extends z.AnyZodObject>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
+
+  <ParamField path="instruction" type="string" required>
+    提供提取操作的指令说明
+  </ParamField>
+
+  <ParamField path="schema" type="z.AnyZodObject" required>
+    定义要提取数据的结构（仅限TypeScript）
+  </ParamField>
+
+  <ParamField path="iframes" type="boolean" optional>
+      当提取内容位于iframe内时，需设置`iframes: true`
+  </ParamField>
+
+  <ParamField path="useTextExtract" type="boolean" deprecated>
+    该字段现已**弃用**，不再产生任何效果
+  </ParamField>
+
+  <ParamField path="selector" type="string" optional>
+      用于缩小提取范围的xpath表达式。传入xpath后，`extract`将仅处理该xpath指向的HTML元素内容。有助于减少输入token数量并提高提取准确性
+  </ParamField>
+
+  <ParamField path="modelName" type="AvailableModel" optional>
+    指定要使用的模型
+  </ParamField>
+
+  <ParamField path="modelClientOptions" type="object" optional>
+    模型客户端的配置选项。参见[`ClientOptions`](https://github.com/browserbase/stagehand/blob/main/types/model.ts)
+  </ParamField>
+
+  <ParamField path="domSettleTimeoutMs" type="number" optional>
+    等待DOM稳定的超时时间（毫秒）
+  </ParamField>
+
+### **返回值:** [`Promise<ExtractResult<T extends z.AnyZodObject>>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
+
+返回符合所提供`schema`定义的结构化数据
+
+</Tab>
+
+<Tab title="Python">
+### **参数:** [`ExtractOptions<T extends BaseModel>`](https://github.com/browserbase/stagehand-python/blob/main/stagehand/types/page.py)
+
+  <ParamField path="instruction" type="string" required>
+    提供提取操作的指令说明
+  </ParamField>
+
+  <ParamField path="schema" type="BaseModel" required>
+    定义要提取数据的结构
+  </ParamField>
+
+  <ParamField path="model_name" type="AvailableModel" optional>
+    指定要使用的模型
+  </ParamField>
+
+  <ParamField path="model_client_options" type="dict" optional>
+    模型客户端的配置选项。参见[`ClientOptions`](https://github.com/browserbase/stagehand/blob/main/types/model.ts)
+  </ParamField>
+
+  <ParamField path="dom_settle_timeout_ms" type="int" optional>
+    等待DOM稳定的超时时间（毫秒）
+  </ParamField>
+
+### **返回值:** [`Promise<ExtractResult<BaseModel>>`](https://github.com/browserbase/stagehand-python/blob/main/stagehand/types/page.py)
+
+返回符合所提供`schema`定义的结构化数据
+</Tab>
+</Tabs>
