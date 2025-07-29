@@ -1,20 +1,20 @@
 ---
-
-title: 遥测与评估
-description: 如何查看LLM使用情况并对Stagehand工作流运行评估。
+title: Telemetry and Evaluations
+description: How to view LLM usage and run evals on your Stagehand workflows.
 ---
 
+
 <Card
-  title="查看Stagehand评估"
+  title="Check out the Stagehand Evals"
   icon="scale-balanced"
   href="https://www.stagehand.dev/evals"
 >
-  查看[Stagehand评估](https://www.stagehand.dev/evals)了解不同LLM在Stagehand中的表现对比。
+  Check out the [Stagehand Evals](https://www.stagehand.dev/evals) to see different LLMs compare in Stagehand.
 </Card>
 
-## 查看LLM使用情况及token计数
+## View LLM usage and token counts
 
-您可以通过`stagehand.metrics`随时查看token使用情况。
+You can view your token usage at any point with `stagehand.metrics`.
 
 <CodeGroup>
 ```typescript TypeScript
@@ -26,7 +26,7 @@ print(stagehand.metrics)
 ```
 </CodeGroup>
 
-这将返回一个包含以下结构的对象：
+This will return an object with the following shape:
 
 <CodeGroup>
 ```typescript TypeScript
@@ -70,19 +70,18 @@ print(stagehand.metrics)
 ```
 </CodeGroup>
 
-### 查看细粒度LLM使用情况
+### View granular LLM usage
 
 <Tabs>
 <Tab title="TypeScript">
-您可以在Stagehand构造函数中设置`logInferenceToFile: true`。这将把所有act、extract和observe调用记录到名为`inference_summary`的目录中。
+You can set `logInferenceToFile: true` in the Stagehand constructors. This will dump all act, extract, and observe calls to a directory called `inference_summary`.
 </Tab>
 <Tab title="Python">
-您可以在Stagehand配置中设置`log_inference_to_file=True`。这将把所有act、extract和observe调用记录到名为`inference_summary`的目录中。
+You can set `log_inference_to_file=True` in the Stagehand config. This will dump all act, extract, and observe calls to a directory called `inference_summary`.
 </Tab>
 </Tabs>
 
-`inference_summary`目录将具有以下结构：
-
+`inference_summary` will have the following structure:
 ```
 inference_summary/
 ├── act_summary/
@@ -102,8 +101,7 @@ inference_summary/
 │   └── observe_summary.json
 ```
 
-每个文件将包含以下结构：
-
+Each of these files will have the following shape:
 ```typescript
 {
   "act_summary": [
@@ -121,56 +119,52 @@ inference_summary/
 }
 ```
 
-## 运行评估(Evals)
-
-Stagehand评估是我们Stagehand团队用来测试Stagehand本身有效性的方法。
-
-<Tip>
-要运行评估，您需要克隆[Stagehand代码库](https://github.com/browserbase/stagehand)并运行`npm install`安装依赖项。
-</Tip>
-
-我们提供三种类型的评估：
-
-1. **确定性评估** - 这些评估具有确定性，无需任何LLM推理即可运行。
-2. **基于LLM的评估** - 这些评估用于测试Stagehand AI原语的基础功能。
-
-### 确定性评估
-
-要运行确定性评估，只需在Stagehand代码库中执行`npm run e2e`命令。这将测试Stagehand中Playwright的功能，确保其按预期工作。
-
-这些测试位于[`evals/deterministic`](https://github.com/browserbase/stagehand/tree/main/evals/deterministic)目录下，会在Browserbase浏览器和本地无头Chromium浏览器上运行测试。
-
-### 基于LLM的评估
+## Run Evaluations (Evals)
+Stagehand evaluations are how we, the Stagehand team, test the validity of Stagehand itself.
 
 <Tip>
-运行LLM评估需要拥有[Braintrust账户](https://www.braintrust.dev/docs/)。
+To run evals, you'll need to clone the [Stagehand repo](https://github.com/browserbase/stagehand) and run `npm install` to install the dependencies.
 </Tip>
 
-要运行基于LLM的评估，可在Stagehand代码库中执行`npm run evals`命令。这将测试Stagehand中LLM原语的功能，确保其按预期工作。
+We have three types of evals:
+1. **Deterministic Evals** - These are evals that are deterministic and can be run without any LLM inference.
+2. **LLM-based Evals** - These are evals that test the underlying functionality of Stagehand's AI primitives.
 
-评估分为三类：
+### Deterministic Evals
 
-1. **动作评估** - 测试`act`方法功能的评估
-2. **提取评估** - 测试`extract`方法功能的评估
-3. **观察评估** - 测试`observe`方法功能的评估
-4. **组合评估** - 综合测试`act`、`extract`和`observe`方法功能的评估
+To run deterministic evals, you can just run `npm run e2e` from within the Stagehand repo. This will test the functionality of Playwright within Stagehand to make sure it's working as expected.
 
-#### 配置与运行评估
+These tests are in [`evals/deterministic`](https://github.com/browserbase/stagehand/tree/main/evals/deterministic) and test on both Browserbase browsers and local headless Chromium browsers.
 
-您可以在 [`evals/tasks`](https://github.com/browserbase/stagehand/tree/main/evals/tasks) 中查看具体的评估任务。每个评估任务根据 [`evals/evals.config.json`](https://github.com/browserbase/stagehand/blob/main/evals/evals.config.json) 的配置被分组到不同的评估类别中。您可以在 [`evals/taskConfig.ts`](https://github.com/browserbase/stagehand/blob/main/evals/taskConfig.ts) 中指定运行的模型和其他通用任务配置。
+### LLM-based Evals
 
-要运行特定评估任务，可以执行 `npm run evals <eval>` 命令，或者通过 `npm run evals category <category>` 运行整个类别的所有评估任务。
+<Tip>
+To run LLM evals, you'll need a [Braintrust account](https://www.braintrust.dev/docs/).
+</Tip>
 
-#### 查看评估结果
+To run LLM-based evals, you can run `npm run evals` from within the Stagehand repo. This will test the functionality of the LLM primitives within Stagehand to make sure they're working as expected.
 
-![评估结果](/images/evals.png)
+Evals are grouped into three categories:
+1. **Act Evals** - These are evals that test the functionality of the `act` method.
+2. **Extract Evals** - These are evals that test the functionality of the `extract` method.
+3. **Observe Evals** - These are evals that test the functionality of the `observe` method.
+4. **Combination Evals** - These are evals that test the functionality of the `act`, `extract`, and `observe` methods together.
 
-评估结果可在 Braintrust 平台查看。运行 `npm run evals` 时终端会显示对应的 Braintrust URL，通过该链接即可查看特定评估的结果。
+#### Configuring and Running Evals
+You can view the specific evals in [`evals/tasks`](https://github.com/browserbase/stagehand/tree/main/evals/tasks). Each eval is grouped into eval categories based on [`evals/evals.config.json`](https://github.com/browserbase/stagehand/blob/main/evals/evals.config.json). You can specify models to run and other general task config in [`evals/taskConfig.ts`](https://github.com/browserbase/stagehand/blob/main/evals/taskConfig.ts).
 
-默认情况下，每个评估任务会对每个模型运行五次。"Exact Match"列显示评估正确的百分比，"Error Rate"列显示评估出错的百分比。
+To run a specific eval, you can run `npm run evals <eval>`, or run all evals in a category with `npm run evals category <category>`.
 
-您可以使用 Braintrust 界面按模型/评估任务进行筛选，并汇总所有评估任务的结果。
+#### Viewing eval results
+![Eval results](/images/evals.png)
 
-#### 添加新评估任务
+Eval results are viewable on Braintrust. You can view the results of a specific eval by going to the Braintrust URL specified in the terminal when you run `npm run evals`.
 
-要添加新评估任务，请在 [`evals/tasks`](https://github.com/browserbase/stagehand/tree/main/evals/tasks) 目录创建新文件，并在 [`evals/evals.config.json`](https://github.com/browserbase/stagehand/blob/main/evals/evals.config.json) 中将其添加到相应的类别。
+By default, each eval will run five times per model. The "Exact Match" column shows the percentage of times the eval was correct. The "Error Rate" column shows the percentage of times the eval errored out.
+
+You can use the Braintrust UI to filter by model/eval and aggregate results across all evals.
+
+#### Adding new evals
+To add a new eval, you can create a new file in [`evals/tasks`](https://github.com/browserbase/stagehand/tree/main/evals/tasks) and add it to the appropriate category in [`evals/evals.config.json`](https://github.com/browserbase/stagehand/blob/main/evals/evals.config.json).
+
+

@@ -1,25 +1,23 @@
 ---
-
-title: 安装 Stagehand
+title: Install Stagehand
 icon: 'download'
 ---
-
-将 Stagehand 添加到新项目或现有项目中。
+Add Stagehand to a new or existing project.
 
 <Tip>
-对于 TypeScript/Node.js：我们强烈建议使用 Node.js 运行时环境来运行 Stagehand 脚本，而不是 Deno 或 Bun 等较新的替代方案。
+For TypeScript/Node.js: We highly recommend using the Node.js runtime environment to run Stagehand scripts, as opposed to newer alternatives like Deno or Bun. 
 
-**Bun 不支持 Stagehand**，因为它不支持 [Playwright](https://github.com/search?q=repo:oven-sh/bun+playwright&type=issues)。
+**Bun does not support Stagehand** since it doesn't support [Playwright](https://github.com/search?q=repo:oven-sh/bun+playwright&type=issues).
 
-对于 Python：需要 Python 3.9 或更高版本，并建议使用 [uv](https://docs.astral.sh/uv/) 来管理虚拟环境。
+For Python: We require Python 3.9+ and recommend using [uv](https://docs.astral.sh/uv/) to manage your virtual environment.
 </Tip>
 
 <Tabs>
 	<Tab title="TypeScript">
 
-		我们强烈推荐在新项目中使用 `npx create-browser-app` 来集成 Stagehand。请查阅我们的[快速入门指南](https://docs.stagehand.dev/get_started/quickstart)开始使用。
+		We strongly recommend using Stagehand in a new project with `npx create-browser-app`. Check out our [quickstart guide](https://docs.stagehand.dev/get_started/quickstart) to get started. 
 
-		若您已有现有项目，可通过安装 `@browserbasehq/stagehand` 包来引入 Stagehand。
+		However, if you have an existing project, you can install Stagehand by installing the `@browserbasehq/stagehand` package.
 
 		<Tabs>
 			<Tab title="npm">
@@ -40,22 +38,22 @@ icon: 'download'
 		</Tabs>
 		
 		<Note>
-		运行 Stagehand 脚本时可能需要安装 Playwright 浏览器，特别是在本地运行环境下。
+		You may also need to install the Playwright browser to run your Stagehand scripts, especially if you're running locally.
 		</Note>
 
 		```bash
 		playwright install
 		```
 
-		随后，您可以通过导入 `Stagehand` 类在项目中使用该工具。
+		Then, you can use Stagehand in your project by importing the `Stagehand` class.
 
 		```typescript
 		import { Stagehand } from "@browserbasehq/stagehand";
 
 		async function main() {
 			const stagehand = new Stagehand({
-				// 使用 npx create-browser-app 时，该配置存放于
-				// 单独的 stagehand.config.ts 文件中
+				// With npx create-browser-app, this config is found 
+				// in a separate stagehand.config.ts file
 				env: "LOCAL",
 				modelName: "openai/gpt-4.1-mini",
 				modelClientOptions: {
@@ -67,10 +65,10 @@ icon: 'download'
 			const page = stagehand.page;
 
 			await page.goto("https://www.google.com");
-			await page.act("在搜索栏输入'Browserbase'");
+			await page.act("Type in 'Browserbase' into the search bar");
 
 			const { title } = await page.extract({
-				instruction: "首个搜索结果的标题",
+				instruction: "The title of the first search result",
 				schema: z.object({
 					title: z.string(),
 				}),
@@ -85,45 +83,45 @@ icon: 'download'
 	</Tab>
 
 	<Tab title="Python">
-	开始前请确保已安装 Python 3.9+。推荐使用 [uv](https://docs.astral.sh/uv/) 管理虚拟环境。
+	Before you begin, you'll need Python 3.9+ installed. We recommend using [uv](https://docs.astral.sh/uv/) to manage your virtual environment.
 
 	<Steps>
 	
-	<Step title="推荐：设置虚拟环境">
+	<Step title="Recommended: Set up a virtual environment">
 	```bash
 	uv venv
 	source .venv/bin/activate
 	```
 	</Step>
 
-	<Step title="安装 Stagehand Python 包">
+	<Step title="Install Stagehand Python">
 	```bash
 	pip install stagehand
 	```
 
-	若使用 **uv** 虚拟环境，可通过以下命令安装：
+	If you're using a virtual environment with **uv**, you can install Stagehand with:
 
 	```bash
 	uv add stagehand
 	```
 	</Step>
 
-	<Step title="配置环境变量">
+	<Step title="Set up environment variables">
 
-	创建 `.env` 文件或导出环境变量：
+	Create a `.env` file or export environment variables:
 
 	```bash
-	export MODEL_API_KEY="your_model_api_key" # OpenAI, Anthropic 等
-	# 浏览器环境配置
+	export MODEL_API_KEY="your_model_api_key" # OpenAI, Anthropic, etc.
+	# For Browserbase environments
 	# export BROWSERBASE_API_KEY="your_browserbase_api_key"
 	# export BROWSERBASE_PROJECT_ID="your_browserbase_project_id"
 	```
 
 	</Step>
 
-	<Step title="创建首个脚本">
+	<Step title="Create your first script">
 
-	创建 `main.py` 文件：
+	Create a file `main.py`:
 
 	```python
 	import asyncio
@@ -147,11 +145,11 @@ icon: 'download'
 					page = stagehand.page
 					
 					await page.goto("https://docs.stagehand.dev/")
-					await page.act("点击快速入门链接")
+					await page.act("click the quickstart link")
 					
-					result = await page.extract("提取页面主标题")
+					result = await page.extract("extract the main heading of the page")
 					
-					print(f"提取结果: {result.extraction}")
+					print(f"Extracted: {result.extraction}")
 					
 			finally:
 					await stagehand.close()
@@ -161,7 +159,7 @@ icon: 'download'
 	```
 	</Step>
 
-	<Step title="运行脚本">
+	<Step title="Run the script">
 
 	```bash
 	python main.py

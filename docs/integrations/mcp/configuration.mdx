@@ -1,61 +1,60 @@
 ---
-
-title: "Browserbase MCP 服务器配置"
-sidebarTitle: "配置"
-description: "通过命令行标志、环境变量和高级选项配置浏览器自动化"
+title: "Browserbase MCP Server Configuration"
+sidebarTitle: "Configuration"
+description: "Configure your browser automation with command-line flags, environment variables, and advanced options"
 ---
 
-## 配置概览
+## Configuration Overview
 
-Browserbase MCP 服务器支持通过命令行标志和环境变量进行广泛配置。可自定义浏览器行为、代理设置、隐身模式、模型选择等参数，以适配您的浏览器自动化工作流。
+The Browserbase MCP server supports extensive configuration options through command-line flags and environment variables. Configure browser behavior, proxy settings, stealth modes, model selection, and more to customize your browser automation workflows.
 
 <Note>
-命令行标志仅在本地运行服务器时可用（使用 `npx @browserbasehq/mcp` 加标志或本地开发环境）。
+Command-line flags are only available when running the server locally (`npx @browserbasehq/mcp` with flags or local development setup).
 </Note>
 
-## 环境变量
+## Environment Variables
 
-配置 Browserbase 核心凭证及可选调试设置：
+Configure the essential Browserbase credentials and optional debugging settings:
 
 <CardGroup cols={2}>
 <Card title="BROWSERBASE_API_KEY" icon="key">
-用于身份验证的 Browserbase API 密钥
+Your Browserbase API key for authentication
 </Card>
 
 <Card title="BROWSERBASE_PROJECT_ID" icon="key">
-您的 Browserbase 项目 ID
+Your Browserbase project ID
 </Card>
 
 </CardGroup>
 
-## 命令行标志
+## Command-Line Flags
 
-### 可用标志
+### Available Flags
 
-| 标志 | 说明 |
+| Flag | Description |
 |------|-------------|
-| `--proxies` | 为会话启用 Browserbase 代理 |
-| `--advancedStealth` | 启用 Browserbase 高级隐身模式（仅限 Scale 套餐） |
-| `--contextId <contextId>` | 指定要使用的 Browserbase 上下文 ID |
-| `--persist [boolean]` | 是否持久化 Browserbase 上下文（默认值：true） |
-| `--port <port>` | HTTP/SHTTP 传输监听的端口号 |
-| `--host <host>` | 服务器绑定的主机地址（默认：localhost，使用 0.0.0.0 可监听所有接口） |
-| `--cookies [json]` | 要注入浏览器的 JSON 格式 cookie 数组 |
-| `--browserWidth <width>` | 浏览器视口宽度（默认值：1024） |
-| `--browserHeight <height>` | 浏览器视口高度（默认值：768） |
-| `--modelName <model>` | Stagehand 使用的模型（默认值：gemini-2.0-flash） |
-| `--modelApiKey <key>` | 自定义模型提供商的 API 密钥（使用自定义模型时必需） |
+| `--proxies` | Enable Browserbase proxies for the session |
+| `--advancedStealth` | Enable Browserbase Advanced Stealth (Scale Plan only) |
+| `--contextId <contextId>` | Specify a Browserbase Context ID to use |
+| `--persist [boolean]` | Whether to persist the Browserbase context (default: true) |
+| `--port <port>` | Port to listen on for HTTP/SHTTP transport |
+| `--host <host>` | Host to bind server to (default: localhost, use 0.0.0.0 for all interfaces) |
+| `--cookies [json]` | JSON array of cookies to inject into the browser |
+| `--browserWidth <width>` | Browser viewport width (default: 1024) |
+| `--browserHeight <height>` | Browser viewport height (default: 768) |
+| `--modelName <model>` | The model to use for Stagehand (default: gemini-2.0-flash) |
+| `--modelApiKey <key>` | API key for the custom model provider (required when using custom models) |
 
-## 配置示例
+## Configuration Examples
 
-### 基础配置
+### Basic Configuration
 
 <Tabs>
-<Tab title="远程 URL (SHTTP)">
+<Tab title="Remote URL (SHTTP)">
 
 
 <CodeGroup>
-```json 直接 SHTTP
+```json Direct SHTTP
 {
   "mcpServers": {
     "browserbase": {
@@ -66,10 +65,10 @@ Browserbase MCP 服务器支持通过命令行标志和环境变量进行广泛�
 ```
 </CodeGroup>
 
-使用我们远程托管的服务器时，我们会承担 Gemini 的 LLM 成本，这是 [Stagehand](https://www.stagehand.dev) 中[性能最佳的模型](https://www.stagehand.dev/evals)。
+When using our remote hosted server, we provide the LLM costs for Gemini, the [best performing model](https://www.stagehand.dev/evals) in [Stagehand](https://www.stagehand.dev).
 </Tab>
 
-<Tab title="NPM 包">
+<Tab title="NPM Package">
 
 ```json
 {
@@ -88,7 +87,7 @@ Browserbase MCP 服务器支持通过命令行标志和环境变量进行广泛�
 ```
 </Tab>
 
-<Tab title="本地 STDIO">
+<Tab title="Local STDIO">
 ```json
 {
   "mcpServers": {
@@ -106,9 +105,9 @@ Browserbase MCP 服务器支持通过命令行标志和环境变量进行广泛�
 ```
 </Tab>
 
-<Tab title="本地 SHTTP">
+<Tab title="Local SHTTP">
 ```bash
-# 启动服务器
+# Start server
 node cli.js --port 8931
 ```
 
@@ -129,14 +128,14 @@ node cli.js --port 8931
 </Tab>
 </Tabs>
 
-### 高级功能
+### Advanced Features
 
 <Tabs>
-<Tab title="代理">
-启用 Browserbase 代理实现 IP 轮换和地理位置测试。
+<Tab title="Proxies">
+Enable Browserbase proxies for IP rotation and geo-location testing.
 
 <Panel>
-[详细了解 Browserbase 代理](https://docs.browserbase.com/features/proxies)
+[Learn more about Browserbase Proxies](https://docs.browserbase.com/features/proxies)
 </Panel>
 
 ```json
@@ -156,13 +155,13 @@ node cli.js --port 8931
 ```
 </Tab>
 
-<Tab title="高级隐身">
-启用高级反检测功能增强隐身浏览体验。
+<Tab title="Advanced Stealth">
+Enable advanced anti-detection features for enhanced stealth browsing.
 
 <Panel>
-[详细了解高级隐身模式](https://docs.browserbase.com/features/stealth-mode#advanced-stealth-mode)
+[Learn more about Advanced Stealth](https://docs.browserbase.com/features/stealth-mode#advanced-stealth-mode)
 
-**注意：** 高级隐身功能仅限 Scale 套餐用户使用。
+**Note:** Advanced Stealth is only available for Scale Plan users.
 </Panel>
 
 ```json
@@ -182,11 +181,11 @@ node cli.js --port 8931
 ```
 </Tab>
 
-<Tab title="上下文">
-使用持久化浏览器上下文维持会话间的认证状态。
+<Tab title="Contexts">
+Use persistent browser contexts to maintain authentication and state across sessions.
 
 <Panel>
-[详细了解 Browserbase 上下文](https://docs.browserbase.com/features/contexts)
+[Learn more about Browserbase Contexts](https://docs.browserbase.com/features/contexts)
 </Panel>
 
 ```json
@@ -206,11 +205,11 @@ node cli.js --port 8931
 </Tab>
 </Tabs>
 
-### 浏览器自定义
+### Browser Customization
 
 <Tabs>
-<Tab title="视口尺寸">
-自定义浏览器窗口尺寸。默认值为1024x768。推荐宽高比：16:9。
+<Tab title="Viewport Sizing">
+Customize browser window dimensions. Default is 1024x768. Recommended aspect ratios: 16:9.
 
 ```json
 {
@@ -232,17 +231,17 @@ node cli.js --port 8931
 }
 ```
 
-**常用分辨率：**
-- 桌面端：1920x1080、1280x720、1024x768
-- 移动端：375x667 (iPhone)、360x640 (Android)
-- 平板：768x1024 (iPad)
+**Common Resolutions:**
+- Desktop: 1920x1080, 1280x720, 1024x768
+- Mobile: 375x667 (iPhone), 360x640 (Android)
+- Tablet: 768x1024 (iPad)
 </Tab>
 
-<Tab title="Cookie注入">
-注入会话Cookie以实现身份验证。当持久化上下文无法处理会话Cookie时特别有用。
+<Tab title="Cookie Injection">
+Inject session cookies for authentication. Useful when persistent contexts don't handle session cookies.
 
 <Panel>
-Cookie必须符合[Playwright Cookie格式](https://playwright.dev/docs/api/class-browsercontext#browser-context-cookies)。
+Cookies must be in [Playwright Cookie format](https://playwright.dev/docs/api/class-browsercontext#browser-context-cookies).
 </Panel>
 
 ```json
@@ -267,18 +266,18 @@ Cookie必须符合[Playwright Cookie格式](https://playwright.dev/docs/api/clas
 </Tab>
 </Tabs>
 
-## 模型配置
+## Model Configuration
 
-为增强浏览器自动化功能配置AI模型。Stagehand默认使用Google的Gemini 2.0 Flash模型，但支持多种服务提供商。
+Configure AI models for enhanced browser automation. Stagehand defaults to Google's Gemini 2.0 Flash but supports multiple providers.
 
 <Warning>
-使用任何自定义模型（非默认模型）时，必须通过`--modelApiKey`参数提供该模型服务商的API密钥。
+When using any custom model (non-default), you must provide your own API key for that model provider using the `--modelApiKey` flag.
 </Warning>
 
 <Tabs>
-<Tab title="可用模型">
-**Google Gemini** (默认)
-- `google/gemini-2.0-flash` (默认)
+<Tab title="Available Models">
+**Google Gemini** (Default)
+- `google/gemini-2.0-flash` (default)
 - `google/gemini-1.5-pro`
 - `google/gemini-1.5-flash`
 
@@ -293,10 +292,10 @@ Cookie必须符合[Playwright Cookie格式](https://playwright.dev/docs/api/clas
 - `anthropic/claude-3-5-sonnet-latest`
 - `anthropic/claude-3-7-sonnet-latest`
 
-[查看完整支持的模型列表](https://docs.stagehand.dev/examples/custom_llms#supported-llms)
+[View full list of supported models](https://docs.stagehand.dev/examples/custom_llms#supported-llms)
 </Tab>
 
-<Tab title="配置示例">
+<Tab title="Configuration Examples">
 <CodeGroup>
 ```json OpenAI GPT-4o
 {
@@ -339,11 +338,11 @@ Cookie必须符合[Playwright Cookie格式](https://playwright.dev/docs/api/clas
 </Tab>
 </Tabs>
 
-## 开发配置
+## Development Configuration
 
 <Tabs>
-<Tab title="调试模式">
-启用详细日志记录以进行故障排查和开发。
+<Tab title="Debug Mode">
+Enable detailed logging for troubleshooting and development.
 
 ```json
 {
@@ -363,8 +362,8 @@ Cookie必须符合[Playwright Cookie格式](https://playwright.dev/docs/api/clas
 ```
 </Tab>
 
-<Tab title="自定义主机/端口">
-为SHTTP传输配置自定义主机和端口。
+<Tab title="Custom Host/Port">
+Configure custom host and port for SHTTP transport.
 
 ```json
 {
@@ -388,48 +387,48 @@ Cookie必须符合[Playwright Cookie格式](https://playwright.dev/docs/api/clas
 </Tab>
 </Tabs>
 
-## 最佳实践
+## Best Practices
 
-<Accordion title="性能 - 如何优化浏览器自动化性能？">
-- 根据使用场景选择合适的视口尺寸
-- 仅在需要地理位置定位时启用代理
-- 选择高效模型（Gemini Flash追求速度，GPT-4o追求准确度）
-- 复用上下文以保持身份验证持久性
+<Accordion title="Performance - How can I optimize browser automation performance?">
+- Use appropriate viewport sizes for your use case
+- Enable proxies only when needed for geo-location
+- Choose efficient models (Gemini Flash for speed, GPT-4o for accuracy)
+- Reuse contexts for authentication persistence
 </Accordion>
 
-<Accordion title="安全 - 应实施哪些安全措施？">
-- 将API密钥安全存储在环境变量中
-- 敏感操作使用高级隐身模式
-- 实施正确的会话管理
-- 定期轮换cookies和上下文
+<Accordion title="Security - What security measures should I implement?">
+- Store API keys securely in environment variables
+- Use Advanced Stealth for sensitive operations
+- Implement proper session management
+- Rotate cookies and contexts regularly
 </Accordion>
 
-<Accordion title="开发 - 推荐哪些开发实践？">
-- 开发期间启用调试模式
-- 使用上下文持久化加速迭代
-- 测试不同视窗尺寸
-- 监控会话使用情况和配额
+<Accordion title="Development - What are the recommended development practices?">
+- Enable debug mode during development
+- Use context persistence for faster iteration
+- Test with different viewport sizes
+- Monitor session usage and quotas
 </Accordion>
 
-<Accordion title="生产环境 - 如何配置生产环境？">
-- 使用NPM安装确保可靠性
-- 配置适当的超时时间
-- 实现错误处理和重试机制
-- 监控性能和资源使用情况
+<Accordion title="Production - How should I configure for production environments?">
+- Use NPM installation for reliability
+- Configure appropriate timeouts
+- Implement error handling and retries
+- Monitor performance and resource usage
 </Accordion>
 
-## 延伸阅读
+## Further Reading
 
 <CardGroup cols={3}>
-<Card title="Browserbase文档" icon="globe" href="https://docs.browserbase.com">
-完整平台文档
+<Card title="Browserbase Documentation" icon="globe" href="https://docs.browserbase.com">
+Complete platform documentation
 </Card>
 
-<Card title="Stagehand文档" icon="robot" href="https://docs.stagehand.dev/">
-AI驱动的浏览器自动化
+<Card title="Stagehand Docs" icon="robot" href="https://docs.stagehand.dev/">
+AI-powered browser automation
 </Card>
 
-<Card title="技术支持" icon="headset" href="mailto:support@browserbase.com">
-获取团队帮助
+<Card title="Support" icon="headset" href="mailto:support@browserbase.com">
+Get help from our team
 </Card>
 </CardGroup>

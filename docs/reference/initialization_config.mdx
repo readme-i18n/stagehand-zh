@@ -1,10 +1,10 @@
 ---
 title: 'Configuration'
-description: '如何配置 Stagehand'
+description: 'How to configure Stagehand'
 icon: 'gear'
 ---
 
-## Stagehand 构造函数
+## Stagehand constructor
 
 <CodeGroup>
 ```typescript TypeScript
@@ -182,74 +182,74 @@ stagehand = Stagehand(
 ```
 </CodeGroup>
 
-该构造函数用于创建 Stagehand 实例。
+This constructor is used to create an instance of Stagehand.
 
-### **参数:** [`ConstructorParams`](https://github.com/browserbase/stagehand/blob/ed318846479054b6c7e3862b6c0c8aaa0bb0f42a/types/stagehand.ts#L8-L23)
+### **Arguments:** [`ConstructorParams`](https://github.com/browserbase/stagehand/blob/ed318846479054b6c7e3862b6c0c8aaa0bb0f42a/types/stagehand.ts#L8-L23)
 
 <Tabs>
 <Tab title="TypeScript">
   <ParamField path="env" type="'LOCAL' | 'BROWSERBASE'" optional>
-    默认为 `'BROWSERBASE'`
+    Defaults to `'BROWSERBASE'`
   </ParamField>
 
   <ParamField path="apiKey" type="string" optional>
-    您的 Browserbase API 密钥。默认为环境变量 `BROWSERBASE_API_KEY`
+    Your Browserbase API key. Defaults to `BROWSERBASE_API_KEY` environment variable
   </ParamField>
 
   <ParamField path="projectId" type="string" optional>
-    您的 Browserbase 项目 ID。默认为环境变量 `BROWSERBASE_PROJECT_ID`
+    Your Browserbase project ID. Defaults to `BROWSERBASE_PROJECT_ID` environment variable
   </ParamField>
 
   <ParamField path="experimental" type="boolean" optional>
-    启用实验性功能访问
+    Enables access to experimental features.
   </ParamField>
 
   <ParamField path="useAPI" type="boolean" optional>
-    是否使用 stagehand API。当 `env: "BROWSERBASE"` 时默认为 `true`
+    Whether to use the stagehand API. Defaults to `true` when `env: "BROWSERBASE"`.
   </ParamField>
 
   <ParamField path="browserbaseSessionCreateParams" type="object" optional>
-      创建新 Browserbase 会话的配置选项。更多关于 browserbaseSessionCreateParams 的信息请参见[此处](https://docs.browserbase.com/reference/api/create-a-session#body-browser-settings)
-    <Expandable title="属性">
+      Configuration options for creating new Browserbase sessions. More information on browserbaseSessionCreateParams can be found [here](https://docs.browserbase.com/reference/api/create-a-session#body-browser-settings).
+    <Expandable title="properties">
       <ParamField name="projectId" type="string">
-        Browserbase 项目 ID
+        The Browserbase Project ID.
       </ParamField>
       <ResponseField name="browserSettings" type="object">
-      <Expandable title="属性">
+      <Expandable title="properties">
         <ResponseField name="browserSettings.context" type="object">
-            <Expandable title="属性">
+            <Expandable title="properties">
                 <ResponseField name="browserSettings.context.id" type="string">
-                    上下文 ID
+                    The Context ID.
                 </ResponseField>
                 <ResponseField name="browserSettings.context.persist" type="boolean">
-                    是否在浏览后保留上下文。默认为 false
+                    Whether or not to persist the context after browsing. Defaults to false.
                 </ResponseField>
             </Expandable>
         </ResponseField>
         <ResponseField name="browserSettings.extensionId" type="string">
-            已上传的扩展 ID。参见[上传扩展](https://docs.browserbase.com/reference/api/upload-an-extension)
+            The uploaded Extension ID. See [Upload Extension](https://docs.browserbase.com/reference/api/upload-an-extension).
         </ResponseField>
         <ResponseField name="browserSettings.fingerprint" type="object">
-            使用示例参见[隐身模式页面](https://docs.browserbase.com/features/stealth-mode#fingerprinting)
-            <Expandable title="属性">
+            See usage examples in the [Stealth Mode page](https://docs.browserbase.com/features/stealth-mode#fingerprinting).
+            <Expandable title="properties">
                 <ResponseField name="browserSettings.fingerprint.httpVersion" type="enum<number>">
-                    可用选项: `1`, `2`
+                    Available options: `1`, `2`
                 </ResponseField>
                 <ResponseField name="browserSettings.fingerprint.browsers" type="enum<string>[]">
-                    可用选项: `chrome`, `edge`, `firefox`, `safari`
+                    Available options: `chrome`, `edge`, `firefox`, `safari`
                 </ResponseField>
                 <ResponseField name="browserSettings.fingerprint.devices" type="enum<string>[]">
-                    可用选项: `desktop`, `mobile`
+                    Available options: `desktop`, `mobile`
                 </ResponseField>
                 <ResponseField name="browserSettings.fingerprint.locales" type="string[]">
-                    完整语言环境列表参见[此处](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language)
+                    Full list of locales available [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language).
                 </ResponseField>
                 <ResponseField name="browserSettings.fingerprint.operatingSystems" type="enum<string>[]">
-                    注意: `operatingSystems` 设置为 `ios` 或 `android` 需要 `devices` 包含 `"mobile"`
-                    可用选项: `android`, `ios`,`linux`, `macos`, `windows`
+                    Note: `operatingSystems` set to `ios` or `android` requires `devices` to include `"mobile"`.
+                    Available options: `android`, `ios`,`linux`, `macos`, `windows`
                 </ResponseField>
                 <ResponseField name="browserSettings.fingerprint.screen" type="object">
-                    <Expandable title="属性">
+                    <Expandable title="properties">
                         <ResponseField name="browserSettings.fingerprint.maxHeight" type="integer">
                         </ResponseField>
                         <ResponseField name="browserSettings.fingerprint.maxWidth" type="integer">
@@ -263,7 +263,7 @@ stagehand = Stagehand(
             </Expandable>
         </ResponseField>
         <ResponseField name="browserSettings.viewport" type="object">
-            <Expandable title="属性">
+            <Expandable title="properties">
                 <ResponseField name="browserSettings.viewport.width" type="integer">
                 </ResponseField>
                 <ResponseField name="browserSettings.viewport.height" type="integer">
@@ -271,38 +271,38 @@ stagehand = Stagehand(
             </Expandable>
         </ResponseField>
         <ResponseField name="browserSettings.blockAds" type="boolean">
-            启用或禁用浏览器广告拦截。默认为 `false`
+            Enable or disable ad blocking in the browser. Defaults to `false`.
         </ResponseField>
         <ResponseField name="browserSettings.solveCaptchas" type="boolean">
-            启用或禁用浏览器验证码解决。默认为 `true`
+            Enable or disable captcha solving in the browser. Defaults to `true`.
         </ResponseField>
         <ResponseField name="browserSettings.recordSession" type="boolean">
-            启用或禁用会话录制。默认为 `true`
+            Enable or disable session recording. Defaults to `true`.
         </ResponseField>
         <ResponseField name="browserSettings.advancedStealth" type="boolean">
-            高级浏览器隐身模式
+            Advanced Browser Stealth Mode.
         </ResponseField>
       </Expandable>
       </ResponseField>
       <ResponseField name="extensionId" type="string">
-        已上传的扩展 ID。参见[上传扩展](https://docs.browserbase.com/reference/api/upload-an-extension)
+        The uploaded Extension ID. See [Upload Extension](https://docs.browserbase.com/reference/api/upload-an-extension).
       </ResponseField>
       <ResponseField name="keepAlive" type="boolean">
-        设置为 true 可在断开连接后保持会话活动。仅适用于 Browserbase Startup 计划
+        Set to true to keep the session alive even after disconnections. This is available on the Browserbase Startup plan only.
       </ResponseField>
       <ResponseField name="proxies" type="boolean">
-        代理配置。可为 true 使用默认代理，或代理配置数组
+        Proxy configuration. Can be true for default proxy, or an array of proxy configurations.
       </ResponseField>
       <ResponseField name="region" type="enum<string>">
-        会话运行区域。可用选项: `us-west-2`, `us-east-1`, `eu-central-1`, `ap-southeast-1`
+        The region where the Session should run. Available options: `us-west-2`, `us-east-1`, `eu-central-1`, `ap-southeast-1`
       </ResponseField>
       <ResponseField name="timeout" type="number">
-        会话自动结束前的持续时间(秒)。默认为项目的 defaultTimeout
-        有效范围: `60 < x < 21600`
+        Duration in seconds after which the session will automatically end. Defaults to the Project's defaultTimeout.
+        Required range: `60 < x < 21600`
       </ResponseField>
       <ResponseField name="userMetadata" type="object">
-        附加到会话的任意用户元数据。更多信息参见[用户元数据](https://docs.browserbase.com/features/sessions#user-metadata)
-        <Expandable title="属性">
+        Arbitrary user metadata to attach to the session. For more information about user metadata, see [UserMetadata](https://docs.browserbase.com/features/sessions#user-metadata)
+        <Expandable title="Properties">
             userMetadata.`{key}` `any`
         </Expandable>
       </ResponseField>
@@ -310,204 +310,204 @@ stagehand = Stagehand(
   </ParamField>
 
   <ParamField path="browserbaseSessionID" type="string" optional>
-    要恢复的现有 Browserbase 会话 ID
+    ID of an existing Browserbase session to resume
   </ParamField>
 
   <ParamField path="modelName" type="string" optional>
-    指定使用的默认语言模型。支持格式为 `{provider}/{modelName}`。支持的提供商列表参见[可用提供商](/examples/custom_llms#providers)
+    Specifying the default language model to use. Format supported is `{provider}/{modelName}`. For a list of supported providers, see [Available Providers](/examples/custom_llms#providers).
   </ParamField>
 
   <ParamField path="modelClientOptions" type="object" optional>
-    语言模型客户端的配置选项(如 `apiKey`)
+    Configuration options for the language model client (i.e. `apiKey`)
   </ParamField>
 
   <ParamField path="enableCaching" type="boolean" optional>
-    启用 LLM 响应缓存。设置为 `true` 时，LLM 请求将被缓存到磁盘并重复用于相同请求。默认为 `false`
+    Enables caching of LLM responses. When set to `true`, the LLM requests will be cached on disk and reused for identical requests. Defaults to `false`
   </ParamField>
 
   <ParamField path="domSettleTimeoutMs" type="integer" optional>
-    指定等待 DOM 稳定的超时时间(毫秒)。默认为 `30_000` (30 秒)
+    Specifies the timeout in milliseconds for waiting for the DOM to settle. Defaults to `30_000` (30 seconds)
   </ParamField>
 
   <ParamField path="logger" type="(message: LogLine) => void" optional>
-      `message` 为 `LogLine` 对象。处理日志消息。用于自定义日志实现。更多信息参见[日志](/reference/logging)页面
+      `message` is a `LogLine` object. Handles log messages. Useful for custom logging implementations. For more information, see the [Logging](/reference/logging) page
     </ParamField>
 
   <ParamField path="disablePino" type="boolean" optional>
-    是否禁用 Pino 日志记录。适用于 Next.js 或测试环境。如果定义了自定义 `logger`，Pino 将自动禁用
+    Whether Pino should be disabled for logging. This is helpful for Next.js or test environments. Pino will automatically be disabled if a custom `logger` is defined.
   </ParamField>
 
   <ParamField path="verbose" type="integer" optional>
-    在自动化过程中启用多级日志记录: 
-    - `0`: **ERROR** (极少或不记录)
-    - `1`: **INFO** (SDK 级别日志)
-    - `2`: **DEBUG** (详细日志和跟踪)
+    Enables several levels of logging during automation: 
+    - `0`: **ERROR** (limited to no logging)
+    - `1`: **INFO** (SDK-level logging)
+    - `2`: **DEBUG** (Detailed logging and tracing)
   </ParamField>
 
   <ParamField path="llmClient" type="LLMClient" optional>
-    符合 [`LLMClient`](https://github.com/arihanv/stagehand/blob/main/lib/llm/LLMClient.ts) 抽象类的自定义 LLM 客户端实现
+    A custom LLM client implementation that conforms to the [`LLMClient`](https://github.com/arihanv/stagehand/blob/main/lib/llm/LLMClient.ts) abstract class
   </ParamField>
 
   <ParamField path="systemPrompt" type="string" optional>
-    用于 LLM 的自定义系统提示，附加到 act、extract 和 observe 方法的默认系统提示
+    A custom system prompt to use for the LLM in addition to the default system prompt for act, extract, and observe methods.
   </ParamField>
   
   <ParamField path="selfHeal" type="boolean" optional>
-    启用自愈模式。设置为 `true` 时，Stagehand 将尝试从错误中恢复(例如过期的缓存元素无法解析)。默认为 `true`。设置为 `false` 可禁用缓存错误时的 LLM 推断
+    Enables self-healing mode. When set to `true`, Stagehand will attempt to recover from errors (eg. outdated cached element not resolving) by retrying the last action. Defaults to `true`. Set to `false` to disable LLM inference on cache errors.
   </ParamField>
   
 <ResponseField name="localBrowserLaunchOptions" type="LocalBrowserLaunchOptions">
-  提供本地浏览器实例的全面选项
-  <Expandable title="属性">
+  Provides comprehensive options for local browser instances.
+  <Expandable title="properties">
     <ResponseField name="args" type="string[]">
-      传递给浏览器的额外命令行参数
+      Additional command-line arguments to pass to the browser.
     </ResponseField>
     <ResponseField name="chromiumSandbox" type="boolean">
-      启用或禁用 Chromium 沙箱
+      Enable or disable Chromium's sandbox.
     </ResponseField>
     <ResponseField name="devtools" type="boolean">
-      启动时打开浏览器的开发者工具
+      Open the browser's developer tools on launch.
     </ResponseField>
     <ResponseField name="env" type="Record&lt;string, string | number | boolean&gt;">
-      浏览器进程的环境变量
+      Environment variables for the browser process.
     </ResponseField>
     <ResponseField name="executablePath" type="string">
-      浏览器可执行文件路径
+      Path to the browser executable.
     </ResponseField>
     <ResponseField name="handleSIGHUP" type="boolean">
-      处理 SIGHUP 信号的选项
+      Option to handle the SIGHUP signal.
     </ResponseField>
     <ResponseField name="handleSIGINT" type="boolean">
-      处理 SIGINT 信号的选项
+      Option to handle the SIGINT signal.
     </ResponseField>
     <ResponseField name="handleSIGTERM" type="boolean">
-      处理 SIGTERM 信号的选项
+      Option to handle the SIGTERM signal.
     </ResponseField>
     <ResponseField name="headless" type="boolean">
-      以无头模式启动浏览器
+      Launches the browser in headless mode.
     </ResponseField>
     <ResponseField name="ignoreDefaultArgs" type="boolean | string[]">
-      忽略所有默认参数或指定要忽略的数组
+      Ignore all default arguments or specify an array to ignore.
     </ResponseField>
     <ResponseField name="proxy" type="object">
-      <Expandable title="属性">
+      <Expandable title="properties">
         <ResponseField name="server" type="string">
-          代理服务器 URL
+          Proxy server URL.
         </ResponseField>
         <ResponseField name="bypass" type="string" optional>
-          绕过代理的主机
+          Hosts to bypass the proxy.
         </ResponseField>
         <ResponseField name="username" type="string" optional>
-          代理认证用户名
+          Username for proxy authentication.
         </ResponseField>
         <ResponseField name="password" type="string" optional>
-          代理认证密码
+          Password for proxy authentication.
         </ResponseField>
       </Expandable>
     </ResponseField>
     <ResponseField name="tracesDir" type="string">
-      存储跟踪文件的目录
+      Directory to store trace files.
     </ResponseField>
     <ResponseField name="userDataDir" type="string">
-      自定义用户数据目录
+      Custom user data directory.
     </ResponseField>
     <ResponseField name="acceptDownloads" type="boolean">
-      允许文件下载
+      Allow file downloads.
     </ResponseField>
     <ResponseField name="downloadsPath" type="string">
-      下载文件保存目录
+      Directory where downloads are saved.
     </ResponseField>
     <ResponseField name="extraHTTPHeaders" type="Record&lt;string, string&gt;">
-      随每个请求发送的额外 HTTP 头
+      Additional HTTP headers to send with each request.
     </ResponseField>
     <ResponseField name="geolocation" type="object">
-      <Expandable title="属性">
+      <Expandable title="properties">
         <ResponseField name="latitude" type="number">
-          纬度坐标
+          Latitude coordinate.
         </ResponseField>
         <ResponseField name="longitude" type="number">
-          经度坐标
+          Longitude coordinate.
         </ResponseField>
         <ResponseField name="accuracy" type="number" optional>
-          地理位置测量精度
+          Accuracy of the geolocation measurement.
         </ResponseField>
       </Expandable>
     </ResponseField>
     <ResponseField name="hasTouch" type="boolean">
-      指示设备是否具有触摸功能
+      Indicates if the device has touch capabilities.
     </ResponseField>
     <ResponseField name="ignoreHTTPSErrors" type="boolean">
-      是否忽略 HTTPS 错误
+      Whether to ignore HTTPS errors.
     </ResponseField>
     <ResponseField name="locale" type="string">
-      设置浏览器的语言环境
+      Sets the browser's locale.
     </ResponseField>
     <ResponseField name="permissions" type="string[]">
-      授予的权限数组(如"geolocation", "notifications")
+      Array of permissions to grant (e.g., "geolocation", "notifications").
     </ResponseField>
     <ResponseField name="recordHar" type="object">
-      <Expandable title="属性">
+      <Expandable title="properties">
         <ResponseField name="path" type="string">
-          HAR 文件路径
+          File path for the HAR.
         </ResponseField>
         <ResponseField name="mode" type="&quot;full&quot; | &quot;minimal&quot;" optional>
-          HAR 记录模式
+          Mode for HAR recording.
         </ResponseField>
         <ResponseField name="omitContent" type="boolean" optional>
-          是否在 HAR 记录中省略内容
+          Whether to omit content in HAR recording.
         </ResponseField>
         <ResponseField name="content" type="&quot;omit&quot; | &quot;embed&quot; | &quot;attach&quot;" optional>
-          HAR 记录内容模式
+          Content mode for HAR recording.
         </ResponseField>
         <ResponseField name="urlFilter" type="string | RegExp" optional>
-          包含在 HAR 中的 URL 过滤器
+          Filter for URLs to include in the HAR.
         </ResponseField>
       </Expandable>
     </ResponseField>
     <ResponseField name="recordVideo" type="object">
-      <Expandable title="属性">
+      <Expandable title="properties">
         <ResponseField name="dir" type="string">
-          视频保存目录
+          Directory to save videos.
         </ResponseField>
         <ResponseField name="size" type="object" optional>
-          <Expandable title="属性">
+          <Expandable title="properties">
             <ResponseField name="width" type="number">
-              录制视频宽度
+              Width of the recorded video.
             </ResponseField>
             <ResponseField name="height" type="number">
-              录制视频高度
+              Height of the recorded video.
             </ResponseField>
           </Expandable>
         </ResponseField>
       </Expandable>
     </ResponseField>
     <ResponseField name="viewport" type="object">
-      <Expandable title="属性">
+      <Expandable title="properties">
         <ResponseField name="width" type="number">
-          视口宽度
+          Width of the viewport.
         </ResponseField>
         <ResponseField name="height" type="number">
-          视口高度
+          Height of the viewport.
         </ResponseField>
       </Expandable>
     </ResponseField>
     <ResponseField name="deviceScaleFactor" type="number">
-      高 DPI 显示器的设备缩放因子
+      Device scale factor for high-DPI displays.
     </ResponseField>
     <ResponseField name="timezoneId" type="string">
-      模拟的时区(如"America/Los_Angeles")
+      Timezone to emulate (e.g., "America/Los_Angeles").
     </ResponseField>
     <ResponseField name="bypassCSP" type="boolean">
-      是否绕过内容安全策略
+      Whether to bypass Content Security Policy.
     </ResponseField>
     <ResponseField name="cookies" type="Cookie[]">
-      初始化浏览器会话的 cookie 数组
+      Array of cookies to initialize the browser session.
     </ResponseField>
 	<ResponseField name="cdpUrl" type="string">
-		用于 Chrome DevTools 协议的 URL。适用于连接到正在运行的浏览器实例
+		URL for the Chrome DevTools Protocol. Useful for connecting to a running browser instance.
 	</ResponseField>
   	<ResponseField name="preserveUserDataDir" type="boolean">
-		是否在 Stagehand 关闭后保留用户数据目录。适用于在多个会话中重用本地上下文。默认为 false
+		Whether to preserve the user data directory after Stagehand is closed. This is useful for reusing local context with multiple sessions. Defaults to false.
 	</ResponseField>
   </Expandable>
 </ResponseField>
@@ -515,67 +515,67 @@ stagehand = Stagehand(
 
 <Tab title="Python">
   <ParamField path="env" type="'LOCAL' | 'BROWSERBASE'" optional>
-    默认为 `'BROWSERBASE'`
+    Defaults to `'BROWSERBASE'`
   </ParamField>
 
   <ParamField path="api_key" type="string" optional>
-    您的 Browserbase API 密钥。默认为环境变量 `BROWSERBASE_API_KEY`
+    Your Browserbase API key. Defaults to `BROWSERBASE_API_KEY` environment variable
   </ParamField>
 
   <ParamField path="project_id" type="string" optional>
-    您的 Browserbase 项目 ID。默认为环境变量 `BROWSERBASE_PROJECT_ID`
+    Your Browserbase project ID. Defaults to `BROWSERBASE_PROJECT_ID` environment variable
   </ParamField>
 
   <ParamField path="experimental" type="boolean" optional>
-    启用实验性功能访问
+    Enables access to experimental features.
   </ParamField>
 
   <ParamField path="use_api" type="boolean" optional>
-    是否使用 stagehand API。当 `env: "BROWSERBASE"` 时默认为 `true`
+    Whether to use the stagehand API. Defaults to `true` when `env: "BROWSERBASE"`.
   </ParamField>
 
   <ParamField path="browserbase_session_create_params" type="object" optional>
-      创建新 Browserbase 会话的配置选项。更多关于 browserbaseSessionCreateParams 的信息请参见[此处](https://docs.browserbase.com/reference/api/create-a-session#body-browser-settings)
-    <Expandable title="属性">
+      Configuration options for creating new Browserbase sessions. More information on browserbaseSessionCreateParams can be found [here](https://docs.browserbase.com/reference/api/create-a-session#body-browser-settings).
+    <Expandable title="properties">
       <ParamField name="projectId" type="string">
-        Browserbase 项目 ID
+        The Browserbase Project ID.
       </ParamField>
       <ResponseField name="browserSettings" type="object">
-      <Expandable title="属性">
+      <Expandable title="properties">
         <ResponseField name="browserSettings.context" type="object">
-            <Expandable title="属性">
+            <Expandable title="properties">
                 <ResponseField name="browserSettings.context.id" type="string">
-                    上下文 ID
+                    The Context ID.
                 </ResponseField>
                 <ResponseField name="browserSettings.context.persist" type="boolean">
-                    是否在浏览后保留上下文。默认为 false
+                    Whether or not to persist the context after browsing. Defaults to false.
                 </ResponseField>
             </Expandable>
         </ResponseField>
         <ResponseField name="browserSettings.extensionId" type="string">
-            已上传的扩展 ID。参见[上传扩展](https://docs.browserbase.com/reference/api/upload-an-extension)
+            The uploaded Extension ID. See [Upload Extension](https://docs.browserbase.com/reference/api/upload-an-extension).
         </ResponseField>
         <ResponseField name="browserSettings.fingerprint" type="object">
-            使用示例参见[隐身模式页面](https://docs.browserbase.com/features/stealth-mode#fingerprinting)
-            <Expandable title="属性">
+            See usage examples in the [Stealth Mode page](https://docs.browserbase.com/features/stealth-mode#fingerprinting).
+            <Expandable title="properties">
                 <ResponseField name="browserSettings.fingerprint.httpVersion" type="enum<number>">
-                    可用选项: `1`, `2`
+                    Available options: `1`, `2`
                 </ResponseField>
                 <ResponseField name="browserSettings.fingerprint.browsers" type="enum<string>[]">
-                    可用选项: `chrome`, `edge`, `firefox`, `safari`
+                    Available options: `chrome`, `edge`, `firefox`, `safari`
                 </ResponseField>
                 <ResponseField name="browserSettings.fingerprint.devices" type="enum<string>[]">
-                    可用选项: `desktop`, `mobile`
+                    Available options: `desktop`, `mobile`
                 </ResponseField>
                 <ResponseField name="browserSettings.fingerprint.locales" type="string[]">
-                    完整语言环境列表参见[此处](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language)
+                    Full list of locales available [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language).
                 </ResponseField>
                 <ResponseField name="browserSettings.fingerprint.operatingSystems" type="enum<string>[]">
-                    注意: `operatingSystems` 设置为 `ios` 或 `android` 需要 `devices` 包含 `"mobile"`
-                    可用选项: `android`, `ios`,`linux`, `macos`, `windows`
+                    Note: `operatingSystems` set to `ios` or `android` requires `devices` to include `"mobile"`.
+                    Available options: `android`, `ios`,`linux`, `macos`, `windows`
                 </ResponseField>
                 <ResponseField name="browserSettings.fingerprint.screen" type="object">
-                    <Expandable title="属性">
+                    <Expandable title="properties">
                         <ResponseField name="browserSettings.fingerprint.maxHeight" type="integer">
                         </ResponseField>
                         <ResponseField name="browserSettings.fingerprint.maxWidth" type="integer">
@@ -589,7 +589,7 @@ stagehand = Stagehand(
             </Expandable>
         </ResponseField>
         <ResponseField name="browserSettings.viewport" type="object">
-            <Expandable title="属性">
+            <Expandable title="properties">
                 <ResponseField name="browserSettings.viewport.width" type="integer">
                 </ResponseField>
                 <ResponseField name="browserSettings.viewport.height" type="integer">
@@ -597,38 +597,38 @@ stagehand = Stagehand(
             </Expandable>
         </ResponseField>
         <ResponseField name="browserSettings.blockAds" type="boolean">
-            启用或禁用浏览器广告拦截。默认为 `false`
+            Enable or disable ad blocking in the browser. Defaults to `false`.
         </ResponseField>
         <ResponseField name="browserSettings.solveCaptchas" type="boolean">
-            启用或禁用浏览器验证码解决。默认为 `true`
+            Enable or disable captcha solving in the browser. Defaults to `true`.
         </ResponseField>
         <ResponseField name="browserSettings.recordSession" type="boolean">
-            启用或禁用会话录制。默认为 `true`
+            Enable or disable session recording. Defaults to `true`.
         </ResponseField>
         <ResponseField name="browserSettings.advancedStealth" type="boolean">
-            高级浏览器隐身模式
+            Advanced Browser Stealth Mode.
         </ResponseField>
       </Expandable>
       </ResponseField>
       <ResponseField name="extensionId" type="string">
-        已上传的扩展 ID。参见[上传扩展](https://docs.browserbase.com/reference/api/upload-an-extension)
+        The uploaded Extension ID. See [Upload Extension](https://docs.browserbase.com/reference/api/upload-an-extension).
       </ResponseField>
       <ResponseField name="keepAlive" type="boolean">
-        设置为 true 可在断开连接后保持会话活动。仅适用于 Browserbase Startup 计划
+        Set to true to keep the session alive even after disconnections. This is available on the Browserbase Startup plan only.
       </ResponseField>
       <ResponseField name="proxies" type="boolean">
-        代理配置。可为 true 使用默认代理，或代理配置数组
+        Proxy configuration. Can be true for default proxy, or an array of proxy configurations.
       </ResponseField>
       <ResponseField name="region" type="enum<string>">
-        会话运行区域。可用选项: `us-west-2`, `us-east-1`, `eu-central-1`, `ap-southeast-1`
+        The region where the Session should run. Available options: `us-west-2`, `us-east-1`, `eu-central-1`, `ap-southeast-1`
       </ResponseField>
       <ResponseField name="timeout" type="number">
-        会话自动结束前的持续时间(秒)。默认为项目的 defaultTimeout
-        有效范围: `60 < x < 21600`
+        Duration in seconds after which the session will automatically end. Defaults to the Project's defaultTimeout.
+        Required range: `60 < x < 21600`
       </ResponseField>
       <ResponseField name="userMetadata" type="object">
-        附加到会话的任意用户元数据。更多信息参见[用户元数据](https://docs.browserbase.com/features/sessions#user-metadata)
-        <Expandable title="属性">
+        Arbitrary user metadata to attach to the session. For more information about user metadata, see [UserMetadata](https://docs.browserbase.com/features/sessions#user-metadata)
+        <Expandable title="Properties">
             userMetadata.`{key}` `any`
         </Expandable>
       </ResponseField>
@@ -636,213 +636,215 @@ stagehand = Stagehand(
   </ParamField>
 
   <ParamField path="browserbase_session_id" type="string" optional>
-    要恢复的现有 Browserbase 会话 ID
+    ID of an existing Browserbase session to resume
   </ParamField>
 
   <ParamField path="model_name" type="string" optional>
-    指定使用的默认语言模型。支持格式为 `{provider}/{model_name}`。支持的提供商列表参见[可用提供商](/examples/custom_llms#providers)
+    Specifying the default language model to use. Format supported is `{provider}/{model_name}`. For a list of supported providers, see [Available Providers](/examples/custom_llms#providers).
   </ParamField>
 
   <ParamField path="model_client_options" type="object" optional>
-    语言模型客户端的配置选项(如 `apiKey`)
+    Configuration options for the language model client (i.e. `apiKey`)
   </ParamField>
 
   <ParamField path="dom_settle_timeout_ms" type="integer" optional>
-    指定等待 DOM 稳定的超时时间(毫秒)。默认为 `30_000` (30 秒)
+    Specifies the timeout in milliseconds for waiting for the DOM to settle. Defaults to `30_000` (30 seconds)
   </ParamField>
 
   <ParamField path="logger" type="Callable[[LogLine], None]" optional>
-      `message` 为 `LogLine` 对象。处理日志消息。用于自定义日志实现。更多信息参见[日志](/reference/logging)页面
+      `message` is a `LogLine` object. Handles log messages. Useful for custom logging implementations. For more information, see the [Logging](/reference/logging) page
   </ParamField>
 
   <ParamField path="verbose" type="integer" optional>
-    在自动化过程中启用多级日志记录: 
-    - `0`: **ERROR** (极少或不记录)
-    - `1`: **INFO** (SDK 级别日志)
-    - `2`: **DEBUG** (详细日志和跟踪)
+    Enables several levels of logging during automation: 
+    - `0`: **ERROR** (limited to no logging)
+    - `1`: **INFO** (SDK-level logging)
+    - `2`: **DEBUG** (Detailed logging and tracing)
   </ParamField>
 
   <ParamField path="system_prompt" type="string" optional>
-    用于 LLM 的自定义系统提示，附加到 act、extract 和 observe 方法的默认系统提示
+    A custom system prompt to use for the LLM in addition to the default system prompt for act, extract, and observe methods.
   </ParamField>
   
   <ParamField path="self_heal" type="boolean" optional>
-    启用自愈模式。设置为 `true` 时，Stagehand 将尝试从错误中恢复(例如过期的缓存元素无法解析)。默认为 `true`。设置为 `false` 可禁用缓存错误时的 LLM 推断
+    Enables self-healing mode. When set to `true`, Stagehand will attempt to recover from errors (eg. outdated cached element not resolving) by retrying the last action. Defaults to `true`. Set to `false` to disable LLM inference on cache errors.
   </ParamField>
 
   <ParamField path="act_timeout_ms" type="integer" optional>
-    指定 act 命令的超时时间(毫秒)。默认为 `30_000` (30 秒)
+    Specifies the timeout in milliseconds for act commands. Defaults to `30_000` (30 seconds)
   </ParamField>
 
   <ParamField path="headless" type="boolean" optional>
-    以无头模式启动浏览器
+    Launches the browser in headless mode.
   </ParamField>
 
   <ParamField path="use_rich_logging" type="boolean" optional>
-    是否使用 Rich 进行彩色日志记录。默认为 `true`
+    Whether to use Rich for colorized logging. Defaults to `true`.
   </ParamField>
 
 <ResponseField name="localBrowserLaunchOptions" type="LocalBrowserLaunchOptions">
-  提供本地浏览器实例的全面选项
-  <Expandable title="属性">
+  Provides comprehensive options for local browser instances.
+  <Expandable title="properties">
     <ResponseField name="args" type="string[]">
-      传递给浏览器的额外命令行参数
+      Additional command-line arguments to pass to the browser.
     </ResponseField>
     <ResponseField name="chromiumSandbox" type="boolean">
-      启用或禁用 Chromium 沙箱
+      Enable or disable Chromium's sandbox.
     </ResponseField>
     <ResponseField name="devtools" type="boolean">
-      启动时打开浏览器的开发者工具
+      Open the browser's developer tools on launch.
     </ResponseField>
     <ResponseField name="env" type="Record&lt;string, string | number | boolean&gt;">
-      浏览器进程的环境变量
+      Environment variables for the browser process.
     </ResponseField>
     <ResponseField name="executablePath" type="string">
-      浏览器可执行文件路径
+      Path to the browser executable.
     </ResponseField>
     <ResponseField name="handleSIGHUP" type="boolean">
-      处理 SIGHUP 信号的选项
+      Option to handle the SIGHUP signal.
     </ResponseField>
     <ResponseField name="handleSIGINT" type="boolean">
-      处理 SIGINT 信号的选项
+      Option to handle the SIGINT signal.
     </ResponseField>
     <ResponseField name="handleSIGTERM" type="boolean">
-      处理 SIGTERM 信号的选项
+      Option to handle the SIGTERM signal.
     </ResponseField>
     <ResponseField name="headless" type="boolean">
-      以无头模式启动浏览器
+      Launches the browser in headless mode.
     </ResponseField>
     <ResponseField name="ignoreDefaultArgs" type="boolean | string[]">
-      忽略所有默认参数或指定要忽略的数组
+      Ignore all default arguments or specify an array to ignore.
     </ResponseField>
     <ResponseField name="proxy" type="object">
-      <Expandable title="属性">
+      <Expandable title="properties">
         <ResponseField name="server" type="string">
-          代理服务器 URL
+          Proxy server URL.
         </ResponseField>
         <ResponseField name="bypass" type="string" optional>
-          绕过代理的主机
+          Hosts to bypass the proxy.
         </ResponseField>
         <ResponseField name="username" type="string" optional>
-          代理认证用户名
+          Username for proxy authentication.
         </ResponseField>
         <ResponseField name="password" type="string" optional>
-          代理认证密码
+          Password for proxy authentication.
         </ResponseField>
       </Expandable>
     </ResponseField>
     <ResponseField name="tracesDir" type="string">
-      存储跟踪文件的目录
+      Directory to store trace files.
     </ResponseField>
     <ResponseField name="userDataDir" type="string">
-      自定义用户数据目录
+      Custom user data directory.
     </ResponseField>
     <ResponseField name="acceptDownloads" type="boolean">
-      允许文件下载
+      Allow file downloads.
     </ResponseField>
     <ResponseField name="downloadsPath" type="string">
-      下载文件保存目录
+      Directory where downloads are saved.
     </ResponseField>
     <ResponseField name="extraHTTPHeaders" type="Record&lt;string, string&gt;">
-      随每个请求发送的额外 HTTP 头
+      Additional HTTP headers to send with each request.
     </ResponseField>
     <ResponseField name="geolocation" type="object">
-      <Expandable title="属性">
+      <Expandable title="properties">
         <ResponseField name="latitude" type="number">
-          纬度坐标
+          Latitude coordinate.
         </ResponseField>
         <ResponseField name="longitude" type="number">
-          经度坐标
+          Longitude coordinate.
         </ResponseField>
         <ResponseField name="accuracy" type="number" optional>
-          地理位置测量精度
+          Accuracy of the geolocation measurement.
         </ResponseField>
       </Expandable>
     </ResponseField>
     <ResponseField name="hasTouch" type="boolean">
-      指示设备是否具有触摸功能
+      Indicates if the device has touch capabilities.
     </ResponseField>
     <ResponseField name="ignoreHTTPSErrors" type="boolean">
-      是否忽略 HTTPS 错误
+      Whether to ignore HTTPS errors.
     </ResponseField>
     <ResponseField name="locale" type="string">
-      设置浏览器的语言环境
+      Sets the browser's locale.
     </ResponseField>
     <ResponseField name="permissions" type="string[]">
-      授予的权限数组(如"geolocation", "notifications")
+      Array of permissions to grant (e.g., "geolocation", "notifications").
     </ResponseField>
     <ResponseField name="recordHar" type="object">
-      <Expandable title="属性">
+      <Expandable title="properties">
         <ResponseField name="path" type="string">
-          HAR 文件路径
+          File path for the HAR.
         </ResponseField>
         <ResponseField name="mode" type="&quot;full&quot; | &quot;minimal&quot;" optional>
-          HAR 记录模式
+          Mode for HAR recording.
         </ResponseField>
         <ResponseField name="omitContent" type="boolean" optional>
-          是否在 HAR 记录中省略内容
+          Whether to omit content in HAR recording.
         </ResponseField>
         <ResponseField name="content" type="&quot;omit&quot; | &quot;embed&quot; | &quot;attach&quot;" optional>
-          HAR 记录内容模式
+          Content mode for HAR recording.
         </ResponseField>
         <ResponseField name="urlFilter" type="string | RegExp" optional>
-          包含在 HAR 中的 URL 过滤器
+          Filter for URLs to include in the HAR.
         </ResponseField>
       </Expandable>
     </ResponseField>
     <ResponseField name="recordVideo" type="object">
-      <Expandable title="属性">
+      <Expandable title="properties">
         <ResponseField name="dir" type="string">
-          视频保存目录
+          Directory to save videos.
         </ResponseField>
         <ResponseField name="size" type="object" optional>
-          <Expandable title="属性">
+          <Expandable title="properties">
             <ResponseField name="width" type="number">
-              录制视频宽度
+              Width of the recorded video.
             </ResponseField>
             <ResponseField name="height" type="number">
-              录制视频高度
+              Height of the recorded video.
             </ResponseField>
           </Expandable>
         </ResponseField>
       </Expandable>
     </ResponseField>
     <ResponseField name="viewport" type="object">
-      <Expandable title="属性">
+      <Expandable title="properties">
         <ResponseField name="width" type="number">
-          视口宽度
+          Width of the viewport.
         </ResponseField>
         <ResponseField name="height" type="number">
-          视口高度
+          Height of the viewport.
         </ResponseField>
       </Expandable>
     </ResponseField>
     <ResponseField name="deviceScaleFactor" type="number">
-      高 DPI 显示器的设备缩放因子
+      Device scale factor for high-DPI displays.
     </ResponseField>
     <ResponseField name="timezoneId" type="string">
-      模拟的时区(如"America/Los_Angeles")
+      Timezone to emulate (e.g., "America/Los_Angeles").
     </ResponseField>
     <ResponseField name="bypassCSP" type="boolean">
-      是否绕过内容安全策略
+      Whether to bypass Content Security Policy.
     </ResponseField>
     <ResponseField name="cookies" type="Cookie[]">
-      初始化浏览器会话的 cookie 数组
+      Array of cookies to initialize the browser session.
     </ResponseField>
 	<ResponseField name="cdpUrl" type="string">
-		用于 Chrome DevTools 协议的 URL。适用于连接到正在运行的浏览器实例
+		URL for the Chrome DevTools Protocol. Useful for connecting to a running browser instance.
 	</ResponseField>
   	<ResponseField name="preserveUserDataDir" type="boolean">
-		是否在 Stagehand 关闭后保留用户数据目录。适用于在多个会话中重用本地上下文。默认为 false
+		Whether to preserve the user data directory after Stagehand is closed. This is useful for reusing local context with multiple sessions. Defaults to false.
 	</ResponseField>
   </Expandable>
 </ResponseField>
 </Tab>
 </Tabs>
 
-### **返回值:** Stagehand 对象
 
-构造函数返回一个配置了指定选项的 `Stagehand` 类实例。但使用 Stagehand 前，仍需通过 [`init()`](#init) 方法进行初始化。
+
+### **Returns:** Stagehand object
+
+The constructor returns an instance of the `Stagehand` class configured with the specified options. However, to use Stagehand, you must still initialize it with [`init()`](#init).
 
 ## `stagehand.init()`
 
@@ -855,7 +857,7 @@ await stagehand.init()
 ```
 </CodeGroup>
 
-`init()` 方法异步初始化 Stagehand 实例。该方法应在调用其他任何方法前执行。
+`init()` asynchronously initializes the Stagehand instance. It should be called before any other methods.
 
 ## `stagehand.close()`
 
@@ -868,4 +870,4 @@ await stagehand.close()
 ```
 </CodeGroup>
 
-`close()` 是清理方法，用于移除 Stagehand 创建的临时文件。建议在自动化任务完成后显式调用该方法。
+`close()` is a cleanup method to remove the temporary files created by Stagehand. It's recommended that you call this explicitly when you're done with your automation.

@@ -1,28 +1,28 @@
 ---
-
-title: '快速开始'
+title: 'Quickstart'
 icon: 'rocket'
 ---
 
-只需1分钟即可开始使用Stagehand！请从下方选择您偏好的语言。
+You can get started with Stagehand in just 1 minute! Choose your preferred language below.
 
 <Tip>
-对于TypeScript/Node.js：我们强烈建议使用Node.js运行时环境来运行Stagehand脚本，而非Deno或Bun等新方案。
+For TypeScript/Node.js: We highly recommend using the Node.js runtime environment to run Stagehand scripts, as opposed to newer alternatives like Deno or Bun. 
 
-**Bun不支持Stagehand**，因其不兼容[Playwright](https://github.com/search?q=repo:oven-sh/bun+playwright&type=issues)。
+**Bun does not support Stagehand** since it doesn't support [Playwright](https://github.com/search?q=repo:oven-sh/bun+playwright&type=issues).
 
-对于Python：要求Python 3.9+版本，并推荐使用[uv](https://docs.astral.sh/uv/)管理虚拟环境。
+For Python: We require Python 3.9+ and recommend using [uv](https://docs.astral.sh/uv/) to manage your virtual environment.
 </Tip>
+
 
 <Tabs>
 <Tab title="TypeScript">
-在开始之前，您需要安装 Node.js 和 NPM。我们强烈推荐使用 [nvm](https://github.com/nvm-sh/nvm) 来管理 Node.js 版本，并运行 Node 20+ 版本。
+	Before you begin, you'll need to install Node.js and NPM. We highly recommend using [nvm](https://github.com/nvm-sh/nvm) to manage your Node.js versions, and running on Node version 20+.
 
 <Steps>
 
-<Step title="创建新项目">
+<Step title="Create a new project">
 
-您可以使用 [npx](https://docs.npmjs.com/cli/v8/commands/npx) 创建新项目。Node.js 默认的包管理器 `npm` 已包含 npx。
+You can use [npx](https://docs.npmjs.com/cli/v8/commands/npx) to create a new project. You should have npx included with `npm`, the default package manager for Node.js. 
 
 <Tabs>
 	<Tab title="npm">
@@ -44,7 +44,7 @@ icon: 'rocket'
 	</Tab>
 </Tabs>
 
-要在 Stagehand 中使用我们的 [Contexts](https://docs.browserbase.com/features/contexts) 功能，请运行：
+To use our [Contexts](https://docs.browserbase.com/features/contexts) with Stagehand, run:
 
 <Tabs>
 	<Tab title="npm">
@@ -66,7 +66,7 @@ icon: 'rocket'
 	</Tab>
 </Tabs>
 
-只需一行命令即可将 Stagehand 脚本部署到 [Vercel](https://vercel.com/)！运行：
+You can easily deploy Stagehand scripts to [Vercel](https://vercel.com/) in one line! Simply run:
 
 <Tabs>
 	<Tab title="npm">
@@ -89,7 +89,7 @@ icon: 'rocket'
 	</Tab>
 </Tabs>
 
-我们还提供了一个使用 CUA 代理的示例，让 OpenAI Operator 与 Anthropic 的 Claude Computer 进行激烈的国际象棋对弈。仅需十行 Stagehand 代码即可实现，尝试运行：
+We also have an example using CUA agents, where we put OpenAI Operator against Anthropic's Claude Computer Use in a heated game of chess. It's just ten lines of Stagehand code, try it with:
 
 <Tabs>
 	<Tab title="npm">
@@ -111,7 +111,7 @@ icon: 'rocket'
 	</Tab>
 </Tabs>
 
-您也可以使用尚未发布的 main 分支版本。这将包含最前沿的功能，但可能尚未完全准备好用于生产环境。测试此版本请运行：
+You can also use the version of Stagehand that's on main but not released yet. This will have the bleeding edge features, but they may not be fully prod-ready yet. To test this version, try:
 
 <Tabs>
 	<Tab title="npm">
@@ -132,18 +132,18 @@ icon: 'rocket'
 	```
 	</Tab>
 </Tabs>
-系统将询问以下问题：
+It will ask you the following questions:
 ```
-✔ 项目名称是什么？ my-app
-✔ 是否从快速入门示例开始？ 是
-✔ 选择 AI 模型：Anthropic Claude 3.7 Sonnet
-✔ 本地运行还是在 Browserbase 上运行？ 本地
-✔ 以无头模式运行浏览器（隐藏 Chromium 弹窗）？ 否
+✔ What is the name of your project? my-app
+✔ Would you like to start with a quickstart example? Yes
+✔ Select AI model: Anthropic Claude 3.7 Sonnet
+✔ Run locally or on Browserbase? Local
+✔ Run browser in headless mode (hide Chromium popup)?  No
 ```
 
 </Step>
 
-<Step title="安装依赖并运行脚本">
+<Step title="Install dependencies and run the script">
 <Tabs>
 	<Tab title="npm">
 	```bash
@@ -170,15 +170,15 @@ icon: 'rocket'
 	</Tab>
 </Tabs>
 
-使用您选择的包管理器安装依赖。我们还包含一个 `postinstall` 脚本，会自动通过 `playwright install` 安装 Playwright 浏览器。
+Use the package manager of your choice to install the dependencies. We also have a `postinstall` script that will automatically install the Playwright browser with `playwright install`.
 </Step>
 </Steps>
 
-### 在现有项目中添加 Stagehand：
+### Adding Stagehand to an existing project: 
 
 <Steps>
 
-<Step title="安装 Stagehand">
+<Step title="Install Stagehand">
 
 ```bash
 npm install @browserbasehq/stagehand
@@ -186,21 +186,21 @@ npm install @browserbasehq/stagehand
 
 </Step>
 
-<Step title="设置环境变量">
+<Step title="Set up environment variables">
 
-创建 `.env` 文件或导出环境变量：
+Create a `.env` file or export environment variables:
 
 ```bash
 export BROWSERBASE_API_KEY="your_browserbase_api_key"
 export BROWSERBASE_PROJECT_ID="your_browserbase_project_id"
-export OPENAI_API_KEY="your_openai_api_key"  # 可配置为其他模型
+export OPENAI_API_KEY="your_openai_api_key"  # Configurable to other models
 ```
 
 </Step>
 
-<Step title="创建第一个脚本">
+<Step title="Create your first script">
 
-创建文件 `index.ts`：
+Create a file `index.ts`:
 
 ```typescript
 // index.ts
@@ -212,7 +212,7 @@ dotenv.config();
 
 export async function main() {
   const config: ConstructorParams = {
-    env: "BROWSERBASE", // 或 "LOCAL"
+    env: "BROWSERBASE", // or "LOCAL"
     apiKey: process.env.BROWSERBASE_API_KEY,
     projectId: process.env.BROWSERBASE_PROJECT_ID,
     verbose: 1,
@@ -246,7 +246,7 @@ main();
 ```
 </Step>
 
-<Step title="运行脚本">
+<Step title="Run the script">
 
 ```bash
 npx tsx index.ts
@@ -258,10 +258,10 @@ npx tsx index.ts
 </Tab>
 
 <Tab title="Python">
-开始前请确保已安装 Python 3.9+。推荐使用 [uv](https://docs.astral.sh/uv/) 管理虚拟环境。
+Before you begin, you'll need Python 3.9+ installed. We recommend using [uv](https://docs.astral.sh/uv/) to manage your virtual environment.
 
 <Steps>
-<Step title="安装 Stagehand Python">
+<Step title="Install Stagehand Python">
 
 ```bash
 pip install stagehand
@@ -269,21 +269,21 @@ pip install stagehand
 
 </Step>
 
-<Step title="设置环境变量">
+<Step title="Set up environment variables">
 
-创建 `.env` 文件或导出环境变量：
+Create a `.env` file or export environment variables:
 
 ```bash
 export BROWSERBASE_API_KEY="your_browserbase_api_key"
 export BROWSERBASE_PROJECT_ID="your_browserbase_project_id"
-export MODEL_API_KEY="your_model_api_key"  # OpenAI, Anthropic 等
+export MODEL_API_KEY="your_model_api_key"  # OpenAI, Anthropic, etc.
 ```
 
 </Step>
 
-<Step title="创建第一个脚本">
+<Step title="Create your first script">
 
-创建文件 `main.py`：
+Create a file `main.py`:
 
 ```python
 import asyncio
@@ -323,7 +323,7 @@ if __name__ == "__main__":
 ```
 </Step>
 
-<Step title="运行脚本">
+<Step title="Run the script">
 
 ```bash
 python main.py
@@ -335,22 +335,22 @@ python main.py
 </Tab>
 </Tabs>
 
-**下一步**
+**Next Steps**
 
 <CardGroup cols={2}>
 <Card
-  title="查看 TypeScript 代码库"
+  title="Check out the TypeScript repo"
   icon="github"
   href="https://github.com/browserbase/stagehand"
 >
-  如果你是 TypeScript 开发者，可以查看 Stagehand 的 TypeScript 代码库。欢迎提交 PR！
+  If you're a TypeScript developer, you can check out the Stagehand TypeScript repo. PRs welcome!
 </Card>
 
 <Card
-  title="查看 Python 代码库"
+  title="Check out the Python repo"
   icon="github"
   href="https://github.com/browserbase/stagehand-python"
 >
-  Stagehand 现已支持 Python！该 Python 代码库刚刚发布，非常欢迎提交 PR！
+  Stagehand now supports Python! The Python repo is brand new, so PRs are more than welcome!
 </Card>
 </CardGroup>

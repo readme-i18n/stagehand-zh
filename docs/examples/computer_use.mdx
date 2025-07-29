@@ -1,10 +1,9 @@
 ---
-
 title: Computer Use Agents
-description: 在 Stagehand 中只需一行代码即可集成 Anthropic 和 OpenAI 的计算机操作 API。
+description: Incorporate Computer Use APIs from Anthropic and OpenAI with one line of code in Stagehand.
 ---
 
-## 什么是计算机操作代理？
+## What is a Computer Use Agent?
 
 <iframe
   width="100%"
@@ -15,28 +14,28 @@ description: 在 Stagehand 中只需一行代码即可集成 Anthropic 和 OpenA
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
   allowfullscreen
 ></iframe>
+You might've heard of [Claude Computer Use](https://www.anthropic.com/news/3-5-models-and-computer-use) or [OpenAI's Computer Using Agent](https://openai.com/index/computer-using-agent/).
 
-你可能听说过 [Claude 计算机操作](https://www.anthropic.com/news/3-5-models-and-computer-use) 或 [OpenAI 的计算机操作代理](https://openai.com/index/computer-using-agent/)。
+These are powerful tools that can convert natural language into actions on the computer. However, you'd otherwise need to write your own code to convert these actions into Playwright commands.
 
-这些强大工具能将自然语言转换为计算机操作指令。但通常你需要自行编写代码将这些操作转换为 Playwright 命令。
+Stagehand not only handles the execution of Computer Use outputs, but also lets you hot-swap between OpenAI and Anthropic models with one line of code.
 
-Stagehand 不仅能执行计算机操作输出，还允许你通过一行代码在 OpenAI 和 Anthropic 模型之间热切换。
+## How to use a Computer Use Agent in Stagehand
 
-## 如何在 Stagehand 中使用计算机操作代理
-
-Stagehand 让你只需一行代码即可使用计算机操作代理：
+Stagehand lets you use Computer Use Agents with one line of code:
 
 <Note>
-**重要提示！配置浏览器尺寸**
+**IMPORTANT! Configure your browser dimensions**
 
-计算机操作代理通常会返回屏幕点击的 XY 坐标，因此需要配置浏览器尺寸。
+Computer Use Agents will often return XY-coordinates to click on the screen, so you'll need to configure your browser dimensions.
 
-如未指定，默认浏览器尺寸为 1024x768。你也可以通过 `browserbaseSessionCreateParams` 或 `localBrowserLaunchOptions` 选项配置浏览器尺寸。
+If not specified, the default browser dimensions are 1024x768. You can also configure the browser dimensions in the `browserbaseSessionCreateParams` or `localBrowserLaunchOptions` options.
 </Note>
 
-### 配置浏览器尺寸
 
-不同环境下的浏览器配置方式不同：
+### Configuring browser dimensions
+
+Browser configuration differs by environment:
 
 <Tabs>
 <Tab title="BROWSERBASE">
@@ -46,8 +45,8 @@ import { Stagehand } from "@browserbasehq/stagehand";
 
 const stagehand = new Stagehand({
 	env: "BROWSERBASE",
-  	apiKey: process.env.BROWSERBASE_API_KEY /* 用于身份验证的API密钥 */,
-    projectId: process.env.BROWSERBASE_PROJECT_ID /* 项目标识符 */,
+  	apiKey: process.env.BROWSERBASE_API_KEY /* API key for authentication */,
+    projectId: process.env.BROWSERBASE_PROJECT_ID /* Project identifier */,
   
     browserbaseSessionCreateParams: {
       projectId: process.env.BROWSERBASE_PROJECT_ID!,
@@ -69,8 +68,8 @@ from stagehand import Stagehand, StagehandConfig
 
 stagehand = Stagehand(StagehandConfig(
     env="BROWSERBASE",
-    api_key=os.getenv("BROWSERBASE_API_KEY"),  # 用于身份验证的API密钥
-    project_id=os.getenv("BROWSERBASE_PROJECT_ID"),  # 项目标识符
+    api_key=os.getenv("BROWSERBASE_API_KEY"),  # API key for authentication
+    project_id=os.getenv("BROWSERBASE_PROJECT_ID"),  # Project identifier
     
     browserbase_session_create_params={
         "projectId": os.getenv("BROWSERBASE_PROJECT_ID"),
@@ -88,7 +87,7 @@ await stagehand.init()
 ```
 </CodeGroup>
 </Tab>
-<Tab title="本地环境">
+<Tab title="LOCAL">
 <CodeGroup>
 ```typescript TypeScript
 import { Stagehand } from "@browserbasehq/stagehand";
@@ -126,9 +125,9 @@ await stagehand.init()
 </Tab>
 </Tabs>
 
-### 控制您的计算机使用代理
+### Direct your Computer Use Agent
 
-调用代理的 `execute` 方法来为其分配任务。
+Call `execute` on the agent to assign a task to the agent.
 
 <CodeGroup>
 ```typescript TypeScript
@@ -179,7 +178,7 @@ await agent.execute("Apply for a library card at the San Francisco Public Librar
 ```
 </CodeGroup>
 
-您还可以通过以下方式定义代理可执行的最大步骤数：
+You can also define the maximum number of steps the agent can take with:
 
 <CodeGroup>
 ```typescript TypeScript
@@ -195,4 +194,4 @@ await agent.execute(
 	max_steps=10,
 )
 ```
-</CodeGroup>
+</CodeGroup> 

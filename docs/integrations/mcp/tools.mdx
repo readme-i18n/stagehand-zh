@@ -1,212 +1,211 @@
 ---
-
 title: "Browserbase MCP Server Tools"
 sidebarTitle: "Tools"
-description: "本指南介绍Browserbase MCP服务器中用于浏览器自动化与交互的专用工具"
+description: "This guide covers the specialized tools available in the Browserbase MCP server for browser automation and interaction."
 ---
 
-## 概述
+## Overview
 
-Browserbase MCP服务器提供全面的浏览器自动化与会话管理工具。这些工具支持执行页面导航、截图捕捉、Cookie操作以及同时管理多个浏览器会话等操作。
+The Browserbase MCP server provides comprehensive tools for browser automation and session management. These tools allow you to perform actions like navigating pages, capturing screenshots, manipulating cookies, and managing multiple browser sessions simultaneously.
 
-## 核心浏览器自动化工具
+## Core Browser Automation Tools
 
-以下是使用自然语言命令进行现代网页自动化的主要工具。
+These are the primary tools for modern web automation using natural language commands.
 
 <Accordion title="browserbase_stagehand_navigate">
-在浏览器中导航至任意URL
+Navigate to any URL in the browser
 
 <ParamField path="url" type="string" required>
-  需要导航的目标URL
+  The URL to navigate to
 </ParamField>
 </Accordion>
 
 <Accordion title="browserbase_stagehand_act">
-使用自然语言在网页上执行操作
+Perform an action on the web page using natural language
 
 <ParamField path="action" type="string" required>
-  需要执行的操作（例如："点击登录按钮"、"填写表单字段"）
+  The action to perform (e.g., "click the login button", "fill form field")
 </ParamField>
 
 </Accordion>
 
 <Accordion title="browserbase_stagehand_extract">
-从当前页面提取所有文本内容（自动过滤CSS和JavaScript）
+Extract all text content from the current page (filters out CSS and JavaScript)
 
 <ParamField path="instruction" type="string">
-  从当前页面提取的文本内容
+  Extracted text content from the current page
 </ParamField>
 </Accordion>
 
 <Accordion title="browserbase_stagehand_observe">
-观察并定位网页上的可操作元素
+Observe and find actionable elements on the web page
 
 <ParamField path="instruction" type="string" required>
-  具体的观察指令（例如："找到登录按钮"、"定位搜索表单"）
+  Specific instruction for observation (e.g., "find the login button", "locate search form")
 </ParamField>
 
 </Accordion>
 
 <Accordion title="browserbase_screenshot">
-捕获当前页面的PNG截图
+Capture a PNG screenshot of the current page
 
-<Info>无需输入参数</Info>
+<Info>No input parameters required</Info>
 
 <ResponseField name="image" type="string">
-  Base-64编码的PNG数据
+  Base-64 encoded PNG data
 </ResponseField>
 </Accordion>
 
-## 单会话管理
+## Single Session Management
 
-传统方式仅维持一个活跃浏览器会话。适用于基础自动化任务，自动管理活跃会话。
+Traditional approach with one active browser session. Simpler for basic automation tasks and automatically manages the active session.
 
 <Accordion title="browserbase_session_create">
-创建或复用Browserbase云浏览器会话，并完全初始化Stagehand
+Create or reuse a cloud browser session using Browserbase with fully initialized Stagehand
 
 <ParamField path="sessionId" type="string">
-  可选会话ID用于复用。如未提供则创建新会话
+  Optional session ID to use/reuse. If not provided, creates new session
 </ParamField>
 
 </Accordion>
 
 <Accordion title="browserbase_session_close">
-关闭当前Browserbase会话，断开浏览器连接并清理Stagehand实例
+Close the current Browserbase session, disconnect the browser, and cleanup Stagehand instance
 
-<Info>无需输入参数</Info>
+<Info>No input parameters required</Info>
 
 </Accordion>
 
-## 多会话管理
+## Multi-Session Management
 
-高级方案支持并行多个浏览器会话，适用于复杂自动化工作流。每个会话保持独立状态、cookies和浏览器上下文。
+Advanced approach with multiple parallel browser sessions for complex automation workflows. Each session maintains independent state, cookies, and browser context.
 
-### 会话生命周期管理
+### Session Lifecycle Management
 
 <Accordion title="multi_browserbase_stagehand_session_create">
-创建具备完整网页自动化能力的新建独立 Stagehand 浏览器会话
+Create a new independent Stagehand browser session with full web automation capabilities
 
 <ParamField path="name" type="string">
-  用于追踪的可读性名称（例如 'login-flow'、'data-scraping'）
+  Human-readable name for tracking (e.g., 'login-flow', 'data-scraping')
 </ParamField>
 </Accordion>
 
 <Accordion title="multi_browserbase_stagehand_session_list">
-列出所有当前活跃的 Stagehand 浏览器会话及其详细元数据
+List all currently active Stagehand browser sessions with detailed metadata
 
-<Info>无需输入参数</Info>
+<Info>No input parameters required</Info>
 
 </Accordion>
 
 <Accordion title="multi_browserbase_stagehand_session_close">
-关闭并清理指定的 Stagehand 浏览器会话
+Close and clean up a specific Stagehand browser session
 
 <ParamField path="sessionId" type="string" required>
-  要关闭的精确会话ID（不可撤销）
+  Exact session ID to close (cannot be undone)
 </ParamField>
 </Accordion>
 
-### 会话专属自动化工具
+### Session-Specific Automation Tools
 
-所有核心浏览器自动化工具均提供会话专属版本：
+All core browser automation tools are available with session-specific variants:
 
 <Accordion title="multi_browserbase_stagehand_navigate_session">
-在指定浏览器会话中导航至URL
+Navigate to a URL in a specific browser session
 
 <ParamField path="sessionId" type="string" required>
-  要使用的会话ID
+  The session ID to use
 </ParamField>
 
 <ParamField path="url" type="string" required>
-  要导航至的URL
+  The URL to navigate to
 </ParamField>
 </Accordion>
 
 <Accordion title="multi_browserbase_stagehand_act_session">
-使用自然语言在特定浏览器会话中执行操作
+Perform an action in a specific browser session using natural language
 
 <ParamField path="sessionId" type="string" required>
-  要使用的会话ID
+  The session ID to use
 </ParamField>
 
 <ParamField path="action" type="string" required>
-  要执行的操作
+  The action to perform
 </ParamField>
 
 </Accordion>
 
 <Accordion title="multi_browserbase_stagehand_extract_session">
-从特定浏览器会话中提取结构化信息
+Extract structured information from a specific browser session
 
 <ParamField path="sessionId" type="string" required>
-  要使用的会话ID
+  The session ID to use
 </ParamField>
 
 <ParamField path="instruction" type="string" required>
-  需要从页面提取的内容
+  What to extract from the page
 </ParamField>
 </Accordion>
 
 <Accordion title="multi_browserbase_stagehand_observe_session">
-观察并查找特定浏览器会话中的可操作元素
+Observe and find actionable elements in a specific browser session
 
 <ParamField path="sessionId" type="string" required>
-  要使用的会话ID
+  The session ID to use
 </ParamField>
 
 <ParamField path="instruction" type="string" required>
-  观察目标（例如"查找登录按钮"）
+  What to observe (e.g., "find the login button")
 </ParamField>
 
 <ParamField path="returnAction" type="boolean">
-  是否返回待执行操作
+  Whether to return the action to perform
 </ParamField>
 </Accordion>
 
-### 多会话使用场景
+### Multi-Session Use Cases
 
 <CardGroup cols={2}>
-  <Card title="并行数据采集" icon="globe">
-    在不同网站上同时运行多个抓取会话
+  <Card title="Parallel Data Collection" icon="globe">
+    Run multiple scraping sessions simultaneously across different websites
   </Card>
   
-  <Card title="A/B测试" icon="flask">
-    通过不同配置的浏览器会话比较用户流程
+  <Card title="A/B Testing" icon="flask">
+    Compare user flows across different browser sessions with varying configurations
   </Card>
   
-  <Card title="跨站点操作" icon="link">
-    在多个网站或应用间执行协同操作
+  <Card title="Cross-Site Operations" icon="link">
+    Perform coordinated actions across multiple websites or applications
   </Card>
   
-  <Card title="备份会话" icon="shield">
-    保持备用会话就绪，以防主会话出现问题
+  <Card title="Backup Sessions" icon="shield">
+    Keep fallback sessions ready in case primary sessions encounter issues
   </Card>
 </CardGroup>
 
-## 相关资源
+## Resources
 
-<Card title="截图资源" icon="camera">
-  服务器提供基于URI访问的截图资源
+<Card title="Screenshot Resources" icon="camera">
+  The server provides access to screenshot resources with URI-based access. 
 
-  示例：
+  example: 
   ```
   screenshot://screenshot-name-of-the-screenshot
   ```
 
 </Card>
 
-## 延伸阅读
+## Further Reading
 
 <CardGroup cols={3}>
-<Card title="Model Context Protocol (MCP) 文档" icon="book" href="https://modelcontextprotocol.io/introduction">
-了解MCP协议的更多信息
+<Card title="Model Context Protocol (MCP) Docs" icon="book" href="https://modelcontextprotocol.io/introduction">
+Learn more about the MCP protocol
 </Card>
 
-<Card title="Stagehand 文档" icon="robot" href="https://docs.stagehand.dev/">
-探索Stagehand的AI驱动浏览器自动化
+<Card title="Stagehand Documentation" icon="robot" href="https://docs.stagehand.dev/">
+Explore Stagehand's AI-powered browser automation
 </Card>
 
-<Card title="技术支持" icon="headset" href="mailto:support@browserbase.com">
-获取我们的技术支持团队帮助
+<Card title="Support" icon="headset" href="mailto:support@browserbase.com">
+Get help from our support team
 </Card>
 </CardGroup>
